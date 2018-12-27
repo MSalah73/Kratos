@@ -1,10 +1,15 @@
 Complished code:
+
 build custom dataloader: loading color labeled images in DeepFashion(In-Shop)
+
 load the data
+
 train and test 
+
 possible user image uploading process
 
 To-do:
+
 design the CNN
 
 random spliting to balanced spliting
