@@ -1,4 +1,3 @@
-"""
 Complished code:
 build custom dataloader: loading color labeled images in DeepFashion(In-Shop)
 load the data
@@ -13,4 +12,3 @@ validate user image uploading process
 References:
 "PSU 2018CS410 CV assignment 07 and 15"
 "https://stackoverflow.com/questions/50544730/split-dataset-train-and-test-in-pytorch-using-custom-dataset"
-"""
