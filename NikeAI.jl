@@ -1,8 +1,8 @@
-using Lazy, Random
+using Lazy, Random, Flux
 
 includet("Data.jl")
 
-import .Data: tf
+import .Data: tf, batch, prefetch
 
 data_folder = "../nike-ai/deep-fashion"
 
@@ -33,18 +33,49 @@ end
 
 train, val, test = partition_dataset.(("train", "val", "test"))
 
+
 train_images = @>> begin
     Data.Dataset(train[1])
     map(f -> tf.read_file(data_folder * "/" + f))
     map(tf.image["decode_jpeg"])
+    map(i -> tf.image["resize_image_with_crop_or_pad"](i, 300, 300))
+    map(tf.image["per_image_standardization"])
 end
 
-train_labels = Data.Dataset(train[2])
+train_labels = @>> begin
+    Data.Dataset(train[2])
+    map(l -> tf.one_hot(l, 50))
+end
 
-train_dataset = zip(train_images, train_labels)
+train_dataset = @as x begin
+    zip(train_images, train_labels)
+    batch(x, 10)
+    map((i, l) -> (tf.transpose(i, (1, 2, 3, 0)), tf.transpose(l)), x)
+    repeat(x)
+    prefetch(x, 1)
+end
 
-first(train_dataset)
+model = Chain(
+    Conv((3, 3), 3=>4, relu, stride=(2, 2)),
+    Conv((3, 3), 4=>6, relu),
+    MaxPool((2, 2)),
 
-first(train_images)
+    Conv((3, 3), 6=>8, relu),
+    Conv((3, 3), 8=>10, relu),
+    MaxPool((2, 2)),
 
-first(train_labels)
+    Conv((3, 3), 10=>10, relu),
+    Conv((3, 3), 10=>10, relu),
+    MaxPool((2, 2)),
+
+    x -> reshape(x, :, size(x, 4)),
+
+    Dense(2250, 2000, relu),
+    Dropout(0.5),
+
+    Dense(2000, 50),
+    softmax)
+
+image, label = first(train_dataset)
+
+model(Float64.(image))

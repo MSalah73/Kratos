@@ -1,8 +1,8 @@
 module Data
 
-export Dataset, tf
+export Dataset, tf, batch, prefetch, repeat
 
-import Base: map, iterate
+import Base: map, iterate, repeat
 import Base.Iterators: zip
 
 using PyCall, Lazy
@@ -27,6 +27,14 @@ zip(datasets::Vararg{Dataset}) =
         tf.data["Dataset"]["zip"]()
         Dataset()
     end
+
+batch(dataset::Dataset, batch_size::Int) =
+    Dataset(dataset.value["batch"](batch_size))
+
+prefetch(dataset::Dataset, prefetch_size::Int) =
+    Dataset(dataset.value["prefetch"](prefetch_size))
+
+repeat(dataset::Dataset) = Dataset(dataset.value["repeat"]())
 
 unbox(x) = x["numpy"]()
 unbox(xs::Tuple) = tuple((x["numpy"]() for x in xs)...)
