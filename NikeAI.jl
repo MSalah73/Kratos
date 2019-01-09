@@ -1,4 +1,5 @@
 using Lazy, Random, Flux
+using Flux: Params, params
 
 includet("Data.jl")
 
@@ -33,49 +34,45 @@ end
 
 train, val, test = partition_dataset.(("train", "val", "test"))
 
-
-train_images = @>> begin
-    Data.Dataset(train[1])
-    map(f -> tf.read_file(data_folder * "/" + f))
-    map(tf.image["decode_jpeg"])
-    map(i -> tf.image["resize_image_with_crop_or_pad"](i, 300, 300))
-    map(tf.image["per_image_standardization"])
+load_image(filename) = @> begin
+    tf.read_file(data_folder * "/" + filename)
+    tf.image["decode_jpeg"]()
+    tf.image["resize_image_with_crop_or_pad"](300, 300)
+    tf.image["per_image_standardization"]()
 end
 
-train_labels = @>> begin
-    Data.Dataset(train[2])
-    map(l -> tf.one_hot(l, 50))
+function dataset_iterator(dataset)
+    images = map(load_image, Data.Dataset(dataset[1]))
+    labels = map(l -> tf.one_hot(l, 50), Data.Dataset(dataset[2]))
+
+    @as x begin
+        zip(images, labels)
+        batch(x, 10)
+        map((i, l) -> (tf.transpose(i, (1, 2, 3, 0)), tf.transpose(l)), x)
+        prefetch(x, 1)
+    end
 end
 
-train_dataset = @as x begin
-    zip(train_images, train_labels)
-    batch(x, 10)
-    map((i, l) -> (tf.transpose(i, (1, 2, 3, 0)), tf.transpose(l)), x)
-    repeat(x)
-    prefetch(x, 1)
-end
+train_dataset = dataset_iterator(train)
+val_dataset = dataset_iterator(val)
+test_dataset = dataset_iterator(val)
 
 model = Chain(
-    Conv((3, 3), 3=>4, relu, stride=(2, 2)),
-    Conv((3, 3), 4=>6, relu),
-    MaxPool((2, 2)),
-
-    Conv((3, 3), 6=>8, relu),
-    Conv((3, 3), 8=>10, relu),
-    MaxPool((2, 2)),
-
-    Conv((3, 3), 10=>10, relu),
-    Conv((3, 3), 10=>10, relu),
+    Conv((5, 5), 3=>4, stride=(2, 2)), BatchNorm(4, relu),
+    Conv((5, 5), 4=>4), BatchNorm(4, relu),
     MaxPool((2, 2)),
 
     x -> reshape(x, :, size(x, 4)),
+    Dense(20736, 50),
+    softmax
+    )
 
-    Dense(2250, 2000, relu),
-    Dropout(0.5),
+loss(x, y) = Flux.crossentropy(model(Float64.(x)), y)
 
-    Dense(2000, 50),
-    softmax)
+images, labels = first(train_dataset)
 
-image, label = first(train_dataset)
+optimizer = ADAM(params(model), 0.1)
 
-model(Float64.(image))
+# Flux.train!(loss, train_dataset, optimizer)
+
+Flux.Tracker.gradient(() -> loss(images, labels), Params(params(model)))
