@@ -69,10 +69,6 @@ model = Chain(
 
 loss(x, y) = Flux.crossentropy(model(Float64.(x)), y)
 
-images, labels = first(train_dataset)
-
 optimizer = ADAM(params(model), 0.1)
 
 # Flux.train!(loss, train_dataset, optimizer)
-
-Flux.Tracker.gradient(() -> loss(images, labels), Params(params(model)))
