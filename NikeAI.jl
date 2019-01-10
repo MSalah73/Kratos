@@ -50,7 +50,7 @@ function dataset_iterator(dataset)
 
     @as x begin
         zip(images, labels)
-        batch(x, 10)
+        batch(x, 50)
         map((i, l) -> (tf.transpose(i, (1, 2, 3, 0)), tf.transpose(l)), x)
         prefetch(x, 1)
     end
@@ -76,7 +76,7 @@ model = Chain(
 
     x -> reshape(x, :, size(x, 4)),
 
-    Dense(14400, 5000, relu),
+    Dense(7200, 5000, relu),
     Dropout(0.5),
 
     Dense(5000, 50),
