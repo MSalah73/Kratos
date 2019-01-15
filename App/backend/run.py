@@ -30,8 +30,8 @@ def initialAPIPage():
 def predict():
 	try:
 		file = request.files['photo']
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], "pic.jpg"))
-		prediction = model.predict([prepare('pic.jpg')])
+		file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
+		prediction = model.predict([prepare('UploadedPhoto.jpg')])
 		stringPrediction = CATEGORIES[int(prediction[0][0])]
 		return jsonify(prediction=stringPrediction)
 	except Exception as e:
