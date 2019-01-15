@@ -21,19 +21,13 @@ def prepare(file):
 	img_array = cv2.cvtColor(img_array, cv2.COLOR_BGR2RGB)
 	new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
 	return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 3)
-print(prepare('pic.jpg'))
+
 @app.route("/")
 def initialAPIPage():
 	return "Connected!!!"
 
 @app.route("/predict", methods=['POST'])
 def predict():
-	# fh = open("imageToSave.jpg", "wb")
-	# fh.write(base64.decodebytes(request.form['base64']))
-	# img = cv2.imdecode(numpy.fromstring(request.files['photo'].read(), numpy.uint8), cv2.IMREAD_UNCHANGED)
-	print("\n\n",request.files,"\n\n\n")
-
-	# filename = secure_filename("pic.jpg")
 	try:
 		file = request.files['photo']
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], "pic.jpg"))
