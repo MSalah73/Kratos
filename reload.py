@@ -1,10 +1,9 @@
+import tensorflow as tf 
+import numpy as np 
+from tensorflow import keras 
 import os
 import re
 import shutil
-import numpy as np 
-import tensorflow as tf 
-from tensorflow import keras
-
 
 
 splitter = re.compile("\s+")
@@ -42,13 +41,12 @@ def extract_data():
 
 HEIGHT_WIDTH = 300
 batch_size = 128
-#capacity = 20
+
 
 def _parse_function(filename, label):
     image_string = tf.read_file(filename)
     image_decoded = tf.image.decode_jpeg(image_string,channels=3)
     image_resized = tf.image.resize_images(image_decoded,[300,300])
-    #image_resized = tf.image.rgb_to_grayscale(image_resized)
     image_resized = image_resized/255.0
     return image_resized,label
 
@@ -56,13 +54,22 @@ data = extract_data()
 train_data, test_data, val, classes = data[0], data[1], data[2], data[3]
 train_data = np.asarray(train_data)
 test_data = np.asarray(test_data)
+val = np.asarray(val)
 
 
-#print(train_data[:,1])
+
 train_filename = tf.constant(train_data[:,0])
 test_filename = tf.constant(test_data[:,0])
+
 train_labels = tf.constant(train_data[:,1].astype(np.int32))
 test_labels = tf.constant(test_data[:,1].astype(np.int32))
+
+val_filename = tf.constant(val[:,0])
+val_labels = tf.constant(val[:,1].astype(np.int32))
+
+vali_dataset = tf.data.Dataset.from_tensor_slices((val_filename,val_labels))
+vali_dataset = vali_dataset.map(_parse_function)
+vali_dataset = vali_dataset.batch(batch_size)
 
 
 train_dataset = tf.data.Dataset.from_tensor_slices((train_filename,train_labels))
@@ -72,38 +79,12 @@ test_dataset = tf.data.Dataset.from_tensor_slices((test_filename,test_labels))
 test_dataset = test_dataset.map(_parse_function)
 test_dataset = test_dataset.batch(batch_size)
 
-
-
-# Build the CNN 
-
-
-model = keras.Sequential([
-
-    keras.layers.Conv2D(32,(3,3),input_shape=(300,300,3),activation=tf.nn.relu),
-    keras.layers.MaxPooling2D(pool_size=(2,2)),
-    keras.layers.Conv2D(32,(3,3),activation=tf.nn.relu), 
-    keras.layers.MaxPooling2D(pool_size=(2,2)),
-    keras.layers.Conv2D(64,(3,3),activation=tf.nn.relu),
-    keras.layers.MaxPooling2D(pool_size=(2,2)),
-    keras.layers.Flatten(),
-    keras.layers.Dense(64, activation=tf.nn.relu),
-
-    keras.layers.Dense(len(classes)),
-    keras.layers.Softmax()
-])
-
-
-
-
+model = tf.keras.models.load_model('Category_classifier.h5')
 model.compile(
     optimizer=tf.train.AdamOptimizer(),
     loss='sparse_categorical_crossentropy',
     metrics=['accuracy'])
 model.summary()
-model.fit(train_dataset,epochs=20,verbose=1,steps_per_epoch=(len(train_data)//batch_size))
 
-test_loss,test_acc = model.evaluate(test_dataset,verbose=1,steps=(len(test_data)//batch_size))
-print("[Accuracy: {:5.3f} %".format(100*test_acc),"  ",'loss: {:5.4f}',test_loss,']')
-
-model.save('Category_classifier.h5')
-print('model saved')
+loss,acc = model.evaluate(vali_dataset,verbose=1,steps=(len(val)//batch_size))
+print(acc)
