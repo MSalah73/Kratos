@@ -78,40 +78,7 @@ objectValidation = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
 class Network(torch.nn.Module):
     def __init__(self):
         super(Network, self).__init__()
-        self.conv1_bn = torch.nn.BatchNorm2d(64)
-        self.conv2_bn = torch.nn.BatchNorm2d(128)
-        self.conv4_bn = torch.nn.BatchNorm2d(512)
-        self.conv1 = torch.nn.Conv2d(3, 64, kernel_size=3)
-        self.conv2 = torch.nn.Conv2d(64, 128, kernel_size=3)
-        self.conv3 = torch.nn.Conv2d(128, 256, kernel_size=3)
-        self.conv4 = torch.nn.Conv2d(256, 512, kernel_size=3)
-        self.fc1 = torch.nn.Linear(4096, 2048)
-        self.fc2 = torch.nn.Linear(2048, 961)
-	# end
-    def forward(self, x):
-        x = self.conv1(x)
-        x = torch.nn.functional.relu(x)
-        x = self.conv1_bn(x)
-        x = torch.nn.functional.max_pool2d(x, kernel_size=3, stride=2)
-        x = self.conv2(x)
-        x = torch.nn.functional.relu(x)
-        x = self.conv2_bn(x)
-        x = torch.nn.functional.max_pool2d(x, kernel_size=2, stride=1)
-        x = self.conv3(x)
-        x = torch.nn.functional.relu(x)
-        x = torch.nn.functional.max_pool2d(x, kernel_size=3, stride=2)#no norm
-        x = self.conv4(x)
-        x = torch.nn.functional.relu(x)
-        x = self.conv4_bn(x)
-        x = torch.nn.functional.max_pool2d(x, kernel_size=3, stride=2)
-        x = x.view(-1, 4096)
-        x = self.fc1(x)
-        x = torch.nn.functional.dropout(x, p=0.35, training=self.training)
-        x = torch.nn.functional.relu(x)
-        x = torch.nn.functional.dropout(x, p=0.6, training=self.training)
-        x = torch.nn.functional.relu(x)
-        x = self.fc2(x)
-        return torch.nn.functional.log_softmax(x, dim=1)
+
 	# end
 # end
 
