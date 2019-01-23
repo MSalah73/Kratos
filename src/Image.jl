@@ -47,6 +47,9 @@ end
 (c::ToChannels)(image::AbstractMatrix{<:RGB}) =
     convert(Array{c.type, 3}, permuteddimsview(channelview(image), (2, 3, 1)))
 
+ToImage(array::AbstractArray{<:AbstractFloat, 3}) =
+    colorview(RGB, permuteddimsview(array, (3, 1, 2)))
+
 Compose(transforms...) =
     x -> reduce((x, transform) -> transform(x), transforms; init=x)
 
