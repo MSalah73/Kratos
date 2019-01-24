@@ -5,8 +5,6 @@ import numpy as np
 import tensorflow as tf 
 from tensorflow import keras
 
-
-
 splitter = re.compile("\s+")
 def shuffler(arr):
     for i in range(20):
@@ -41,8 +39,7 @@ def extract_data():
         return training_data,test_data,val,classes
 
 HEIGHT_WIDTH = 300
-batch_size = 128
-#capacity = 20
+batch_size = 64
 
 def _parse_function(filename, label):
     image_string = tf.read_file(filename)
