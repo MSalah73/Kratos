@@ -76,16 +76,33 @@ test_dataset = test_dataset.batch(batch_size)
 
 model = keras.Sequential([
 
-    keras.layers.Conv2D(32,(3,3),input_shape=(300,300,3),activation=tf.nn.relu),
+    keras.layers.Conv2D(32,(3,3),input_shape=(300,300,3)),
+    keras.layers.BatchNormalization(),
+    keras.layers.ReLU(),
     keras.layers.MaxPooling2D(pool_size=(2,2)),
-    keras.layers.Conv2D(32,(3,3),activation=tf.nn.relu), 
+    keras.layers.Conv2D(64,(3,3)), 
+    keras.layers.BatchNormalization(),
+    keras.layers.ReLU(),
     keras.layers.MaxPooling2D(pool_size=(2,2)),
-    keras.layers.Conv2D(64,(3,3),activation=tf.nn.relu),
+    keras.layers.Conv2D(128,(3,3)),
+    keras.layers.BatchNormalization(),
+    keras.layers.ReLU(),
+    keras.layers.MaxPooling2D(pool_size=(2,2)),
+    keras.layers.Conv2D(256,(3,3)),
+    keras.layers.BatchNormalization(),
+    keras.layers.ReLU(),
+    keras.layers.MaxPooling2D(pool_size=(2,2)),
+    keras.layers.Conv2D(512,(3,3)),
+    keras.layers.BatchNormalization(),
+    keras.layers.ReLU(),
     keras.layers.MaxPooling2D(pool_size=(2,2)),
     keras.layers.Flatten(),
-    keras.layers.Dense(64, activation=tf.nn.relu),
-
+    keras.layers.Dense(512),
+    keras.layers.BatchNormalization(),
+    keras.layers.ReLU(),
+    keras.layers.Dropout(0.2),
     keras.layers.Dense(len(classes)),
+    keras.layers.BatchNormalization(),
     keras.layers.Softmax()
 ])
 
@@ -100,7 +117,7 @@ model.summary()
 model.fit(train_dataset,epochs=20,verbose=1,steps_per_epoch=(len(train_data)//batch_size))
 
 test_loss,test_acc = model.evaluate(test_dataset,verbose=1,steps=(len(test_data)//batch_size))
-print("[Accuracy: {:5.3f} %".format(100*test_acc),"  ",'loss: {:5.4f}',test_loss,']')
+print("[Accuracy: {:5.3f} %".format(100*test_acc),"  ",'loss: {:5.4f}'.format(test_loss),']')
 
 model.save('Category_classifier.h5')
 print('model saved')
