@@ -6,11 +6,7 @@ from multiprocessing import cpu_count
 import matplotlib.pyplot as plt
 import math
 
-
-# %% enable eager execution
-config = tf.ConfigProto()
-config.gpu_options.allow_growth = True
-tf.enable_eager_execution(config)
+tf.enable_eager_execution()
 
 
 # %% flags
@@ -21,7 +17,7 @@ class FLAGS:
     num_classes = 50
     data_format = 'channels_first'
     prefetch_size = 1
-    data_dir = '/stash/kratos/deep-fashion/category-attribute/'
+    data_dir = 'deep-fashion/'
 
 # %% dataframes
 list_eval_partition = pd.read_csv(
@@ -62,18 +58,28 @@ model = tf.keras.Sequential([
 
     layers.MaxPool2D(pool_size=2),
 
-    layers.Conv2D(filters=32, kernel_size=3, strides=2,
+    layers.Conv2D(filters=32, kernel_size=3,
                   data_format=FLAGS.data_format),
     layers.BatchNormalization(),
     layers.ReLU(),
 
-    layers.Conv2D(filters=64, kernel_size=3, strides=2,
+    layers.Conv2D(filters=64, kernel_size=3,
+                  data_format=FLAGS.data_format),
+    layers.BatchNormalization(),
+    layers.ReLU(),
+
+    layers.Conv2D(filters=64, kernel_size=3,
                   data_format=FLAGS.data_format),
     layers.BatchNormalization(),
     layers.ReLU(),
 
     layers.MaxPool2D(pool_size=2),
     layers.Flatten(),
+
+    layers.Dense(units=4000),
+    layers.BatchNormalization(),
+    layers.Dropout(rate=0.5),
+    layers.ReLU(),
 
     layers.Dense(units=2000),
     layers.BatchNormalization(),
@@ -83,7 +89,6 @@ model = tf.keras.Sequential([
     layers.Dense(units=FLAGS.num_classes),
     layers.Softmax()
 ])
-
 
 # %% load image
 def load_image(filename):
@@ -138,9 +143,9 @@ model.compile(optimizer=tf.train.AdamOptimizer(),
 
 
 # %% load model
-initial_model_path = tf.contrib.saved_model.save_keras_model(
-    model, 'checkpoints/initial_model')
-model = tf.contrib.saved_model.load_keras_model(initial_model_path)
+model_path = tf.contrib.saved_model.save_keras_model(
+    model, 'checkpoints/6_epoch_model')
+# model = tf.contrib.saved_model.load_keras_model(model_path)
 
 # %% fit model
 model.fit(train_dataset, epochs=3,
