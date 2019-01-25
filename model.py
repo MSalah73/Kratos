@@ -12,8 +12,7 @@ class FLAGS:
     data_dir = 'deep-fashion/'
     num_cpus = multiprocessing.cpu_count()
     batch_size = 50
-    prefetch_size = 50
-    shuffle_buffer_size = 100
+    prefetch_size = 1
     height = 300
     width = 300
 
@@ -72,8 +71,7 @@ test_dataset, test_length = dataset('test')
 
 
 # %% base model
-base_model = tf.keras.applications.VGG16(
-    include_top=False, pooling='avg')
+base_model = tf.keras.applications.VGG16(include_top=False, pooling='avg')
 
 for layer in base_model.layers[:16]:
     layer.trainable = False
