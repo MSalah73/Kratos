@@ -8,7 +8,7 @@ Created on Sat Jan  5 15:37:23 2019
 import tensorflow as tf
 import pandas as pd
 import numpy as np
-import sklearn
+from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score, precision_recall_fscore_support
 import math
 import multiprocessing
 import os
@@ -32,7 +32,7 @@ class FLAGS:
 
 eval_partition = pd.read_csv(
         'C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Eval\\list_eval_partition.txt',
-        delim_whitespace=True, header=1)
+        delim_whitespace=True, header=)
 
 
 file = open('C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Anno\\list_attr_img.txt', 'r')
@@ -137,11 +137,16 @@ class Metrics(tf.keras.callbacks.Callback):
         self.val_precision = []
     
     def on_epoch_end(self, epoch, logs={}):
-        val_predict = (np.asarray(self.model.predict(self.model.validation_data[0]))).round()
-        val_targ = self.model.validation_data[1]
-        _val_f1 = sklearn.metrics.f1_score(val_targ, val_predict)
-        _val_recall = sklearn.metrics.recall_score(val_targ, val_predict)
-        _val_precision = sklearn.metrics.precision_score(val_targ, val_predict)
+        val_predict = (np.asarray(self.model.predict(self.validation_data[0],
+                                                     steps=math.ceil(val_length/FLAGS.batch_size)))).round()
+#        val_predict = (np.asarray(self.model.predict(self.model.validation_data[0]))).round()
+        val_targ = self.validation_data[1]
+        """
+        _val_f1 = f1_score(val_targ, val_predict)
+        _val_recall = recall_score(val_targ, val_predict)
+        _val_precision = precision_score(val_targ, val_predict)
+        """
+        _val_precision, _val_recall, _val_f1, _val_sum = precision_recall_fscore_support(val_targ, val_predict)
         self.val_f1s.append(_val_f1)
         self.val_recalls.append(_val_recall)
         self.val_precision.append(_val_precision)
@@ -175,6 +180,7 @@ model.fit(train_dataset, epochs=1,
           steps_per_epoch=math.ceil(train_length/FLAGS.batch_size),
           validation_data=val_dataset,
           validation_steps=math.ceil(val_length/FLAGS.batch_size),
-          callbacks=[metrics, tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}.hdf5', verbose=1)]
+          callbacks=[metrics]#, tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
           )
+
 
