@@ -6,13 +6,13 @@ Created on Sat Jan  5 15:37:23 2019
 """
 
 import tensorflow as tf
-from tensorflow.keras import Sequential
-from tensorflow.keras import layers
-from tensorflow.keras import Model
-from tensorflow.keras.optimizers import RMSprop
-from tensorflow.keras.preprocessing.image import ImageDataGenerator
+import pandas as pd
 import numpy as np
+import sklearn
+import math
+import multiprocessing
 import os
+
 
 #tf.enable_eager_execution()
 
@@ -21,31 +21,30 @@ img_dir = os.path.join(base_dir, 'Img')
 ano_dir = os.path.join(base_dir, 'Anno')
 eval_dir = os.path.join(base_dir, 'Eval')
 
-NUM_ELEMENTS = 289222 #total number of images. 289222
-NUM_LABELS = 1000 #Number of attribute labels
-BATCH_SIZE = 100
+class FLAGS:
+    classes = 1000
+    num_cpus = multiprocessing.cpu_count()
+    batch_size = 32
+    prefetch_size = 1
+    height = 300
+    width = 300
+    data_dir ='Category and Attribute Prediction Benchmark/'
 
-file = open(os.path.join(ano_dir, "list_attr_cloth.txt"), 'r')
-attr_list = []      #List of clothing attributes
-attr_dict = {}      #Dictionary mapping clothing attribute to the type of attribute label
-i = 0
-line = file.readline()
-line = file.readline()
-while i < NUM_LABELS:
-    line = file.readline()
-    attr_name, attr_type = line.split(maxsplit = 1)
-    attr_list.append(attr_name)
-    attr_dict[attr_name] = attr_type
-    i += 1
-file.close()
+eval_partition = pd.read_csv(
+        'C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Eval\\list_eval_partition.txt',
+        delim_whitespace=True, header=1)
 
-file = open(os.path.join(ano_dir, "list_attr_img.txt"), 'r')
+
+file = open('C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Anno\\list_attr_img.txt', 'r')
 img_list = []           #empty list to store our image filenames
 embedded_list = []      #empty list to store our labels
 i = 0
+num_elements = file.readline()
+num_elements = int(num_elements)
 line = file.readline()
-line = file.readline()
-while i < NUM_ELEMENTS:
+colA, colB = line.split(maxsplit = 1)
+colB = colB.rstrip()
+while i < num_elements:
     temp_list = []
     line = file.readline()
     img_name, attributes = line.split(maxsplit = 1)
@@ -55,150 +54,127 @@ while i < NUM_ELEMENTS:
     i += 1
 file.close()
 
-max_len = 0
-
+minlen = 1000
+maxlen = 0
 
 for l in embedded_list:
-    for i, x in enumerate(l):
-        if x == -1: l[i] = 0
-""" #TF isn't liking the shapes being passed in. Changing to a multi-hot
-labels_list = []
-for l in embedded_list:
-    temp_list = []
-    for index in range(0, NUM_LABELS):
-        if l[index] == 1:
-            temp_list.append(index)
-    max_len = max(max_len, len(temp_list))
-    labels_list.append(temp_list)
-"""
+    localmax = 0
+    for i, x in enumerate(l):    
+        if x == -1:
+            l[i] = 0
+        else:
+            localmax += 1
+    minlen = min(minlen, localmax)
+    maxlen = max(maxlen,localmax)
+            
+print('Min: %d' % minlen)
+print('Max: %d' % maxlen)   
+     
 
-print(len(img_list))
-#print(len(labels_list))
-print (max_len)
-print(len(embedded_list))
-#print((embedded_list[1]))
-#print((embedded_list[28999]))
+attributes = pd.DataFrame({colA:img_list, colB:embedded_list}) 
+        #pd.read_csv(
+        #'C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Anno\\list_attr_img.txt',
+        #delim_whitespace=True, header=1, nrows=5, dtype={'image_name':str, 'attribute_labels':np.int64})#, converters={-1:0})
+        #Was having issues reading multiple entries into a list in a single column. Slow way works.
 
+del img_list[:]
+del img_list
+del embedded_list[:]
+del embedded_list
 
+all_data = eval_partition.merge(attributes, on='image_name')
 
-train_img_list = []
-train_labels_list = []
-val_img_list = []
-val_labels_list = []
-test_img_list = []
-test_labels_list = []
+print(all_data.shape)
+#print(all_data)
 
-file = open(os.path.join(eval_dir, "list_eval_partition.txt"),'r')
-i = 0
-line = file.readline()
-line = file.readline()
-while i  < NUM_ELEMENTS:
-    line = file.readline()
-    img_name, partition = line.split(maxsplit = 1)
-    if partition.startswith('train'):
-        train_img_list.append(img_list[i])
-        train_labels_list.append(embedded_list[i])
-    elif partition.startswith('val'):
-        val_img_list.append(img_list[i])
-        val_labels_list.append(embedded_list[i])
-    elif partition.startswith('test'):
-        test_img_list.append(img_list[i])
-        test_labels_list.append(embedded_list[i])
-    else:
-        print("Error: \"%s\"" % partition)
-    i += 1
-file.close()
-
-train_len = len(train_img_list)
-print(len(train_labels_list))
-val_len = len(val_img_list)
-print(len(val_labels_list))
-test_len = len(test_img_list)
-print(len(test_labels_list))
-
-def img_parse(filename, label):
-    image = tf.read_file(filename)
-    image = tf.image.decode_jpeg(image, channels=3)
-    image = tf.image.resize_image_with_crop_or_pad(image, 300, 300)
-    image = tf.image.per_image_standardization(image )
+def parse_image(filename, label):
+    image = tf.io.read_file(FLAGS.data_dir + filename)
+    image = tf.image.decode_jpeg(image)
+    image = tf.image.resize_image_with_crop_or_pad(
+            image, FLAGS.height, FLAGS.width)
+    image = tf.image.per_image_standardization(image)
     return image, label
+
+def dataset(partition):
+    data = all_data[all_data['evaluation_status'] == partition]
+    data = data.sample(frac=1).reset_index(drop=True)
     
-"""
-#TF nNot liking my data shapes. Restarting.
-#Image data Dataset
-train_img_dataset = tf.data.Dataset.from_tensor_slices(train_img_list)
-#Forcing all image labels to be Dataset compatible. Ref - stackoverflow.com/questions/47580716/
-train_labels_dataset = tf.data.Dataset.from_generator(lambda: train_labels_list, tf.int32, output_shapes=[None])
-train_img_dataset = train_img_dataset.map(tf.read_file)
-train_img_dataset = train_img_dataset.map(tf.image.decode_jpeg)
-train_img_dataset = train_img_dataset.map(lambda image: tf.image.resize_image_with_crop_or_pad(image, 300, 300))
-train_dataset = tf.data.Dataset.zip((train_img_dataset, train_labels_dataset))
-#train_dataset = tf.random.shuffle(train_dataset)
-#train_dataset = train_dataset.batch(32)
-
-val_img_dataset = tf.data.Dataset.from_tensor_slices(val_img_list)
-val_labels_dataset = tf.data.Dataset.from_generator(lambda: val_labels_list, tf.int32, output_shapes=[None])
-val_dataset = tf.data.Dataset.zip((val_img_dataset, val_labels_dataset))
-
-test_img_dataset = tf.data.Dataset.from_tensor_slices(test_img_list)
-test_labels_dataset = tf.data.Dataset.from_generator(lambda: test_labels_list, tf.int32, output_shapes=[None])
-test_dataset = tf.data.Dataset.zip((test_img_dataset, test_labels_dataset))
-"""
-
-train_img_list = tf.constant(np.asarray(train_img_list))
-train_labels_list = tf.constant(np.asarray(train_labels_list))
-
-#train_dataset = tf.data.Dataset.from_tensor_slices((train_img_list, train_labels_list)).map(img_parse).batch(BATCH_SIZE).repeat()
-train_dataset = tf.data.Dataset.from_tensor_slices((train_img_list, train_labels_list)).map(img_parse).apply(tf.data.experimental.shuffle_and_repeat(BATCH_SIZE)).batch(BATCH_SIZE)
-
-val_img_list = tf.constant(np.asarray(val_img_list))
-val_labels_list = tf.constant(np.asarray(val_labels_list))
-
-val_dataset = tf.data.Dataset.from_tensor_slices((val_img_list,val_labels_list)).map(img_parse).batch(BATCH_SIZE).repeat()
+    #Tensorflow was not liking the object created for the labels
+    #images = tf.constant(data['image_name'].values)
+    #labels = tf.constant(data['attribute_labels'].values)
+    #Converting from pd->np->list->np to create a tensor
+    
+    images = data['image_name'].values
+    labels = data['attribute_labels'].values
+    labels = np.array(labels)
+    labels = labels.tolist()
+    images = tf.constant(images)
+    labels =tf.constant(np.asarray(labels))
+ 
+    datum =(tf.data.Dataset
+            .from_tensor_slices((images,labels))
+            .map(parse_image, num_parallel_calls=FLAGS.num_cpus)
+            .batch(FLAGS.batch_size)
+            .prefetch(FLAGS.prefetch_size)
+            .repeat())
+    
+    return datum, len(data)
 
 
+train_dataset, train_length = dataset('train')
+print(train_dataset)
+val_dataset, val_length = dataset('val')
+print(val_dataset)
+test_dataset, test_length = dataset('test')
+
+class Metrics(tf.keras.callbacks.Callback):
+    #Implementation of an F1 score for keras.
+    #https://medium.com/@thongonary/how-to-compute-f1-score-for-each-epoch-in-keras-a1acd17715a2
+    
+    def on_train_begin(self, logs={}):
+        self.val_f1s = []
+        self.val_recalls = []
+        self.val_precision = []
+    
+    def on_epoch_end(self, epoch, logs={}):
+        val_predict = (np.asarray(self.model.predict(self.model.validation_data[0]))).round()
+        val_targ = self.model.validation_data[1]
+        _val_f1 = sklearn.metrics.f1_score(val_targ, val_predict)
+        _val_recall = sklearn.metrics.recall_score(val_targ, val_predict)
+        _val_precision = sklearn.metrics.precision_score(val_targ, val_predict)
+        self.val_f1s.append(_val_f1)
+        self.val_recalls.append(_val_recall)
+        self.val_precision.append(_val_precision)
+        print (" — val_f1: %f — val_precision: %f — val_recall %f" % (_val_f1, _val_precision, _val_recall))
+        return
+
+metrics = Metrics()
+
+
+base_model = tf.keras.applications.VGG19(include_top=False, pooling='avg')
+
+for layer in base_model.layers[:16]:
+    layer.trainable = False
+for layer in base_model.layers[16:]:
+    layer.trainable = True
+
+base_model.summary()
 
 model = tf.keras.Sequential([
-        layers.InputLayer((300, 300, 3)),
-        layers.Conv2D(filters = 8, kernel_size = 3, strides = 2),
-        layers.BatchNormalization(),
-        layers.ReLU(),
-        layers.Conv2D(filters = 32, kernel_size = 3, strides = 2),
-        layers.ReLU(),
-        layers.Flatten(),
-        layers.Dense(units = NUM_LABELS, activation = 'sigmoid')
-        ])
+        *base_model.layers,
+        tf.keras.layers.Dense(1024, activation=tf.keras.activations.relu),
+        tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)])
 
 model.summary()
+    
+model.compile(
+        optimizer=tf.keras.optimizers.Adam(),
+        loss=tf.keras.losses.binary_crossentropy)
 
-model.compile(optimizer=tf.train.AdamOptimizer(),
-              loss=tf.keras.losses.binary_crossentropy,
-              metrics=[tf.keras.metrics.binary_accuracy])
-
-model.fit(train_dataset,
-          epochs = 2,
-          steps_per_epoch = train_len//BATCH_SIZE,
-          validation_steps = val_len//BATCH_SIZE,
-          validation_data=val_dataset)
-
-
-"""
-img_input = layers.Input(shape=(150, 150, 3))
-
-x = layers.Conv2D(16, 3, activation='relu')(img_input)
-x = layers.MaxPooling2D(2)(x)
-x = layers.Conv2D(32, 3, activation='relu')(x)
-x = layers.MaxPooling2D(2)(x)
-x = layers.Conv2D(64, 3, activation='relu')(x)
-x = layers.MaxPooling2D(2)(x)
-
-x = layers.Flatten()(x)
-x = layers.Dense(512, activation='relu')(x)
-
-output = layers.Dense(1, activation='softmax')(x)
-
-model = Model(img_input, output)
-"""
-#model.summary()
-
+model.fit(train_dataset, epochs=1,
+          steps_per_epoch=math.ceil(train_length/FLAGS.batch_size),
+          validation_data=val_dataset,
+          validation_steps=math.ceil(val_length/FLAGS.batch_size),
+          callbacks=[metrics, tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}.hdf5', verbose=1)]
+          )
 
