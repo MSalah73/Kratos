@@ -1,0 +1,7 @@
+name: Adam
+dependencies:
+  - python=3.6
+  - pandas
+  - matplotlib
+  - pip:
+    - tf-nightly-gpu-2.0-preview
