@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 import torch
 import tqdm
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 from torchvision import datasets
 from torchvision import transforms
 from torch.utils.data.dataset import Dataset
@@ -29,19 +29,19 @@ class ColorCustomDataset(Dataset):
         temp = self.labelset
         self.classes = list(set(temp))#no replicates color label list, all colors the model could predict on
         #replace letter labels by int index
-        print(len(self.classes))
         temp = []
         for label in self.labelset:
             label = self.classes.index(label)
             temp.append(label)
         self.labelset = temp
         #self.classes = np.asarray(list(set(temp)), np.uint)#numpy array of all record colors
-        self.labelset = np.asarray(self.labelset, np.uint8)#numpy array of lables
+        #self.labelset = np.asarray(self.labelset, np.int32)#numpy array of lables
         self.transform = transform
         
     def __getitem__(self, index):
         img = cv2.imread(self.imageset[index])
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)#RGB numpy array
+        img = cv2.resize(img, (112,112), interpolation = cv2.INTER_AREA)
         if self.transform is not None:
             img = self.transform(img)
         label = self.labelset[index]
@@ -55,7 +55,7 @@ dataset = ColorCustomDataset(txt_path, transform)
 batch_size = 64
 validation_split = .2
 shuffle = True
-random_seed= 84
+random_seed= 64
 
 # Creating data indices for training and validation splits:
 dataset_size = len(dataset)
@@ -78,7 +78,46 @@ objectValidation = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
 class Network(torch.nn.Module):
     def __init__(self):
         super(Network, self).__init__()
-
+        self.conv1_bn = torch.nn.BatchNorm2d(48)
+        self.conv2_bn = torch.nn.BatchNorm2d(64)
+        self.conv5_bn = torch.nn.BatchNorm2d(64)
+        self.conv1 = torch.nn.Conv2d(3, 48, kernel_size=11)
+        self.conv2 = torch.nn.Conv2d(48, 64, kernel_size=3)
+        self.conv3 = torch.nn.Conv2d(64,192, kernel_size=3)
+        self.conv4 = torch.nn.Conv2d(192, 96, kernel_size=3)
+        self.conv5 = torch.nn.Conv2d(96, 64, kernel_size=3)
+        self.fc1 = torch.nn.Linear(64*9*9, 4096)
+        self.fc2 = torch.nn.Linear(4096, 961)
+	# end
+    def forward(self, x):
+        x = self.conv1(x)
+        x = torch.nn.functional.relu(x)
+        x = self.conv1_bn(x)
+        x = torch.nn.functional.max_pool2d(x, kernel_size=3, stride=2) 
+        x = self.conv2(x)
+        x = torch.nn.functional.relu(x)
+        x = self.conv2_bn(x)
+        x = torch.nn.functional.max_pool2d(x, kernel_size=2, stride=1)
+        #x1, x2 = torch.split(x, 96)
+        #print(x1.shape)
+        x = self.conv3(x)
+        x = torch.nn.functional.relu(x)
+        x = self.conv4(x)
+        x = torch.nn.functional.max_pool2d(x, kernel_size=3, stride=2)
+        x = torch.nn.functional.relu(x)
+        x = self.conv5(x)
+        x = torch.nn.functional.max_pool2d(x, kernel_size=3, stride=2)
+        x = self.conv5_bn(x)
+        x = torch.nn.functional.relu(x)
+        #x = torch.flatten(x)
+        x = x.view(-1, 5184)
+        x = self.fc1(x)
+        x = torch.nn.functional.dropout(x, p=0.35, training=self.training)
+        x = torch.nn.functional.relu(x)
+        x = torch.nn.functional.dropout(x, p=0.6, training=self.training)
+        x = torch.nn.functional.relu(x)
+        x = self.fc2(x)
+        return torch.nn.functional.log_softmax(x, dim=1)
 	# end
 # end
 
