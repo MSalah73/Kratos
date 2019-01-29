@@ -17,6 +17,7 @@ Run script with ``python Evaluate.py`` and it will print out the predictions of 
 ## How to set up:
 
 Run ``Official_prep_data.py`` to make pickle files.
-Run ``Official_CNN.py`` to make initial model
-Run ``continue_training.py`` to continue training the model made by ``Official_CNN``
 
+Run ``Official_CNN.py`` to make initial model.
+
+Run ``continue_training.py`` to continue training the model made by ``Official_CNN``.
