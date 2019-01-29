@@ -1,20 +1,21 @@
-Complished code:
+instruction of training code:
 
-build custom dataloader: loading color labeled images in DeepFashion(In-Shop)
+anaconda, all import*(possible replaced by active environment)
 
-load the data
+list_color_cloth.txt and unzipped folder "img" in the same directory of the code
 
-train and test 
+python capstone_test.py
 
-possible user image uploading process
 
-design the CNN
+
 
 To-do:
 
+pre-processing image
+
 random spliting to balanced spliting
 
-validate user image uploading process
+user image uploading process
 
 References:
 
