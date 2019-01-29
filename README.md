@@ -2,7 +2,7 @@ instruction of training code:
 
 anaconda, all import*(possible replaced by active environment)
 
-list_color_cloth.txt and unzipped folder "img" in the same directory of the code
+list_color_cloth.txt and unzipped folder "img" in the same directory of the code(download from http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html google drive->in-shop clothes->img)
 
 python capstone_test.py
 
