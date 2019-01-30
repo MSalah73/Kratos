@@ -100,7 +100,10 @@ model = keras.Sequential([
     keras.layers.Dense(512),
     keras.layers.BatchNormalization(),
     keras.layers.ReLU(),
-    keras.layers.Dropout(0.2),
+    keras.layers.Dense(256),
+    keras.layers.BatchNormalization(),
+    keras.layers.ReLU(),
+    keras.layers.Dropout(0.3),
     keras.layers.Dense(len(classes)),
     keras.layers.BatchNormalization(),
     keras.layers.Softmax()
@@ -114,7 +117,7 @@ model.compile(
     loss='sparse_categorical_crossentropy',
     metrics=['accuracy'])
 model.summary()
-model.fit(train_dataset,epochs=20,verbose=1,steps_per_epoch=(len(train_data)//batch_size))
+model.fit(train_dataset,epochs=10,verbose=1,steps_per_epoch=(len(train_data)//batch_size))
 
 test_loss,test_acc = model.evaluate(test_dataset,verbose=1,steps=(len(test_data)//batch_size))
 print("[Accuracy: {:5.3f} %".format(100*test_acc),"  ",'loss: {:5.4f}'.format(test_loss),']')
