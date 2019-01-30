@@ -70,6 +70,7 @@ def dataset(partition, training=False):
 
     return d, len(data)
 
+
 train_dataset, train_length = dataset('train', training=True)
 val_dataset, val_length = dataset('val')
 test_dataset, test_length = dataset('test')
@@ -90,7 +91,8 @@ model = tf.keras.Sequential([
     tf.keras.layers.InputLayer(input_shape=(300, 300, 3)),
     *base_model.layers,
     tf.keras.layers.Dense(1024, activation=tf.keras.activations.relu),
-    tf.keras.layers.Dense(FLAGS.classes, activation=tf.keras.activations.softmax),
+    tf.keras.layers.Dense(
+        FLAGS.classes, activation=tf.keras.activations.softmax),
 ])
 
 
@@ -105,14 +107,14 @@ model.compile(
 
 # %% fit model
 model.fit(train_dataset, epochs=3,
-    steps_per_epoch=math.ceil(train_length / FLAGS.batch_size),
-    validation_data=val_dataset,
-    validation_steps=math.ceil(val_length / FLAGS.batch_size),
-    callbacks=[
-        tf.keras.callbacks.TensorBoard('./logs'),
-        tf.keras.callbacks.ModelCheckpoint(
-            'checkpoints/model-{epoch:02d}.hdf5', verbose=1)
-    ])
+          steps_per_epoch=math.ceil(train_length / FLAGS.batch_size),
+          validation_data=val_dataset,
+          validation_steps=math.ceil(val_length / FLAGS.batch_size),
+          callbacks=[
+              tf.keras.callbacks.TensorBoard('./logs'),
+              tf.keras.callbacks.ModelCheckpoint(
+                  'checkpoints/model-{epoch:02d}.hdf5', verbose=1)
+          ])
 
 # %% evaluate model
 model = tf.keras.models.load_model('checkpoints/model-03.hdf5')
