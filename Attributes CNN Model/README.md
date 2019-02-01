@@ -1,12 +1,10 @@
 # Kratos -- CNN model on fashion attributes --
-
 ## By Zack Salah
-
 ## Technologies
 
-	* **Language**: *Python3.6*
-	* **Python distribution**: *Anaconda*
-	* **Library**: *Tensorflow*
+* **Language**: *Python3.6*
+* **Python distribution**: *Anaconda*
+* **Library**: *Tensorflow*
 
 # Installation
 * git clone origin Zack
