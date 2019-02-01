@@ -17,7 +17,7 @@ def prepare(filepath):
 if __name__ == "__main__":
    IMG_SIZE = 35
    DATADIR = '/u/jor25/Capstone/Good_stuff/Verify_Images/'
-   model = tf.keras.models.load_model("category.model")
+   model = tf.keras.models.load_model("../../Good_stuff/category.model")
 
 
    CATEGORIES = ["Anorak", "Blazer", "Blouse", "Bomber", "Button-Down",
