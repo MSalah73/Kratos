@@ -3,6 +3,7 @@
 ## By Zack Salah
 
 ## Technologies
+
 	* **Language**: *Python3.6*
 	* **Python distribution**: *Anaconda*
 	* **Library**: *Tensorflow*
