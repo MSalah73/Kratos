@@ -1,0 +1,8 @@
+name: remory
+dependencies:
+    - python=3.6
+    - pandas
+    - matplotlib
+    - pip:
+      - tensorflow
+      - scikit-learn
