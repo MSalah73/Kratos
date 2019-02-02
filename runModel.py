@@ -14,51 +14,56 @@ import os
 
 parser = argparse.ArgumentParser(prog = 'runModel.py',\
         description = "Will run a keras model over an image to determine clothing attributes.")
-parser.add_argument('-i', '--image', dest='image',\
+parser.add_argument('-i', '--image', dest='image',default = None,\
         help="The image on which to run the model")
-parser.add_argument('-m', '--model', dest='model',\
+parser.add_argument('-m', '--model', dest='model',default='/u/remory/Capstone/20190131-202538attributes.h5',\
         help="The model with which to evaluate the image")
-parser.add_argument('-a', '--accuracy', dest='acc',\
+parser.add_argument('-a', '--accuracy', dest='acc', type=float, default=0.5,\
         help="How certain you wish the accuacy of the predictions to be")
+#parser.add_argument('-v', '--version', dest='version',default='v1',\
+        #help="Specify which version of layers to use, because model.load isn't working right.")
 
 args = parser.parse_args()
 
 class FLAGS:
     classes = 1000
-    #num_cpus = multiprocessing.cpu_count()
-    batch_size = 32
-    prefetch_size = 1
     height = 300
     width = 300
     data_dir ='/stash/kratos/deep-fashion/category-attribute/'
+    test_list = 'chosen.txt'
 
-attr_cloth = pd.read_csv(f'{FLAGS.data_dir}anno/list_attr_cloth.txt',delim_whitespace=False,
-        sep='\s{2,}',names=['attribute_name','attribute_type'],skiprows=2,header=None)
+attr_cloth = pd.read_csv(f'{FLAGS.data_dir}anno/list_attr_cloth.txt',delim_whitespace=False,sep='\s{2,}',
+        engine='python',names=['attribute_name','attribute_type'],skiprows=2,header=None)
+
+test_imgs = pd.read_csv(f'{FLAGS.test_list}',header=None)
+test_imgs[0] = test_imgs[0].apply(lambda x: f'{FLAGS.data_dir}{x}')
 
 attributes = attr_cloth['attribute_name']
 
-def parse_image(filename):
+def parse_image(filename, single=False):
     image = tf.io.read_file(filename)
     image = tf.image.decode_jpeg(image, channels=3)
     image = tf.image.resize_image_with_crop_or_pad(
             image, FLAGS.height, FLAGS.width)
     image = tf.image.per_image_standardization(image)
-    image = tf.expand_dims(image, 0)
+    if single:
+        image = tf.expand_dims(image, 0)
     return image
 
+def dataset(files):
+    data = (tf.data.Dataset.from_tensor_slices(files).map(parse_image))
 
 def predictor(pred):
     predictions = []
     for label in pred:
         local_pred = []
         for idx, val in enumerate(label):
-            if val > 0.5:
+            if val > args.acc:
                 local_pred.append(attributes[idx])
         predictions.append(local_pred)
     return predictions
 
 #Need to create model before I can load the model weights. Using the transfer learning VGG19
-
 base_model = tf.keras.applications.VGG19(include_top=False, pooling='avg')
 for layer in base_model.layers[:16]:
     layer.trainable = False
@@ -72,8 +77,16 @@ model = tf.keras.Sequential([
 
 model.load_weights(args.model)
 
-prediction = model.predict(parse_image(args.image), steps=1)
+if args.image:
+    prediction = model.predict(parse_image(args.image, single=True), steps=1)
+else:
+    images = []
+    for filename in test_imgs[0].values:
+        images.append(parse_image(filename))
+    images = tf.stack(images, axis = 0)
+    prediction = model.predict(images, steps=1)
 
+#print(prediction)
 print(predictor(prediction))
 
 
