@@ -16,11 +16,6 @@ import os
 
 #tf.enable_eager_execution()
 
-base_dir = 'C:\\Users\\Ray\PSU\\Capstone\\Category and Attribute Prediction Benchmark'
-img_dir = os.path.join(base_dir, 'Img')
-ano_dir = os.path.join(base_dir, 'Anno')
-eval_dir = os.path.join(base_dir, 'Eval')
-
 class FLAGS:
     classes = 1000
     num_cpus = multiprocessing.cpu_count()
@@ -28,14 +23,14 @@ class FLAGS:
     prefetch_size = 1
     height = 300
     width = 300
-    data_dir ='Category and Attribute Prediction Benchmark/'
+    data_dir ='/stash/kratos/attribute_data/'
 
 eval_partition = pd.read_csv(
-        'C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Eval\\list_eval_partition.txt',
-        delim_whitespace=True, header=)
+        f'{FLAGS.data_dir}/list_eval_partition.txt',
+        delim_whitespace=True, header=1)#, nrows=200)
 
 
-file = open('C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Anno\\list_attr_img.txt', 'r')
+file = open('/stash/kratos/attribute_data/list_attr_img.txt', 'r')
 img_list = []           #empty list to store our image filenames
 embedded_list = []      #empty list to store our labels
 i = 0
@@ -54,24 +49,24 @@ while i < num_elements:
     i += 1
 file.close()
 
-minlen = 1000
-maxlen = 0
+#minlen = 1000
+#maxlen = 0
 
 for l in embedded_list:
-    localmax = 0
-    for i, x in enumerate(l):    
+    #localmax = 0
+    for i, x in enumerate(l):
         if x == -1:
             l[i] = 0
-        else:
-            localmax += 1
-    minlen = min(minlen, localmax)
-    maxlen = max(maxlen,localmax)
-            
-print('Min: %d' % minlen)
-print('Max: %d' % maxlen)   
-     
+        #else:
+            #localmax += 1
+#    minlen = min(minlen, localmax)
+#    maxlen = max(maxlen,localmax)
 
-attributes = pd.DataFrame({colA:img_list, colB:embedded_list}) 
+#print('Min: %d' % minlen)
+#print('Max: %d' % maxlen)
+
+
+attributes = pd.DataFrame({colA:img_list, colB:embedded_list})
         #pd.read_csv(
         #'C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\Anno\\list_attr_img.txt',
         #delim_whitespace=True, header=1, nrows=5, dtype={'image_name':str, 'attribute_labels':np.int64})#, converters={-1:0})
@@ -84,7 +79,7 @@ del embedded_list
 
 all_data = eval_partition.merge(attributes, on='image_name')
 
-print(all_data.shape)
+#print(all_data.shape)
 #print(all_data)
 
 def parse_image(filename, label):
@@ -98,44 +93,44 @@ def parse_image(filename, label):
 def dataset(partition):
     data = all_data[all_data['evaluation_status'] == partition]
     data = data.sample(frac=1).reset_index(drop=True)
-    
+
     #Tensorflow was not liking the object created for the labels
     #images = tf.constant(data['image_name'].values)
     #labels = tf.constant(data['attribute_labels'].values)
     #Converting from pd->np->list->np to create a tensor
-    
+
     images = data['image_name'].values
     labels = data['attribute_labels'].values
     labels = np.array(labels)
     labels = labels.tolist()
     images = tf.constant(images)
     labels =tf.constant(np.asarray(labels))
- 
+
     datum =(tf.data.Dataset
             .from_tensor_slices((images,labels))
             .map(parse_image, num_parallel_calls=FLAGS.num_cpus)
             .batch(FLAGS.batch_size)
             .prefetch(FLAGS.prefetch_size)
             .repeat())
-    
+
     return datum, len(data)
 
 
 train_dataset, train_length = dataset('train')
-print(train_dataset)
+#print(train_dataset)
 val_dataset, val_length = dataset('val')
-print(val_dataset)
+#print(val_dataset)
 test_dataset, test_length = dataset('test')
 
 class Metrics(tf.keras.callbacks.Callback):
     #Implementation of an F1 score for keras.
     #https://medium.com/@thongonary/how-to-compute-f1-score-for-each-epoch-in-keras-a1acd17715a2
-    
+
     def on_train_begin(self, logs={}):
         self.val_f1s = []
         self.val_recalls = []
         self.val_precision = []
-    
+
     def on_epoch_end(self, epoch, logs={}):
         val_predict = (np.asarray(self.model.predict(self.validation_data[0],
                                                      steps=math.ceil(val_length/FLAGS.batch_size)))).round()
@@ -150,7 +145,7 @@ class Metrics(tf.keras.callbacks.Callback):
         self.val_f1s.append(_val_f1)
         self.val_recalls.append(_val_recall)
         self.val_precision.append(_val_precision)
-        print (" — val_f1: %f — val_precision: %f — val_recall %f" % (_val_f1, _val_precision, _val_recall))
+        print (" â val_f1: %f â val_precision: %f â val_recall %f" % (_val_f1, _val_precision, _val_recall))
         return
 
 metrics = Metrics()
@@ -163,15 +158,15 @@ for layer in base_model.layers[:16]:
 for layer in base_model.layers[16:]:
     layer.trainable = True
 
-base_model.summary()
+#base_model.summary()
 
 model = tf.keras.Sequential([
         *base_model.layers,
         tf.keras.layers.Dense(1024, activation=tf.keras.activations.relu),
         tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)])
 
-model.summary()
-    
+#model.summary()
+
 model.compile(
         optimizer=tf.keras.optimizers.Adam(),
         loss=tf.keras.losses.binary_crossentropy)
@@ -182,5 +177,4 @@ model.fit(train_dataset, epochs=1,
           validation_steps=math.ceil(val_length/FLAGS.batch_size),
           callbacks=[metrics]#, tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
           )
-
 
