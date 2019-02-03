@@ -86,7 +86,10 @@ else:
     images = tf.stack(images, axis = 0)
     prediction = model.predict(images, steps=1)
 
-#print(prediction)
-print(predictor(prediction))
+predicted = (predictor(prediction))
 
+if not args.image:
+    test_imgs[1] = predicted
+    predicted = test_imgs
 
+print(predicted)
