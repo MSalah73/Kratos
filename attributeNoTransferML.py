@@ -35,13 +35,13 @@ class FLAGS:
 eval_partition = pd.read_csv(
         #f'{FLAGS.data_dir}Eval\\list_eval_partition.txt',
         f'{FLAGS.data_dir}eval/list_eval_partition.txt',
-        delim_whitespace=True, header=1, nrows=2000)
+        delim_whitespace=True, header=1)#, nrows=2000)
 
 attr_img = pd.read_csv(
         f'{FLAGS.data_dir}anno/list_attr_img.txt',
         #f'{FLAGS.data_dir}Anno\\list_attr_img.txt',
         sep='\s+', header=None, skiprows=2,
-        names=['image_name'] + list(range(1000)), nrows=2000)
+        names=['image_name'] + list(range(1000)))#, nrows=2000)
 
 all_data = eval_partition.merge(attr_img, on='image_name')
 

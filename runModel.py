@@ -8,9 +8,13 @@ Created on Wed Jan 30 19:11:47 2019
 import tensorflow as tf
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+from textwrap import wrap
 import argparse
+import cv2
+import time
 import os
-#from attributeML import FLAGS
+
 
 parser = argparse.ArgumentParser(prog = 'runModel.py',\
         description = "Will run a keras model over an image to determine clothing attributes.")
@@ -123,6 +127,32 @@ def pick_model(ver):
                 metrics=['accuracy'])
     return model
 
+def plot_predictions(matrix, columns=3, rows=3):
+    """
+    Expects a pandas dataset <matrix> where:
+        column 0 is image file locations.
+        column 1 is a list of predictions for each image.
+        column 2 is the number of elements in the lists of column 1.
+    """
+    myplot = plt.figure(figsize=(10,10))
+    #title_string = "Attribute predictions with %d%% accuracy" % (int(args.acc * 100))
+    myplot.suptitle("Attribute predictions")
+    for i in range(1, columns*rows+1):
+        img = matrix.iloc[i-1][0]
+        img = cv2.imread(img)
+        img = cv2.resize(img, (32, 32))
+        subplot = myplot.add_subplot(columns, rows, i)
+        subplot.set_title(matrix.iloc[i-1][1],wrap=True)
+        #subplot.set_title("\n".join(wrap(matrix.iloc[i-1][1],30)))
+        plt.imshow(img)
+    myplot.subplots_adjust(hspace=0.3)
+    #myplot.tight_layout()
+    myFile = "Predicted" + time.strftime("%Y%m%d-%H%M%S") + ".png"
+    plt.savefig(myFile)
+    plt.show()
+
+
+
 model = pick_model(args.version)
 
 model.load_weights(args.model)
@@ -142,5 +172,6 @@ if not args.image:
     test_imgs[1] = predicted
     test_imgs[2] = test_imgs[1].str.len()
     predicted = test_imgs
+    plot_predictions(predicted)
 
 print(predicted)
