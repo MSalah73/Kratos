@@ -1,0 +1,8 @@
+name: Yu
+dependencies:
+  - python=3.6.7
+  - matplotlib
+  - numpy
+  - opencv
+  - pip:
+    - tensorflow-gpu
