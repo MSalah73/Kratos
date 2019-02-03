@@ -1,0 +1,8 @@
+name: remoryGPU
+dependencies:
+    - python=3.6
+    - pandas
+    - matplotlib
+    - pip:
+      - tensorflow-gpu
+      - scikit-learn

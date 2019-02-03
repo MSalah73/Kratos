@@ -20,8 +20,8 @@ parser.add_argument('-m', '--model', dest='model',default='/u/remory/Capstone/20
         help="The model with which to evaluate the image")
 parser.add_argument('-a', '--accuracy', dest='acc', type=float, default=0.5,\
         help="How certain you wish the accuacy of the predictions to be")
-#parser.add_argument('-v', '--version', dest='version',default='v1',\
-        #help="Specify which version of layers to use, because model.load isn't working right.")
+parser.add_argument('-v', '--version', dest='version',default='v1',\
+        help="Specify which version of layers to use, because model.load isn't working right.")
 
 args = parser.parse_args()
 
@@ -63,17 +63,67 @@ def predictor(pred):
         predictions.append(local_pred)
     return predictions
 
-#Need to create model before I can load the model weights. Using the transfer learning VGG19
-base_model = tf.keras.applications.VGG19(include_top=False, pooling='avg')
-for layer in base_model.layers[:16]:
-    layer.trainable = False
-for layer in base_model.layers[16:]:
-    layer.trainable = True
+def pick_model(ver):
+    model = None
+    if ver == 'v2':
+        model = tf.keras.Sequential([
+                tf.keras.layers.Conv2D(filters=16, kernel_size=2, input_shape=(FLAGS.height, FLAGS.width, 3)), #CPU
+                #tf.keras.layers.Conv2D(filters=8, kernel_size=2, input_shape=(3, FLAGS.height, FLAGS.width)), #GPU
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+                tf.keras.layers.Conv2D(filters=64, kernel_size=(2,2), strides=2),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+                tf.keras.layers.Conv2D(filters=128, kernel_size=(2,2), strides=2),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.Conv2D(filters=256, kernel_size=(2,2), strides=3),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+                tf.keras.layers.Flatten(),
+                tf.keras.layers.Dense(512),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.Dense(256),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.Dense(128),
+                tf.keras.layers.BatchNormalization(),
+                tf.keras.layers.ReLU(),
+                tf.keras.layers.Dropout(0.25),
+                tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)
+                ])
+        model.compile(
+                optimizer=tf.keras.optimizers.Adam(),
+                loss=tf.keras.losses.binary_crossentropy,
+                metrics=['accuracy'])
 
-model = tf.keras.Sequential([
-    *base_model.layers,
-    tf.keras.layers.Dense(1024, activation=tf.keras.activations.relu),
-    tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)])
+    else:
+        #Need to create model before I can load the model weights. Using the transfer learning VGG19
+        base_model = tf.keras.applications.VGG19(include_top=False, pooling='avg')
+        for layer in base_model.layers[:16]:
+            layer.trainable = False
+        for layer in base_model.layers[16:]:
+            layer.trainable = True
+
+        model = tf.keras.Sequential([
+            *base_model.layers,
+            tf.keras.layers.Dense(1024, activation=tf.keras.activations.relu),
+            tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)])
+
+        model.compile(
+                optimizer=tf.keras.optimizers.Adam(),
+                loss=tf.keras.losses.binary_crossentropy,
+                metrics=['accuracy'])
+    return model
+
+model = pick_model(args.version)
 
 model.load_weights(args.model)
 
@@ -90,6 +140,7 @@ predicted = (predictor(prediction))
 
 if not args.image:
     test_imgs[1] = predicted
+    test_imgs[2] = test_imgs[1].str.len()
     predicted = test_imgs
 
 print(predicted)

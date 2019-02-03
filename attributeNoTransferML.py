@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sat Jan  5 15:37:23 2019
+Created on Sun Feb  3 09:31:08 2019
 
 @author: Ray
+
+Using a simpler model for testing runModel.py and displaying at the Nike Demo 2/6
 """
 
 # %% imports
@@ -32,14 +34,14 @@ class FLAGS:
 # %% data frame
 eval_partition = pd.read_csv(
         #f'{FLAGS.data_dir}Eval\\list_eval_partition.txt',
-        f'{FLAGS.data_dir}Eval/list_eval_partition.txt',
-        delim_whitespace=True, header=1)#, nrows=200)
+        f'{FLAGS.data_dir}eval/list_eval_partition.txt',
+        delim_whitespace=True, header=1, nrows=2000)
 
 attr_img = pd.read_csv(
-        f'{FLAGS.data_dir}Anno/list_attr_img.txt',
+        f'{FLAGS.data_dir}anno/list_attr_img.txt',
         #f'{FLAGS.data_dir}Anno\\list_attr_img.txt',
         sep='\s+', header=None, skiprows=2,
-        names=['image_name'] + list(range(1000)))#, nrows=200)
+        names=['image_name'] + list(range(1000)), nrows=2000)
 
 all_data = eval_partition.merge(attr_img, on='image_name')
 
@@ -128,23 +130,42 @@ class Metrics(tf.keras.callbacks.Callback):
         return
 
 metrics = Metrics()
-# %%
-
-base_model = tf.keras.applications.VGG19(include_top=False, pooling='avg')
-
-for layer in base_model.layers[:16]:
-    layer.trainable = False
-for layer in base_model.layers[16:]:
-    layer.trainable = True
-
-base_model.summary()
 
 # %%
 
 model = tf.keras.Sequential([
-        *base_model.layers,
-        tf.keras.layers.Dense(1024, activation=tf.keras.activations.relu),
-        tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)])
+        tf.keras.layers.Conv2D(filters=16, kernel_size=2, input_shape=(FLAGS.height, FLAGS.width, 3)), #CPU
+        #tf.keras.layers.Conv2D(filters=8, kernel_size=2, input_shape=(3, FLAGS.height, FLAGS.width)), #GPU
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+        tf.keras.layers.Conv2D(filters=64, kernel_size=(2,2), strides=2),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+        tf.keras.layers.Conv2D(filters=128, kernel_size=(2,2), strides=2),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.Conv2D(filters=256, kernel_size=(2,2), strides=3),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(512),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.Dense(256),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.Dense(128),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
+        tf.keras.layers.Dropout(0.25),
+        tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)
+        ])
 
 #model.summary()
 
@@ -155,8 +176,8 @@ model.compile(
         loss=tf.keras.losses.binary_crossentropy,
         metrics=['accuracy'])
 
+model.summary()
 #%%
-
 model.fit(train_dataset, epochs=1,
           steps_per_epoch=math.ceil(train_length/FLAGS.batch_size),
           validation_data=val_dataset,
@@ -167,5 +188,3 @@ model.fit(train_dataset, epochs=1,
 myFile = time.strftime("%Y%m%d-%H%M%S") + "attributes.h5"
 
 model.save(filepath=myFile)
-
-
