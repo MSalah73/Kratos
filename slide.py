@@ -2,6 +2,7 @@
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import pandas as pd
+import numpy as np
 
 # %% enable eager execution
 tf.enable_eager_execution()
@@ -47,15 +48,15 @@ def slide_data(filename):
     predictions = (tf.nn.top_k(logits, k=5, sorted=True, name=None)
         .indices
         .numpy()[0])
-    predictions = category_cloth['category_name'][predictions].values
+    predictions = category_cloth['category_name'][predictions - 1].values
     label = category_img[category_img['image_name'] == filename]['category_label']
-    label = category_cloth['category_name'][int(label)]
+    label = category_cloth['category_name'][int(label) - 1]
     return {'image': image, 'predictions': predictions, 'label': label}
 
 # %% plot data
 def plot_data(filenames, filename):
     data = [slide_data(filename) for filename in filenames]
-    fig, axs =  plt.subplots(nrows=3, ncols=3, figsize=(15, 20))
+    fig, axs =  plt.subplots(nrows=3, ncols=3, figsize=(15, 25))
     index = 0
     for row in axs:
         for fig in row:
@@ -65,8 +66,18 @@ def plot_data(filenames, filename):
             index += 1
     plt.savefig(filename)
 
-# %% experiment
+
+# %% random filenames
+def random_filenames():
+    indexes = np.random.choice(range(len(category_img)), 10)
+    return category_img.iloc[indexes]['image_name'].values
+
+# %% plot chosen
 filenames = pd.read_csv(
     'chosen.txt', header=None, names=['image_name'])['image_name'].values
 
 plot_data(filenames, 'chosen.png')
+
+
+# %% plot random
+plot_data(random_filenames(), 'random.png')
