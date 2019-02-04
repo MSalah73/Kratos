@@ -28,10 +28,6 @@ category_img = pd.read_csv(
     f'{FLAGS.data_dir}/anno/list_category_img.txt',
     delim_whitespace=True, header=1)
 
-category_cloth = pd.read_csv(
-    f'{FLAGS.data_dir}/anno/list_category_cloth.txt',
-    delim_whitespace=True, header=1)
-
 all_data = eval_partition.merge(category_img, on='image_name')
 
 
