@@ -152,8 +152,11 @@ model = tf.keras.Sequential([
         tf.keras.layers.Conv2D(filters=256, kernel_size=(2,2), strides=3),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.ReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+        #tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
         tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(1024),
+        tf.keras.layers.BatchNormalization(),
+        tf.keras.layers.ReLU(),
         tf.keras.layers.Dense(512),
         tf.keras.layers.BatchNormalization(),
         tf.keras.layers.ReLU(),
@@ -178,10 +181,11 @@ model.compile(
 
 model.summary()
 #%%
-model.fit(train_dataset, epochs=1,
+model.fit(train_dataset, epochs=5,
           steps_per_epoch=math.ceil(train_length/FLAGS.batch_size),
           validation_data=val_dataset,
           validation_steps=math.ceil(val_length/FLAGS.batch_size),
+          callbacks=[tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
           #callbacks=[metrics]#, tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
           )
 
