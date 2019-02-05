@@ -1,0 +1,7 @@
+name: Zack
+dependencies:
+    - python=3.6
+    - pip:
+        - tensorflow-gpu
+        - matplotlib
+        - opencv-pythoN

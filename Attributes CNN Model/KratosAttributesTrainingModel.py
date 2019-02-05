@@ -2,6 +2,7 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D, LeakyReLU
 from tensorflow.keras.callbacks import TensorBoard
 from tensorflow.data import Dataset as dt
+from tensorflow.keras import backend as K
 import pickle
 import tensorflow as tf
 import numpy as np
@@ -9,17 +10,33 @@ import os
 import random
 import math
 
-HIMG_SIZE = 257
-WIMG_SIZE = 222
+HIMG_SIZE = 300
+WIMG_SIZE = 300
 BATCH_SIZE = 50
 
 trainLen = 0
 valLen = 0
 testLen = 0
 
-dense_layer = 0
-layer_size = 64
-conv_layer = 5
+dense_layer = 3
+layer_sizes = [64, 128, 256, 512, 1024, 2048, 4096]
+dense_sizes = [2048, 1024, 512] 
+conv_layer = 6
+
+# in progress
+def f1(y_true, y_pred):
+    y_true = tf.cast(y_true, "int32")
+    y_pred = tf.cast(tf.round(y_pred), "int32")
+
+    y_correct = y_true * y_pred
+    sum_true = tf.reduce_sum(y_true, axis=1)
+    sum_pred = tf.reduce_sum(y_pred, axis=1)
+    sum_correct = tf.reduce_sum(y_correct, axis=1)
+    precision = sum_correct / sum_pred
+    recall = sum_correct / sum_true
+    f1_score = 2 * (precision * recall) / (precision + recall)
+    f1_score = tf.where(tf.is_nan(f1_score), tf.zeros_like(f1_score), f1_score)
+    return tf.reduce_mean(f1_score)
 
 def getShuffledDataSet(partition):
     pickle_in = open(partition+"ImageNames.pickle","rb")
@@ -45,7 +62,7 @@ def shuffleData(imageNames, attributeLabels):
 def loadAndPreprocessImage(path, label):
     image = tf.read_file(path)
     image = tf.image.decode_jpeg(image, channels=3) # h w c
-    image = tf.image.resize_images(image, (HIMG_SIZE, WIMG_SIZE))
+    image = tf.image.resize_image_with_crop_or_pad(image, HIMG_SIZE, WIMG_SIZE)
     image = tf.image.per_image_standardization(image)
     return image, label
 
@@ -60,50 +77,24 @@ train, trainLen = getShuffledDataSet("Train")
 val, valLen = getShuffledDataSet("Val")
 test, testLen = getShuffledDataSet("Test")
 
-#data = list(zip(imageNames, attributeLabels))
-#random.shuffle(data)
-#trainNames= []
-#trainLabels = []
-#valNames = []
-#valLabels = []
-# for name, label in data:
-#    if len(valNames) < 20000:
-#        valNames.append(name)
-#        valLabels.append(label)
-#    else:
-#        trainNames.append(name)
-#        trainLabels.append(label)
-
-
-
-# DATADIR = "C:/Users/Zack73/PycharmProjects/dataset"
-# DATADIR = "../../stash/kratos/"
-
-#array = os.path.join(DATADIR, image)
-
-#print(trainingDataSet.output_shapes[0])
-#print(trainingDataSet.output_shapes[1])
-#print(path_ds.output_types)
-#exit(0)
-#print(image.shape)
-
 model = Sequential()
 
-model.add(Conv2D(layer_size, (3, 3), input_shape=train.output_shapes[0][1:]))
+model.add(Conv2D(32, (3, 3), input_shape=train.output_shapes[0][1:]))
 model.add(LeakyReLU(alpha=0.3))
 model.add(MaxPooling2D(pool_size=(2, 2)))
 
-for _ in range(conv_layer-1):
-    model.add(Conv2D(layer_size, (3, 3)))
+for i in range(conv_layer-1):
+    model.add(Conv2D(layer_sizes[i], (3, 3)))
     model.add(LeakyReLU(alpha=0.3))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
 model.add(Flatten())
 
-for _ in range(dense_layer):
-    model.add(Dense(layer_size))
+for i in range(dense_layer):
+    model.add(Dense(dense_sizes[i]))
     model.add(LeakyReLU(alpha=0.3))
 
+#model.add(Dropout(0.2))
 model.add(Dense(1000))
 model.add(Activation('sigmoid'))
 
@@ -111,7 +102,8 @@ model.add(Activation('sigmoid'))
 
 model.compile(loss='binary_crossentropy',
               optimizer='adam',
-              metrics=['accuracy'],
+              #metrics=[f1],
+              metrics=['binary_accuracy'],
               )
 
 model.fit(train,
@@ -119,51 +111,10 @@ model.fit(train,
           steps_per_epoch=math.ceil(trainLen / BATCH_SIZE),
           validation_data=val,
           validation_steps=math.ceil(valLen / BATCH_SIZE))
-#          callbacks=[tensorboard])
 
 print("Model Saved")
-model.save('KratosLeaky02.model')
+model.save('KratosV1.2.model')
 
-model.evaluate(test, steps= math.ceil(testLen / BATCH_SIZE))
+loss, bin_acc = model.evaluate(test, steps= math.ceil(testLen / BATCH_SIZE))
+print(" - Loss: %3.5f - Binary accuracy: %3.5f" % (loss, bin_acc))
 print("done")
-# def create_training_data():
-#     counter = 1
-#     prevPercent = 0
-#     print(str(prevPercent) + "%",end="", flush=True)
-#     for path in imageNames:
-#         newPath = os.path.join(DATADIR,path)
-#         try:
-#             img_array = cv2.imread(newPath, cv2.IMREAD_COLOR)
-#             img_array = cv2.cvtColor(img_array, cv2.COLOR_BGR2RGB)
-#             # img_array = img_array[...,::-1] #https://www.scivision.co/numpy-image-bgr-to-rgb/
-#
-#             # To shrink:
-#             new_array = cv2.resize(img_array, (WIMG_SIZE, HIMG_SIZE))
-#             training_data.append(new_array)
-#         except Exception as e:
-#             print(e)
-#             exit(1)
-#
-#         if(int(counter/ len(imageNames) *100) > prevPercent):
-#             prevPercent = (int(counter / len(imageNames) * 100))
-#             print("\r"+str(prevPercent)+"%", end="",flush=True)
-#             if(prevPercent == 20):
-#                 print(path)
-#                 print(imageNames.index(path))
-#                 break
-#         counter += 1
-#
-#
-#
-# create_training_data()
-# # random.shuffle(training_data)
-# X = []
-# #
-# X = np.array(training_data).reshape(-1,HIMG_SIZE, WIMG_SIZE,3)
-#
-# path = "D:\AttributesData"
-# path = os.path.join(path, "AttributeDataListP1.pickle")
-#
-# pickle_out = open("AttributeDataListP1.pickle","wb")
-# pickle.dump(training_data, pickle_out)
-# pickle_out.close()
