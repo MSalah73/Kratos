@@ -141,6 +141,7 @@ def plot_predictions(matrix, columns=3, rows=3):
         img = matrix.iloc[i-1][0]
         img = cv2.imread(img)
         img = cv2.resize(img, (128, 128))
+        img = cv2.cvtColor(img,cv2.COLOR_BGR2RGB)
         subplot = myplot.add_subplot(columns, rows, i)
         subplot.set_title(matrix.iloc[i-1][1],wrap=True)
         #subplot.set_title("\n".join(wrap(matrix.iloc[i-1][1],30)))
