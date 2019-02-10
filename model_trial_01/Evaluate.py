@@ -80,7 +80,7 @@ if __name__ == "__main__":
    for image in chosen:
       filepath = os.path.join(DATADIR, image)
       mod_img = prepare(filepath)
-      mode_img = mod_img/255.0
+      mod_img = mod_img/255.0
       prediction = model.predict(mod_img)#, verbose=1) # gives back a one hot encoding
       n_results = top_n_predictions(prediction, image, CATEGORIES, n)
       modded_images.append([mod_img, n_results])
