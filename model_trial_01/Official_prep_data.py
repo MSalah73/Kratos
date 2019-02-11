@@ -77,7 +77,7 @@ def inner_most(match, DATADIR, IMG_SIZE, Dataset):
       img_array = cv2.imread(path, cv2.IMREAD_GRAYSCALE)  # convert to grayscale array
       #img_array = img_array #/255.0 # Normalize the data
       img_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
-      #print(img_array)
+      print(img_array.shape)
 
       Dataset.append([number, img_array]) # add to [#, [pixels]] array format
    except Exception as e:  # in the interest in keeping the output clean...
@@ -90,8 +90,8 @@ if __name__ == "__main__":
    # all variables
    IMG_SIZE = 35 # would use 100, but ran out of space on disk 
    pattern = re.compile("(img/.*/img_.*\.jpg) \s*(\w*)")
-   rootdir = '/u/jor25/Capstone/Category_images/img/list_category_img.txt'
-   DATADIR = '/u/jor25/Capstone/Category_images/'
+   rootdir = '../../../../../stash/kratos/deep-fashion/category-attribute/anno/list_category_img.txt'#/u/jor25/Capstone/Category_images/img/list_category_img.txt'
+   DATADIR = '../../../../../stash/kratos/deep-fashion/category-attribute/'#/u/jor25/Capstone/Category_images/'
    CATEGORIES = ["Anorak", "Blazer", "Blouse", "Bomber", "Button-Down",
    "Cardigan", "Flannel", "Halter", "Henley", "Hoodie",
    "Jacket", "Jersey", "Parka", "Peacoat", "Poncho",
