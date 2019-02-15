@@ -4,24 +4,11 @@ import numpy
 import cv2
 import torch
 import torchvision
-labelset = []
-f = open("list_color_cloth.txt")
-i = 0
-while i < 52714:
-    line = f.readline()
-    if i != 0 and i != 1:
-        img_path, color = line.split(maxsplit=1)
-        labelset.append(color)
-    i += 1
-f.close()
-color = labelset
-temp = labelset
-classes = list(set(temp))
-temp = []
-for label in labelset:
-    label = classes.index(label)
-    temp.append(label)
-labelset = temp
+color = []
+classes_path = "allcolor.txt"
+with open(classes_path) as openfileobject:
+            for line in openfileobject:
+                color.append(line)
 
 class Network(torch.nn.Module):
     def __init__(self):
@@ -68,7 +55,7 @@ class Network(torch.nn.Module):
         return torch.nn.functional.log_softmax(x, dim=1)
 
 #get user's image->get prediction->close the connection
-path = 'test2.jpg'
+path = 'test.jpg'
 img = cv2.imread(path)
 img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)#RGB numpy array
 img = cv2.resize(img, (112,112), interpolation = cv2.INTER_AREA)
