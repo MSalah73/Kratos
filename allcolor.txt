@@ -1,0 +1,961 @@
+White-blue          
+Grey-gunmetal       
+Light blue-cream    
+Oatmeal-indigo      
+Wine-cream          
+Orange-navy         
+Blue-ivory          
+Olive-light green   
+Blue-white          
+Navy-beige          
+Peach               
+Green               
+Grape               
+Teal-hunter green   
+Seashell-multi      
+Green-yellow        
+Olive-brown         
+Brick-black         
+Olive-beige         
+Grey-taupe          
+Peach bud-black     
+Grey-amber          
+Indigo              
+Royal-coral         
+Charcoal-cornsilk   
+Hot pink            
+Wine-cocoa          
+Magenta-multi       
+Bright cobalt-multi 
+Grey-olive          
+Midnight-green      
+Oatmeal-cream       
+Blue-mustard        
+Peach-peach         
+Red-coral           
+Brown-ivory         
+Hunter green        
+Ivory-burgundy      
+Heather blue        
+Heather grey-multi  
+Rose gold           
+Khaki-navy          
+Taupe-black         
+Indigo-bronze       
+Neon orange         
+Green-magenta       
+Periwinkle          
+Heather grey-coral  
+Pink-white          
+Peach-ivory         
+Green-blue          
+Black-burgundy      
+Wine-red            
+Grey-blue           
+Blue-charcoal       
+Dark navy-red       
+Charcoal-cream      
+Grey-ivory          
+Rust-multi          
+Sage-tan            
+White-mint          
+Wine                
+Navy-mustard        
+Blush-sage          
+Navy-coral          
+Georgia peach       
+Rust-charcoal       
+Navy-jade           
+Neon green-taupe    
+Black-nude          
+Shocking pink       
+Turquoise-navy      
+Dark green          
+Navy-lime           
+Lavender-blue       
+Black-natural       
+Cream-gunmetal      
+Ivory-light blue    
+Pink-neon yellow    
+Light blue-navy     
+Bubble gum          
+Light yellow-multi  
+Chestnut            
+Heather grey-purple 
+Rust-blue           
+Denim washed-cream  
+Teal-navy           
+Light blue-oatmeal  
+Taupe-brown         
+Burgundy-yellow     
+Ivory-heather grey  
+Seashell pink-silver
+Jade-black          
+Dusty blue          
+Black-khaki         
+Teal-pink           
+Black-ivory         
+Peacock-black       
+Blue-lavender       
+Pistachio           
+Navy-white          
+Fiery red           
+Cream-plum          
+Gold-black          
+Heather grey-brown  
+Peach-heather grey  
+White-black         
+Winter white        
+Rust-navy           
+Pink                
+Tomato-purple       
+Coral-black         
+Natural-black       
+Black-black         
+Brick-brown         
+Denim washed        
+Cream-dark grey     
+Dark olive          
+Peach-multi         
+Bright cobalt-red   
+Peach-grey          
+Navy-oatmeal        
+Denim-heather grey  
+Dark denim          
+Oatmeal-multi       
+Taupe-yellow        
+Navy-blush          
+Denim washed-heather grey
+Green-cream         
+Lavender-cream      
+Black-cream         
+White-charcoal      
+Royal-white         
+Rust-mustard        
+Rose-cream          
+White-natural       
+Black-light pink    
+Amber               
+Yellow-multi        
+Black-mauve         
+Aspen gold          
+Black-rose          
+Teal-coral          
+Heather grey-ivory  
+Ivory-mustard       
+Black-orange        
+Burgundy-charcoal   
+Blush-silver        
+Mauve               
+Khaki-white         
+Coral-fuchsia       
+Ivory-red           
+Champagne-gunmetal  
+Khaki-ivory         
+Orange-blue         
+Beige-black         
+Red-pink            
+Denim-light denim   
+Blue-khaki          
+Periwinkle-cream    
+Cocoa-beige         
+Lavender            
+Black-camel         
+Teal-blue           
+Gold                
+Rust-white          
+Sage                
+Mint                
+Navy-yellow         
+Grey-teal           
+Taupe-taupe         
+Tangerine-green     
+Black-mustard       
+Mustard-white       
+Heather grey-white  
+Peach-tan           
+Dark olive-black    
+Natural             
+Beige-wine          
+Black               
+Denim washed-white  
+Cream-wine          
+Seashell pink       
+Beige-cream         
+Black-olive         
+Taupe-green         
+Yellow-white        
+Oatmeal-pink        
+Celadon             
+Indigo-white        
+Grey-purple         
+Heather grey        
+Olive-orange        
+Blue-purple         
+Pink-dark navy      
+Grey-pink           
+Ivory-green         
+Mustard-multi       
+Cream-taupe         
+Charcoal-black      
+Black-rust          
+Olive-mustard       
+Yellow              
+Peach-white         
+Medium denim-cream  
+Mint-teal           
+Grey-light blue     
+Rose                
+Peach bud           
+Heather olive       
+Taupe-burgundy      
+Cream-red           
+Mustard-black       
+Denim-cream         
+Charcoal heather-white
+Taupe-white         
+Pink-teal           
+Imperial blue       
+Silver-teal         
+Dark blue           
+Heather grey-charcoal
+Cream-magenta       
+Red-grey            
+Red-teal            
+Beige-blush         
+Coral-cream         
+Cream-heather grey  
+Indigo-mauve        
+Heather grey-cream  
+Mustard-teal        
+Gold-brown          
+Ivory-gold          
+Baby blue-black     
+Dusty lavender      
+Burgundy-pink       
+Green-brick         
+Light blue-royal    
+Vanilla             
+Turquoise-cream     
+Tan-multi           
+Olive-green         
+Camel               
+Purple-pink         
+Cayenne             
+Black-fuchsia       
+Cream-peach         
+Purple-blush        
+Red-multi           
+Pink-silver         
+Light heather grey  
+Tan-orange          
+Grey-burgundy       
+Charcoal-burgundy   
+Blue-taupe          
+Brown-black         
+Mint-cream          
+Teal-cream          
+Green-black         
+Yellow-navy         
+Hunter green-black  
+Red-dark navy       
+Charcoal-red        
+Purple-green        
+Celery              
+Blue-pink           
+Cream-gold          
+Lavender-multi      
+Coral-hot pink      
+Magenta             
+Eggplant-black      
+Hot pink-black      
+Black-white         
+Purple-wine         
+Navy-light blue     
+Cream-aqua          
+Blush-natural       
+Navy-teal           
+Wine-taupe          
+Purple-cocoa        
+Orange-taupe        
+Cream-nude          
+Royal-multi         
+Navy-black          
+Cream-royal         
+Heather grey-burgundy
+Black-magenta       
+Navy-multi          
+Baby pink-black     
+Blush-gold          
+Cream-black         
+Berry               
+Red-ivory           
+Apricot             
+Light green         
+Ivory-taupe         
+Indigo-red          
+Rust                
+Blossom             
+Grey                
+Rust-cream          
+Mauve-cream         
+Turquoise-green     
+Charcoal heather-cream
+Mint-green          
+Black-red           
+Coral-multi         
+Purple-multi        
+Charcoal-pink       
+Black-silver        
+Rust-yellow         
+Cream-blush         
+Blue-blue           
+Medium green        
+Black-gold          
+Rust-black          
+Coral               
+Beige-rose          
+Red-yellow          
+Blue                
+Pink-mauve          
+Indigo-beige        
+Yellow-black        
+Mint-navy           
+Navy-burgundy       
+Navy-silver         
+Walnut              
+Dark navy-cream     
+Heather grey-mint   
+Blush-rose          
+Navy-periwinkle     
+Pink-multi          
+Denim               
+Ivory-rust          
+Jade-navy           
+Olive               
+Royal-royal         
+Orange-white        
+Burgundy-grey       
+Sky blue            
+Dark purple         
+Black-azalea        
+Sage-teal           
+Light orange        
+Aqua-pink           
+Mustard             
+Navy-grey           
+Dusty pink          
+Coral-royal         
+Plum                
+Magenta-yellow      
+Green-royal         
+Black-wine          
+Royal-black         
+Sea green           
+Beige-multi         
+Aqua-black          
+Dark grey-taupe     
+Cream-beige         
+Charcoal heather-grey
+Cream-multi         
+Rust-tan            
+Turquoise           
+Burgundy-burgundy   
+Black-cocoa         
+Blue-red            
+Red                 
+Wine-pink           
+Aqua-white          
+Champagne           
+Heather burgundy    
+Dark navy-salmon    
+Navy-mauve          
+Yellow-heather grey 
+Teal                
+Sage-sage           
+Cream-brown         
+Cloud               
+Black-grey          
+Dark navy-grape     
+Heather teal        
+White-cream         
+Ivory-berry         
+Silver-cocoa        
+Heather grey-aqua   
+Oatmeal-burgundy    
+Blue-aqua           
+Neon yellow-white   
+Cream-purple        
+Cream-blue          
+Mustard-navy        
+Emerald-black       
+Dark grey           
+Pink-sage           
+Neon yellow         
+Faience             
+Pink-blue           
+Ginger              
+Cream-rust          
+Heather grey-red    
+Neon coral-mint     
+Taupe-pink          
+Brown-rust          
+Heather blush       
+Green-navy          
+Baby blue           
+White-purple        
+Brown-tan           
+Denim washed-grey   
+Medium denim-black  
+Teal-rust           
+Red-green           
+Purple-black        
+Denim-burgundy      
+Navy-magenta        
+Denim-grey          
+Olive-taupe         
+Brown-cream         
+Black-aqua          
+Charcoal-silver     
+Lime-cream          
+Red-red             
+Tomato-cream        
+Yellow-blue         
+Heather grey-clear  
+Blue-black          
+Cream-tomato        
+Rust-gold           
+Grey-green          
+Beige-green         
+Charcoal-white      
+Blush-ginger        
+White-grey          
+Plum-black          
+Beige-peach         
+Dark navy-blue      
+Navy-orange         
+Navy-green          
+Grey-heather grey   
+Calypso coral       
+Navy-purple         
+Blush-peach         
+Dusty pink-multi    
+Pepper green        
+Cream-indigo        
+Mint-black          
+Pink-orange         
+Aqua-purple         
+Red-blue            
+Blue-teal           
+Cream-coral         
+Teal-white          
+Cream-brick         
+Coral-jade          
+Light denim-white   
+Light denim         
+Navy-ivory          
+Grey-cream          
+Black-purple        
+Navy                
+Nude-cream          
+Rose-blue           
+Teal blue           
+Orange-cream        
+White-coral         
+Charcoal            
+Red-purple          
+Eggplant            
+Black-mint          
+Cocoa-black         
+Heather grey-blue   
+Baby blue-pink      
+Brown-taupe         
+Light denim-cream   
+Khaki               
+Black-lavender      
+Sage-cream          
+Burgundy-mauve      
+Taupe-grey          
+Brown-white         
+Blue-coral          
+Heather grey-green  
+Dark navy-white     
+Cream-camel         
+Blush-blush         
+Salmon              
+Royal-cream         
+Grey-mint           
+White-navy          
+Cream-antic.g       
+White-beige         
+Periwinkle-peach    
+Mustard-coral       
+Azure               
+Ivory-blue          
+Cream-burgundy      
+Green-taupe         
+Charcoal-grey       
+Eggplant-navy       
+Light blue-ivory    
+Mauve-pink          
+Ivory-royal         
+Beige               
+Coral-aqua          
+Black-charcoal      
+Olive-black         
+Bright cobalt       
+Black-green         
+Jade                
+Red-gold            
+White               
+Green-red           
+Olive-navy          
+Navy-peach          
+Navy-cream          
+Black-tomato        
+Taupe-cream         
+Navy-navy           
+Ivory-navy          
+Ivory-mint          
+Faded rose          
+Gold-multi          
+Cream-olive         
+Light pink-cream    
+Flamingo pink       
+Orange-multi        
+Burgundy            
+Blue-navy           
+Charcoal-charcoal   
+Charcoal-taupe      
+Light blue-multi    
+Olive-khaki         
+Burgundy-multi      
+Pink-heather grey   
+Brick-multi         
+Wine-berry          
+Wine-mustard        
+Orange-peach        
+Beige-navy          
+Heather grey-gold   
+Navy-chestnut       
+Sandshell           
+Cream               
+Heather grey-teal   
+Denim washed-black  
+Blue-light blue     
+Mint-blue           
+Ivory-mauve         
+Blush-coral         
+Green-white         
+Ivory-black         
+Light grey-white    
+Light grey          
+Charcoal heather-heather grey
+Blush-cream         
+Mauve-purple        
+Burgundy-black      
+Coral-pink          
+Nude-silver         
+Ivory-silver        
+Currant             
+Grey-wine           
+Taupe-cocoa         
+Red-royal           
+Burgundy-taupe      
+Coral-ivory         
+Navy-tomato         
+Rust-taupe          
+Tan                 
+Navy-lavender       
+Silver-black        
+Blue-grey           
+Light yellow-black  
+Camel-orange        
+Tan-black           
+Charcoal-green      
+Blue-citron         
+Bronze              
+Royal-wine          
+Blue-heather grey   
+Cream-bronze        
+Beige-rust          
+Ivory-cream         
+Orchid              
+Burgundy-white      
+Cream-silver        
+Blush-pink          
+Olive-multi         
+Charcoal heather    
+Blue-burgundy       
+Cream-fuchsia       
+Olive-olive         
+Heather grey-yellow 
+Mustard-cream       
+Chocolate           
+Light pink          
+Denim-navy          
+Cream-cherry        
+Blue-yellow         
+Aqua-peach          
+Navy-turquoise      
+Teal-black          
+Sage-ivory          
+Neon pink           
+Black-multi         
+Taupe               
+Dark grey-cream     
+Tangerine           
+Mauve-multi         
+Navy-aqua           
+Red-beige           
+Peach-cocoa         
+Royal-gold          
+Blue-multi          
+Orange-green        
+Red-antic.g         
+Brick-teal          
+Coral-grey          
+Midnight            
+Grey-grey           
+Burgundy-coral      
+Turquoise-nude      
+Oatmeal             
+Brown               
+Indigo-cream        
+Red-white           
+Red-navy            
+Taupe-multi         
+Light pink-grey     
+Navy-gold           
+Peach-clear         
+Navy-mint           
+White-wine          
+Black-brown         
+Teal-ivory          
+Light grey-charcoal 
+Pink-black          
+Dynasty green       
+Gold-blue           
+Brick-white         
+Black-coral         
+Desert sand         
+Mint-white          
+Mint-peach          
+White-silver        
+Mauve-taupe         
+Stone blue-ivory    
+Charcoal heather-black
+Blush-black         
+Khaki-cream         
+Aqua-coral          
+Yellow-green        
+Pink-yellow         
+Olive-white         
+Black-royal         
+Aqua                
+Peach-beige         
+Dark navy           
+Black-neon green    
+Clematis blue       
+Taupe-coral         
+Heather grey-rust   
+Yellow-grey         
+Yellow-pink         
+Yellow-coral        
+Rust-natural        
+Heather grey-pink   
+Black-gunmetal      
+Black-navy          
+Grey-red            
+Cream-tan           
+Royal-ivory         
+Denim black         
+Rust-teal           
+Peach-dark grey     
+Black-light grey    
+Heather pink        
+Ivory               
+Aqua-ivory          
+Charcoal-ivory      
+Pink-navy           
+Navy-red            
+Wine-multi          
+Grey-rust           
+Burgundy-red        
+Taupe-rust          
+Coral-oatmeal       
+Olive-cream         
+Peacock             
+Denim-white         
+Shadow gray         
+Light grey-taupe    
+Grey-navy           
+Light blue-blue     
+Light denim-grey    
+Red-taupe           
+Wine-heather grey   
+Royal               
+Blush-blue          
+Cream-mustard       
+Wine-tan            
+Charcoal-heather grey
+Teal-grey           
+Mustard-blue        
+Blue-orange         
+Dark navy-black     
+Brown-orange        
+Tan-cream           
+Blush               
+Cream-dusty pink    
+Magenta-black       
+Navy-imperial blue  
+White-aqua          
+Black-brick         
+Gunmetal            
+Navy-heather grey   
+Charcoal-yellow     
+Navy-taupe          
+Black-teal          
+Navy-pink           
+Cream-dark navy     
+Pink-cream          
+Cream-yellow        
+Grey-multi          
+Midnight-tomato     
+Brown-multi         
+Olive-coral         
+Light blue-red      
+Brown-grey          
+Light aqua          
+Coral-coral         
+Brown-green         
+Neon coral          
+Black-peach         
+Black-heather grey  
+Rust-ivory          
+Pink-grey           
+Light blue-black    
+Heather grey-black  
+Red-periwinkle      
+Black-jade          
+Taupe-navy          
+Ivory-multi         
+Lime                
+Heather yellow      
+Navy-blue           
+Ivory-peach         
+Light denim-ivory   
+Dawn pink           
+Black-yellow        
+Red-gunmetal        
+Dark navy-grey      
+Light blue-pink     
+White-oatmeal       
+Baby pink           
+Citron-clear        
+Light blue-burgundy 
+French vanilla      
+Charcoal-multi      
+Cocoa               
+Cherry-cream        
+Ivory-pink          
+Grey-white          
+Charcoal-oatmeal    
+Azalea              
+Lavender-black      
+Blush-rust          
+White-brown         
+Coral-blue          
+Wine-black          
+Light blue-white    
+Silver-multi        
+Red-black           
+Grey-yellow         
+Mustard-mustard     
+Denim-green         
+White-burgundy      
+Cream-periwinkle    
+Cream-charcoal      
+Denim-black         
+White-red           
+Ravishing red       
+White-heather grey  
+Aqua-navy           
+Magenta-coral       
+Mint-aqua           
+White-royal         
+Rust-light blue     
+Cream-ivory         
+Olive-grey          
+Heather grey-blush  
+Lavender-purple     
+Grey-silver         
+Blush-green         
+White-white         
+Emerald             
+Fuchsia-multi       
+Teal-red            
+Navy-light grey     
+Maple               
+Blush-rose gold     
+Mint-heather grey   
+Teal-wine           
+Burgundy-teal       
+Ivory-grey          
+Cream-dusty blue    
+Heather grey-navy   
+Apricot-navy        
+Black-pink          
+Pink-green          
+Ivory-orange        
+Brick               
+Grey-coral          
+Green-multi         
+White-multi         
+Blue-green          
+Taupe-bronze        
+Rust-pink           
+Peach-pink          
+Cream-jade          
+Cream-neon yellow   
+Peach-silver        
+Burgundy-brown      
+Mauve-grey          
+Blush-heather grey  
+Light pink-black    
+Yellow-yellow       
+Beige-red           
+Pink-burgundy       
+Ivory-rose          
+Pink-ivory          
+Sunset gold         
+Cream-teal          
+Light brown         
+Light grey-pink     
+Deep taupe          
+Rose-gunmetal       
+Baby pink-grey      
+Fuchsia             
+Coral-teal          
+Tomato              
+Grey-dark navy      
+Ivory-blush         
+Light grey-black    
+Orange-heather grey 
+Peach-cream         
+Purple              
+Orange              
+Nude-black          
+Navy-charcoal       
+Medium denim        
+Pale banana         
+Green-orange        
+Khaki-olive         
+Cream-pink          
+Periwinkle-ivory    
+White-midnight      
+Grey-charcoal       
+Black-blush         
+Baby blue-cream     
+Cream-grey          
+Fuchsia-black       
+Denim-ivory         
+Dark grey-black     
+Brick-heather grey  
+Navy-rust           
+Emerald-charcoal    
+Indigo-black        
+Heather navy        
+Midnight-navy       
+Citron              
+Bright cobalt-ivory 
+Light olive         
+Royal-aqua          
+Red-cream           
+Peach-black         
+Oyster gray         
+Purple-blue         
+Lobster bisque      
+White-orange        
+Light grey-multi    
+Coral-magenta       
+Oatmeal-black       
+Burgundy-purple     
+Royal-khaki         
+Cream-cream         
+Tomato-burgundy     
+Oatmeal-peach       
+Coral-white         
+Purple-navy         
+Aqua-cream          
+Dark cocoa          
+Brown-blue          
+Oatmeal-red         
+Mint-mint           
+Orange-black        
+Purple-red          
+Rust-coral          
+Oatmeal-white       
+Orange-purple       
+Wine-blue           
+Cream-navy          
+Beige-teal          
+Indigo-mustard      
+Blue-tan            
+Pine bark           
+Silver              
+White-green         
+Teal-purple         
+Black-blue          
+Wine-teal           
+Chocolate-teal      
+Teal-multi          
+Light blue          
+White-pink          
+Oatmeal-navy        
+White-yellow        
+Camel-black         
+Nude                
+Beige-orange        
+Oatmeal-orange      
+White-indigo        
+Grey-turquoise      
+Seafoam             
+Burgundy-blue       
+Black-turquoise     
+Peach-navy          
+Pink-purple         
+Heather grey-orange 
+Black-oatmeal       
+Midnight-cream      
+Cream-orange        
+Burgundy-rust       
+Blue-brown          
+Black-tan           
+Black-beige         
+Yellow-cream        
+Tan-red             
+Navy-brown          
+Burgundy-mustard    
+Light denim-denim   
+Olive-heather grey  
+Sage-coral          
+Taupe-charcoal      
+Heather mint        
+Cream-rose          
+Black-taupe         
+Burgundy-navy       
+Light yellow        
+Black-vanilla       
+Blue-cream          
+White-teal          
+Denim washed-olive  
+Cream-green         
+Foliage             
+Rust-rust           
+Grey-black          
+Burgundy-cream      
+Pink-aqua           
+Turquoise-multi     
+Purple-cream        
+Indigo-light blue   
