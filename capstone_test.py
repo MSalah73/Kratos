@@ -1,22 +1,33 @@
 # -*- coding: utf-8 
-import numpy as np
+#import numpy as np
 import cv2
 import torch
 import tqdm
 #import matplotlib.pyplot as plt
-from torchvision import datasets
+#from torchvision import datasets
 from torchvision import transforms
 from torch.utils.data.dataset import Dataset
-from torch.utils.data.sampler import SubsetRandomSampler
-txt_path = "list_color_cloth.txt"
+#from torch.utils.data.sampler import SubsetRandomSampler
+traindata_path = "traindataset.txt"
+trainlabel_path = "trainlabelset.txt"
+testdata_path = "testdataset.txt"
+testlabel_path = "testlabelset.txt"
+classes_path = "allcolor.txt"
 dblTrain = []
 dblValidation = []
 #customer dataloader
-class ColorCustomDataset(Dataset):
-    def __init__(self, txt_path, transform):
+class Color_train_CustomDataset(Dataset):
+    def __init__(self, traindata_path, trainlabel_path, transform):
         self.imageset = []
         self.labelset = []
-        f = open("list_color_cloth.txt")
+        with open(traindata_path) as openfileobject:
+            for line in openfileobject:
+                self.imageset.append(line)
+        with open(trainlabel_path) as openfileobject:
+            for line in openfileobject:
+                self.labelset.append(line)
+        """
+        f = open(traindata_path)
         i = 0
         while i < 52714:
             line = f.readline()
@@ -34,29 +45,64 @@ class ColorCustomDataset(Dataset):
             label = self.classes.index(label)
             temp.append(label)
         self.labelset = temp
-        #self.classes = np.asarray(list(set(temp)), np.uint)#numpy array of all record colors
-        #self.labelset = np.asarray(self.labelset, np.int32)#numpy array of lables
+        """
         self.transform = transform
         
     def __getitem__(self, index):
-        img = cv2.imread(self.imageset[index])
+        temppath = self.imageset[index]
+        img = cv2.imread(temppath[:-1])
         img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)#RGB numpy array
         img = cv2.resize(img, (112,112), interpolation = cv2.INTER_AREA)
+        label = self.labelset[index]
         if self.transform is not None:
             img = self.transform(img)
-        label = self.labelset[index]
-        return (img, label)
+        label = int(label)
+        #label = self.labelset[index]
+        return img, label
 
     def __len__(self):
         return len(self.imageset)
+
+class Color_test_CustomDataset(Dataset):
+    def __init__(self, testdata_path, testlabel_path, transform):
+        self.imageset = []
+        self.labelset = []
+        with open(testdata_path) as openfileobject:
+            for line in openfileobject:
+                self.imageset.append(line)
+        with open(testlabel_path) as openfileobject:
+            for line in openfileobject:
+                self.labelset.append(line)
+        self.transform = transform
+        
+    def __getitem__(self, index):
+        temppath = self.imageset[index]
+        img = cv2.imread(temppath[:-1])
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)#RGB numpy array
+        img = cv2.resize(img, (112,112), interpolation = cv2.INTER_AREA)
+        label = self.labelset[index]
+        if self.transform is not None:
+            img = self.transform(img)
+        label = int(label)
+        #label = self.labelset[index]
+        return img, label
+
+    def __len__(self):
+        return len(self.imageset)
+"""
+# CUDA for PyTorch
+use_cuda = torch.cuda.is_available()
+device = torch.device("cuda:0" if use_cuda else "cpu")
+cudnn.benchmark = True
+"""
 transform = transforms.Compose([transforms.ToTensor()])
 #split dataset into train and test set and load the dataset
-dataset = ColorCustomDataset(txt_path, transform)
+traindataset = Color_train_CustomDataset(traindata_path, trainlabel_path, transform)
+testdataset = Color_test_CustomDataset(testdata_path, testlabel_path, transform)
 batch_size = 64
-validation_split = .2
 shuffle = True
-random_seed= 64
-
+#random_seed= 64
+"""
 # Creating data indices for training and validation splits:
 dataset_size = len(dataset)
 indices = list(range(dataset_size))
@@ -69,11 +115,9 @@ train_indices, val_indices = indices[split:], indices[:split]
 # Creating PT data samplers and loaders:
 train_sampler = SubsetRandomSampler(train_indices)
 valid_sampler = SubsetRandomSampler(val_indices)
-
-objectTrain = torch.utils.data.DataLoader(dataset, batch_size=batch_size, 
-                                           sampler=train_sampler)
-objectValidation = torch.utils.data.DataLoader(dataset, batch_size=batch_size,
-                                                sampler=valid_sampler)
+"""
+objectTrain = torch.utils.data.DataLoader(traindataset, batch_size=batch_size)
+objectValidation = torch.utils.data.DataLoader(testdataset, batch_size=batch_size)
 
 class Network(torch.nn.Module):
     def __init__(self):
@@ -209,6 +253,7 @@ def evaluate():
 
 # training the model for 100 epochs, one would typically save / checkpoint the model after each one
 
-for intEpoch in range(100):
-	train()
-	evaluate()
+for intEpoch in range(5):
+    train()
+    evaluate()
+    #torch.save(moduleNetwork.state_dict(), './test.pth')
