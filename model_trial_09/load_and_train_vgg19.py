@@ -52,15 +52,16 @@ if __name__ == "__main__":
             validation_steps=math.ceil(val_length / ma.MODDED.batch_size))#,
 
    print("Epoch 1:")
+   # Save the weights after the first training.
+   print("SAVE WEIGHTS")
+   weight_file = "weights_h{}_w{}_b{}.h5".format(ma.MODDED.height, ma.MODDED.width, ma.MODDED.batch_size)
+   model.save_weights(weight_file)
+   print("weights saved to {}".format(weight_file))
+
    # Get values for loss, categorical accuracy and top k categorical accuracy of first training round.
    score = model.evaluate(test_dataset, steps=math.ceil(test_length / ma.MODDED.batch_size))
    
    # Save the 3 accuracy values to .csv files.
    sa.save_accs(model.metrics_names, score, True, 1)
 
-   # Save the weights after the first training.
-   print("SAVE WEIGHTS")
-   weight_file = "weights_h{}_w{}_b{}.h5".format(ma.MODDED.height, ma.MODDED.width, ma.MODDED.batch_size)
-   model.save_weights(weight_file)
-   print("weights saved to {}".format(weight_file))
  
