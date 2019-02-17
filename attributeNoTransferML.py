@@ -12,6 +12,7 @@ import tensorflow as tf
 import pandas as pd
 import numpy as np
 from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score, precision_recall_fscore_support
+import model_setup as ms
 import math
 import multiprocessing
 import os
@@ -20,38 +21,29 @@ import time
 # %% enable eager exectuion
 #tf.enable_eager_execution()
 
-# %% flags
-class FLAGS:
-    classes = 1000
-    num_cpus = multiprocessing.cpu_count()
-    batch_size = 32
-    prefetch_size = 1
-    height = 300
-    width = 300
-    data_dir ='/stash/kratos/deep-fashion/category-attribute/'
-    #data_dir = 'C:\\Users\\Ray\\PSU\\Capstone\\Category and Attribute Prediction Benchmark\\'
 
 # %% data frame
 eval_partition = pd.read_csv(
-        #f'{FLAGS.data_dir}Eval\\list_eval_partition.txt',
-        f'{FLAGS.data_dir}eval/list_eval_partition.txt',
+        #f'{ms.FLAGS.data_dir}Eval\\list_eval_partition.txt',
+        f'{ms.FLAGS.data_dir}eval/list_eval_partition.txt',
         delim_whitespace=True, header=1)#, nrows=2000)
 
 attr_img = pd.read_csv(
-        f'{FLAGS.data_dir}anno/list_attr_img.txt',
-        #f'{FLAGS.data_dir}Anno\\list_attr_img.txt',
+        f'{ms.FLAGS.data_dir}anno/list_attr_img.txt',
+        #f'{ms.FLAGS.data_dir}Anno\\list_attr_img.txt',
         sep='\s+', header=None, skiprows=2,
         names=['image_name'] + list(range(1000)))#, nrows=2000)
 
 all_data = eval_partition.merge(attr_img, on='image_name')
+all_data = all_data.replace({-1:0})
 
 
 # %% parse image
 def parse_image(filename, label):
-    image = tf.io.read_file(FLAGS.data_dir + filename)
+    image = tf.io.read_file(ms.FLAGS.data_dir + filename)
     image = tf.image.decode_jpeg(image)
     image = tf.image.resize_image_with_crop_or_pad(
-            image, FLAGS.height, FLAGS.width)
+            image, ms.FLAGS.height, ms.FLAGS.width)
     image = tf.image.per_image_standardization(image)
     return image, label
 
@@ -64,9 +56,9 @@ def dataset(partition):
     
     datum =(tf.data.Dataset
         .from_tensor_slices((images,labels))
-        .map(parse_image, num_parallel_calls=FLAGS.num_cpus)
-        .batch(FLAGS.batch_size)
-        .prefetch(FLAGS.prefetch_size)
+        .map(parse_image, num_parallel_calls=ms.FLAGS.num_cpus)
+        .batch(ms.FLAGS.batch_size)
+        .prefetch(ms.FLAGS.prefetch_size)
         .repeat())
     
     return datum, len(data)
@@ -113,8 +105,8 @@ class Metrics(tf.keras.callbacks.Callback):
         self.val_precision = []
     
     def on_epoch_end(self, epoch, logs={}):
-#        val_predict = self.model.predict(self.validation_data[0],steps=math.ceil(val_length/FLAGS.batch_size)).round()
-        val_predict = (np.asarray(self.model.predict(self.validation_data[0],steps=math.ceil(val_length/FLAGS.batch_size)))).round()
+#        val_predict = self.model.predict(self.validation_data[0],steps=math.ceil(val_length/ms.FLAGS.batch_size)).round()
+        val_predict = (np.asarray(self.model.predict(self.validation_data[0],steps=math.ceil(val_length/ms.FLAGS.batch_size)))).round()
 #        val_predict = (np.asarray(self.model.predict(self.model.validation_data[0]))).round()
         val_targ = self.validation_data[1].eval()
         """
@@ -133,58 +125,18 @@ metrics = Metrics()
 
 # %%
 
-model = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(filters=16, kernel_size=2, input_shape=(FLAGS.height, FLAGS.width, 3)), #CPU
-        #tf.keras.layers.Conv2D(filters=8, kernel_size=2, input_shape=(3, FLAGS.height, FLAGS.width)), #GPU
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-        tf.keras.layers.Conv2D(filters=64, kernel_size=(2,2), strides=2),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-        tf.keras.layers.Conv2D(filters=128, kernel_size=(2,2), strides=2),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Conv2D(filters=256, kernel_size=(2,2), strides=3),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        #tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-        tf.keras.layers.Flatten(),
-        tf.keras.layers.Dense(1024),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Dense(512),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Dense(256),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Dense(128),
-        tf.keras.layers.BatchNormalization(),
-        tf.keras.layers.ReLU(),
-        tf.keras.layers.Dropout(0.25),
-        tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)
-        ])
 
-#model.summary()
 
 # %%
-    
-model.compile(
-        optimizer=tf.keras.optimizers.Adam(),
-        loss=tf.keras.losses.binary_crossentropy,
-        metrics=['accuracy'])
+
+model = ms.get_model()
 
 model.summary()
 #%%
-model.fit(train_dataset, epochs=5,
-          steps_per_epoch=math.ceil(train_length/FLAGS.batch_size),
+model.fit(train_dataset, epochs=3,
+          steps_per_epoch=math.ceil(train_length/ms.FLAGS.batch_size),
           validation_data=val_dataset,
-          validation_steps=math.ceil(val_length/FLAGS.batch_size),
+          validation_steps=math.ceil(val_length/ms.FLAGS.batch_size),
           callbacks=[tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
           #callbacks=[metrics]#, tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
           )

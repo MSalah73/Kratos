@@ -10,6 +10,7 @@ import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 from textwrap import wrap
+import model_setup as ms
 import argparse
 import cv2
 import time
@@ -70,43 +71,7 @@ def predictor(pred):
 def pick_model(ver):
     model = None
     if ver == 'v2':
-        model = tf.keras.Sequential([
-                tf.keras.layers.Conv2D(filters=16, kernel_size=2, input_shape=(FLAGS.height, FLAGS.width, 3)), #CPU
-                #tf.keras.layers.Conv2D(filters=8, kernel_size=2, input_shape=(3, FLAGS.height, FLAGS.width)), #GPU
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2),
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-                tf.keras.layers.Conv2D(filters=64, kernel_size=(2,2), strides=2),
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-                tf.keras.layers.Conv2D(filters=128, kernel_size=(2,2), strides=2),
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.Conv2D(filters=256, kernel_size=(2,2), strides=3),
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-                tf.keras.layers.Flatten(),
-                tf.keras.layers.Dense(512),
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.Dense(256),
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.Dense(128),
-                tf.keras.layers.BatchNormalization(),
-                tf.keras.layers.ReLU(),
-                tf.keras.layers.Dropout(0.25),
-                tf.keras.layers.Dense(units=FLAGS.classes, activation=tf.keras.activations.sigmoid)
-                ])
-        model.compile(
-                optimizer=tf.keras.optimizers.Adam(),
-                loss=tf.keras.losses.binary_crossentropy,
-                metrics=['accuracy'])
+        model = ms.get_model()
 
     else:
         #Need to create model before I can load the model weights. Using the transfer learning VGG19
