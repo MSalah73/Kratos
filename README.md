@@ -96,16 +96,17 @@ This is a CNN model that can classify the category of clothes.
   model.load_weights('model_weights.h5')
   predictions = rm.predict(model,'chosen.txt')
   ```
+  There are nine pictures in `chosen.txt`
   * Result:
  ` [['Dress' 'Blouse' 'Romper' 'Jumpsuit' 'Top']`
  `  ['Blouse' 'Top' 'Tee' 'Tank' 'Shorts']`
-   ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Blouse']
-   ['Skirt' 'Shorts' 'Culottes' 'Sweatshorts' 'Joggers']
-   ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Kimono']
-   ['Tee' 'Sweater' 'Blouse' 'Top' 'Cardigan']
-   ['Cardigan' 'Jacket' 'Blazer' 'Coat' 'Kimono']
-   ['Blouse' 'Tee' 'Top' 'Sweater' 'Cardigan']
-   ['Jumpsuit' 'Romper' 'Dress' 'Joggers' 'Blouse']]`
+ `  ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Blouse']`
+ `  ['Skirt' 'Shorts' 'Culottes' 'Sweatshorts' 'Joggers']`
+  ` ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Kimono']`
+  ` ['Tee' 'Sweater' 'Blouse' 'Top' 'Cardigan']`
+  ` ['Cardigan' 'Jacket' 'Blazer' 'Coat' 'Kimono']`
+  ` ['Blouse' 'Tee' 'Top' 'Sweater' 'Cardigan'] `
+  ` ['Jumpsuit' 'Romper' 'Dress' 'Joggers' 'Blouse']]`
   
   ### Care in Model architecture modification
   Take care to modify the model architecture in `category_model.py`. If may crash.
