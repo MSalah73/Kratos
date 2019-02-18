@@ -1,23 +1,37 @@
 # Model_Trial_09
 
-##### Requirements:
+#### Requirements:
 1. Python 3.6.8
 2. Conda 4.5.12
 3. Deep Fashion Dataset http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html
 
-##### Modification(s) for use:
+#### Modification(s) for use:
 1. Go to the "model_architecture_vgg19.py" file and to the `class MODDED:`
 2. Update the `data_dir` variable to "{PATH TO DATA}/deep-fashion/category-attribute/"
     -   This is key to functionality
+3. Note: When loading in the weights, be sure to do the following:
+    - Load the model architecture.
+    - Define the weight file to use.
+    - load the weights to the model.
+     >   model = ma.MODEL_ARCHITECTURE()
+    weight_file = "weights_h{}_w{}_b{}.h5".format(ma.MODDED.height, ma.MODDED.width, ma.MODDED.batch_size)
+    model.load_weights(weight_file)
+    >
 
-##### How to use:
+
+#### How to Train and Predict:
 1. Run `python load_and_train_vgg19.py` ONCE. Wait until it completes.
 2. Run `python continue_training_vgg19.py` to train until a specified ‘max_epoch’ found in the model_architecture_vgg19.py file.
 3. Run `python predict_vgg19.py` for predictions on specified images.
-##### OR
+#### OR
 1. Run `python load_and_train_vgg19.py && python continue_training_vgg19.py && python predict_vgg19.py` to run one after the other immediately. This is assuming that the training will remain uninterrupted.
 
-##### Python Files:
+#### How to Restart Training:
+1. Run `python load_and_train_vgg19.py` again to CLEAR the weights and START again.
+
+
+
+#### Python Files:
 ##### load_and_train_vgg19.py
 * Run this file to create the initial H5 weights file as well as create three .csv files in the Acc_data directory.
 * Note: Each (.csv) file will have two values once this program ends. It will have the accuracy rate before training and one for after training.
@@ -40,3 +54,24 @@
 
 ##### model_architecture_vgg19.py
 * Potentially the MOST IMPORTANT FILE. Most modifications, if not all, happen here. This file allows for interchangeable model architectures and parameters throughout the epoch training process. File names may be modified by changing certain parameters.
+
+##### run_backend.py
+* This file links to the backend to make predictions about an image passed in by the front end user interface. 
+
+
+#### Future Improvement(s):
+##### Label Expansion:
+* Categories and labels can be expanded by updating the `model_architecture_vgg19.py` file’s MODDED.classes and MODDED.CATEGORIES attribute.
+    * Collect couple hundred images of the clothing item.
+    * Add 1 to the amount of classes. (initially 50)
+    * Then append another string value to the CATEGORIES at the end.
+    * Ex: I want to add a category called: “Tuxedo”
+        1. I go out and collect hundreds of images of tuxedos.
+        2. I add 1 to the amount of classes. `classes = 51`
+        3. I append the “Tuxedo” to the CATEGORIES list.
+        `CATEGORIES = [“Anorak”, “Blazer”, … “Sundress”, “Tuxedo”]`
+    * WARNING: Data pipeline will also need to be modified.
+
+##### Model Architecture Replacement:
+* Model architecture can be made from scratch instead of using vgg19.
+    * This can be done by commenting out the contents of the `base model` and replacing it with one's custom model architecture.
