@@ -18,9 +18,10 @@
 This is a CNN model that can classify the category of clothes.
 
 #### Read in dataset
- This model read in the dataset through `.txt` file. 
- Training personal dataset need to update the 'path' in `data_processor.py` file
- Also the read file function need to be changed.
+  
+ This model read in the dataset through `.txt` file.   
+ Training personal dataset need to update the 'path' in `data_processor.py` file  
+ Also the read file function need to be changed.  
  
 #### Process the data
  In `data_precessor.py`, using tensorflow pipeline to process the images, convert it to 3-D array and scale it.
@@ -65,11 +66,11 @@ This is a CNN model that can classify the category of clothes.
   ```
   
   #### Make predictions
-  The image file can be `.jpg .jpeg .png` 
-  or a list of images with the directory and file name in `.txt`
-  To predict images:
-  1.Create a new `.py` file
-  2.Import pakeges
+  The image file can be `.jpg .jpeg .png`   
+  or a list of images with the directory and file name in `.txt`  
+  To predict images:  
+  1.Create a new `.py` file  
+  2.Import pakeges  
   ```
     import tensorflow as tf
     from tensorflow import keras
@@ -77,8 +78,8 @@ This is a CNN model that can classify the category of clothes.
     import reload_model as rm
     import category_model as cm
   ```
-  3. Create a model by `create_model()` 
-  4. Load the weights `model.load_weights('your_own_weights.h5')`
+  3. Create a model by `create_model()`   
+  4. Load the weights `model.load_weights('your_own_weights.h5')`  
   5. Make predictions
   ```
    Predictions = rm.predict(model,file_path) #The file_path can be .txt .png .jpg .jpeg
@@ -98,15 +99,15 @@ This is a CNN model that can classify the category of clothes.
   ```
   There are nine pictures in `chosen.txt`
   * Result:
- ` [['Dress' 'Blouse' 'Romper' 'Jumpsuit' 'Top']`
- `  ['Blouse' 'Top' 'Tee' 'Tank' 'Shorts']`
- `  ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Blouse']`
- `  ['Skirt' 'Shorts' 'Culottes' 'Sweatshorts' 'Joggers']`
-  ` ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Kimono']`
-  ` ['Tee' 'Sweater' 'Blouse' 'Top' 'Cardigan']`
-  ` ['Cardigan' 'Jacket' 'Blazer' 'Coat' 'Kimono']`
-  ` ['Blouse' 'Tee' 'Top' 'Sweater' 'Cardigan'] `
-  ` ['Jumpsuit' 'Romper' 'Dress' 'Joggers' 'Blouse']]`
+ ` [['Dress' 'Blouse' 'Romper' 'Jumpsuit' 'Top']`  
+ `  ['Blouse' 'Top' 'Tee' 'Tank' 'Shorts']`  
+ `  ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Blouse']`  
+ `  ['Skirt' 'Shorts' 'Culottes' 'Sweatshorts' 'Joggers']`  
+  ` ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Kimono']`  
+  ` ['Tee' 'Sweater' 'Blouse' 'Top' 'Cardigan']`  
+  ` ['Cardigan' 'Jacket' 'Blazer' 'Coat' 'Kimono']`  
+  ` ['Blouse' 'Tee' 'Top' 'Sweater' 'Cardigan'] `  
+  ` ['Jumpsuit' 'Romper' 'Dress' 'Joggers' 'Blouse']]`  
   
   ### Care in Model architecture modification
   Take care to modify the model architecture in `category_model.py`. It may crash.
