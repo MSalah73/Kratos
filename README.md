@@ -98,7 +98,7 @@ This is a CNN model that can classify the category of clothes.
   predictions = rm.predict(model,'chosen.txt')
   ```
   There are nine pictures in `chosen.txt`
-  * Result:
+  * Result:  
  ` [['Dress' 'Blouse' 'Romper' 'Jumpsuit' 'Top']`  
  `  ['Blouse' 'Top' 'Tee' 'Tank' 'Shorts']`  
  `  ['Dress' 'Jumpsuit' 'Romper' 'Skirt' 'Blouse']`  
