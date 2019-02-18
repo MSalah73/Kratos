@@ -109,7 +109,7 @@ This is a CNN model that can classify the category of clothes.
   ` ['Jumpsuit' 'Romper' 'Dress' 'Joggers' 'Blouse']]`
   
   ### Care in Model architecture modification
-  Take care to modify the model architecture in `category_model.py`. If may crash.
+  Take care to modify the model architecture in `category_model.py`. It may crash.
 
   
 
