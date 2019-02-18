@@ -45,10 +45,24 @@ This is a CNN model that can classify the category of clothes.
     from tensorflow import keras
     import data_precess as dp     #this is only for deepfashion dataset, presonal dataset need own data reader 
     import category_model as cm
+    import reload_model as rm
   ```
   3. Create a model by `create_model()` 
   4. Load the weights `model.load_weights('your_own_weights.h5')`
-  5. Start training (dont foget to save your model!)
+  5. Start training `model = rm.train(model,epochs) #The epochs is the number of epochs for training`
+  
+  * Example
+  ```
+   import tensorflow as tf
+   from tensorflow import keras
+   import data_processor as dp     
+   import category_model as cm
+   import reload_model as rm 
+   model = cm.create_model()
+   model.load_weights('model_weights.h5')
+   rm.train(model,2)
+
+  ```
   
   #### Make predictions
   The image file can be `.jpg .jpeg .png` 
@@ -65,9 +79,22 @@ This is a CNN model that can classify the category of clothes.
   ```
   3. Create a model by `create_model()` 
   4. Load the weights `model.load_weights('your_own_weights.h5')`
-  5. Start training 
+  5. Make predictions
   ```
-   model = rm.train(model,epochs) #The epochs is the number of epochs for training 
+   Predictions = rm.predict(model,file_path) #The file_path can be .txt .png .jpg .jpeg
+  ```
+  And you will get top 5 predicted category(from high to low)
+  
+  *Example
+  ```
+  import tensorflow as tf
+  from tensorflow import keras
+  import data_processor as dp     
+  import category_model as cm
+  import reload_model as rm 
+  model = cm.create_model()
+  model.load_weights('model_weights.h5')
+  predictions = rm.predict(model,'chosen.txt')
   ```
   
   ### Care in Model architecture modification
