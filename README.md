@@ -30,6 +30,7 @@ This is a CNN model that can classify the category of clothes.
  ```
     python train_test.py
  ```
+ 
  It will calculate the accuracy on test set.
   #### Training model with new categories
   1. you need to update the category list in `data_precessor.py`
@@ -58,7 +59,7 @@ This is a CNN model that can classify the category of clothes.
   ```
     import tensorflow as tf
     from tensorflow import keras
-    import data_precess as dp     #this is only for deepfashion dataset, presonal dataset need own data reader 
+    import data_precess as dp    
     import reload_model as rm
     import category_model as cm
   ```
@@ -68,6 +69,7 @@ This is a CNN model that can classify the category of clothes.
   ```
    model = rm.train(model,epochs) #The epochs is the number of epochs for training 
   ```
+  
   ### Care in Model architecture modification
   Take care to modify the model architecture in `category_model.py`. If may crash.
 
