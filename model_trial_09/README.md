@@ -14,9 +14,9 @@
     - Define the weight file to use.
     - load the weights to the model.
      >   model = ma.MODEL_ARCHITECTURE()
-    weight_file = "weights_h{}_w{}_b{}.h5".format(ma.MODDED.height, ma.MODDED.width, ma.MODDED.batch_size)
-    model.load_weights(weight_file)
-    >
+     >   weight_file = "weights_h{}_w{}_b{}.h5".format(ma.MODDED.height, ma.MODDED.width, ma.MODDED.batch_size)
+     >   model.load_weights(weight_file)
+     >
 
 
 #### How to Train and Predict:
