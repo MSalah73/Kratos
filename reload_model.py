@@ -18,10 +18,10 @@ model = cm.create_model()
 model.summary()
 model.load_weights('model_weights.h5')
 
-def train(model):
+def train(model,epochs):
     model.fit(
         train_dataset,
-        epochs=Info.epochs,
+        epochs=epochs,
         verbose=1,
         steps_per_epoch=(train_len//Info.batch_size),
         validation_data=val_dataset,
