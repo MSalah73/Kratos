@@ -5,13 +5,13 @@
  2. Tensorflow-gpu 1.12.0
  3. opencv
  
- You can create the environment by using the environment.yml file 
+ You can create the environment by using the environment.yml file     
  use command 
  ```
     conda env create -f environment.yml
  ```
 #### Data Source
- Deep Fashion Dataset  http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html
+ Deep Fashion Dataset  http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion.html    
  Made by author = {Ziwei Liu and Ping Luo and Shi Qiu and Xiaogang Wang and Xiaoou Tang} from The Chinese University of Hong Kong
  
 ## Instruction
