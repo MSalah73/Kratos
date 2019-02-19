@@ -16,25 +16,25 @@ class FLAGS:
 
 def get_model():
     model = tf.keras.Sequential([
-            tf.keras.layers.Conv2D(filters=16, kernel_size=2, input_shape=(FLAGS.height, FLAGS.width, 3)), #CPU
+            tf.keras.layers.Conv2D(filters=8, kernel_size=5, strides=2, input_shape=(FLAGS.height, FLAGS.width, 3)), #CPU
             #tf.keras.layers.Conv2D(filters=8, kernel_size=2, input_shape=(3, FLAGS.height, FLAGS.width)), #GPU
             tf.keras.layers.LeakyReLU(),
             tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.Conv2D(filters=32, kernel_size=3, strides=2),
+            tf.keras.layers.Conv2D(filters=16, kernel_size=3),
             tf.keras.layers.LeakyReLU(),
             tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-            tf.keras.layers.Conv2D(filters=64, kernel_size=(2,2), strides=2),
-            tf.keras.layers.LeakyReLU(),
-            tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
-            tf.keras.layers.Conv2D(filters=128, kernel_size=(2,2), strides=2),
+            #tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+            #tf.keras.layers.Conv2D(filters=64, kernel_size=(2,2), strides=2),
             #tf.keras.layers.LeakyReLU(),
             #tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.Conv2D(filters=256, kernel_size=(2,2), strides=3),
-            tf.keras.layers.LeakyReLU(),
-            tf.keras.layers.BatchNormalization(),
-            tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+            #tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
+            #tf.keras.layers.Conv2D(filters=128, kernel_size=(2,2), strides=2),
+            #tf.keras.layers.LeakyReLU(),
+            #tf.keras.layers.BatchNormalization(),
+            #tf.keras.layers.Conv2D(filters=256, kernel_size=(2,2), strides=3),
+            #tf.keras.layers.LeakyReLU(),
+            #tf.keras.layers.BatchNormalization(),
+            #tf.keras.layers.MaxPooling2D(pool_size=(2,2)),
             tf.keras.layers.Flatten(),
             tf.keras.layers.Dense(1024),
             #tf.keras.layers.LeakyReLU(),

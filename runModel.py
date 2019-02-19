@@ -118,10 +118,11 @@ def plot_predictions(matrix, columns=3, rows=3):
     plt.show()
 
 
-
-model = pick_model(args.version)
-
-model.load_weights(args.model)
+if args.version == 'v3':
+    model = tf.keras.models.load_model(args.model)
+else: 
+    model = pick_model(args.version)
+    model.load_weights(args.model)
 
 if args.image:
     prediction = model.predict(parse_image(args.image, single=True), steps=1)
