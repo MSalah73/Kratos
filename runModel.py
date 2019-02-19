@@ -5,6 +5,7 @@ import cv2
 import tensorflow as tf
 import category_model as cm 
 import data_processor as dp
+import json
 
 UPLOAD_FLODER = ""
 ALLOWED_EXTENSIONS = set(['txt', 'png', 'jpg', 'jpeg'])
@@ -29,8 +30,10 @@ def predict():
         file = request.files['photo']
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
 	#rm.predict() will return the list of top 5 categories(strings) 
-        stringPrediction = rm.predict(model,'UploadedPhoto.jpg')
-        return jsonify(prediction=stringPrediction)
+	result = rm.predict(model,'UploadedPhoto.jpg')
+	predictionJson = {"name": "Yu" , "type": "category", "prediction": result}
+        #stringPrediction = rm.predict(model,'UploadedPhoto.jpg')
+        return jsonify(prediction=predictionJson)
     except Exception as e:
         raise e
     return "Unable to predict..."
