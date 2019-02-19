@@ -3,7 +3,7 @@ site_description: Kratos Clothing Recognition AI
 site_author: Kratos Capstone Team
 
 theme:
-    name: kratos
+    name: mkdocs
     palatte:
         primary: 'green'
         accent: 'green'
