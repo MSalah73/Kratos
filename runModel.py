@@ -54,6 +54,7 @@ def predict():
         for i in prediction:
             temp.append(dp.PROPERTY.CATEGORIES[i])
 	 '''
+	#rm.predict() will return the list of top 5 categories(strings) 
         stringPrediction = rm.predict(model,'UploadedPhoto.jpg')
         return jsonify(prediction=stringPrediction)
     except Exception as e:
