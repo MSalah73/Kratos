@@ -93,6 +93,11 @@ def predict():
         output = moduleNetwork(prepare('test.jpg'))
         output = output.data.max(dim=1, keepdim=False)[1]
         prediction = color[output]
+        temp = {}
+        temp["name"] = "Yikun"
+        temp["type"] = "color"
+        temp["prediction"] = prediction
+        prediction = temp
         print(prediction)
         #return jsonify(prediction)
     except Exception as e:
