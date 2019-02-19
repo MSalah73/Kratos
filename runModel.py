@@ -31,7 +31,7 @@ def predict():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
 	#rm.predict() will return the list of top 5 categories(strings) 
 	result = rm.predict(model,'UploadedPhoto.jpg')
-	predictionJson = {"name": "Yu" , "type": "category", "prediction": result}
+	predictionJson = {"name": "Yu" , "type": "category", "prediction": result[0]}
         #stringPrediction = rm.predict(model,'UploadedPhoto.jpg')
         return jsonify(prediction=predictionJson)
     except Exception as e:
