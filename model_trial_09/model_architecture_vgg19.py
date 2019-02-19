@@ -15,7 +15,7 @@ import multiprocessing
 # Class for Modifications
 class MODDED:
     classes = 50
-    batch_size = 100
+    batch_size = 50#100 - causes bad alloc
     prefetch_size = 1
     height = 250
     width = 250
