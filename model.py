@@ -8,6 +8,10 @@ import math
 from functools import partial
 
 
+# %% enable eager execution
+tf.enable_eager_execution()
+
+
 # %% flags
 class FLAGS:
     classes = 50
