@@ -43,6 +43,7 @@ def _predic_process(filename):
     return image.reshape(-1,300,300,3)
 # Classify images
 # Will return the top 5 result
+# Which is a matrix, each row is the top category for a image
 def predict(model,file_path):
     data = dp.predict_data(file_path)
     predictions = []
