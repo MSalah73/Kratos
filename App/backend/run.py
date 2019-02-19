@@ -19,7 +19,7 @@ attr_cloth = pd.read_csv(f'{data_dir}anno/list_attr_cloth.txt',delim_whitespace=
 ATTRIBUTES = attr_cloth['attribute_name']
 RELATIONS = attr_cloth['attribute_type']
 
-model = tf.keras.models.load_model("attributes.h5")
+model = tf.keras.models.load_model("/stash/kratos/remory/attributes.h5")
 
 def prepare(file):
     image = tf.io.read_file(file)
