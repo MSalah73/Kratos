@@ -45,7 +45,7 @@ def predict():
     try:
         file = request.files['photo']
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
-        prediction = model.predict([prepare('UploadedPhoto.jpg')])
+        prediction = model.predict(prepare('UploadedPhoto.jpg'))
         prediction = np.argsort(prediction)
         prediction = prediction[len(CATEGORIES)-5:]
         prediction = prediction[::-1]
