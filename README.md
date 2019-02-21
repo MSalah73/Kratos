@@ -114,9 +114,9 @@ This is a CNN model that can classify the category of clothes.
   
 
 ## License
-'''
-# Released under MIT License
 ```
+# Released under MIT License
+
 Copyright (c) 2019 Kratos.
 Permission is hereby granted, free of charge, to any person obtaining a copy of   
 this software and associated documentation files (the "Software"), to deal in the    
