@@ -5,6 +5,7 @@ save_accuracies_vgg19.py:
     (.csv) files depending on what epoch. It also has a function
     that gets the starting point of the next epoch in training.  
 
+   - DISTRIBUTED UNDER AN MIT LICENSING.
 '''
 
 import os

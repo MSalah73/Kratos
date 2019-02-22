@@ -15,6 +15,8 @@ continue_training_vgg19.py:
    - Ex: if training is interrupted on epoch 3 of 5, then the file 
      starts it up from 3 again. (so long as the interruption is 
      not during a saving weights/accuracy file point.)
+
+   - DISTRIBUTED UNDER AN MIT LICENSING.
 '''
 
 import pandas as pd

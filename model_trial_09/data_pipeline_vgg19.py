@@ -5,6 +5,7 @@ data_pipeline_vgg19.py:
      the training, validation, and testing sets in 
      load_and_train_vgg19.py and continue_training_vgg19.py.
 
+   - DISTRIBUTED UNDER AN MIT LICENSING.
 '''
 
 import tensorflow as tf

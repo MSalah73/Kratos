@@ -12,6 +12,8 @@ load_and_train_vgg19.py:
      this file overwrites it as well as all of the accuracy data, 
      run only once for specific parameter modifications. 
      (modifications can be made in the model_architecture_vgg19.py file)
+
+   - DISTRIBUTED UNDER AN MIT LICENSING.
 '''
 
 import pandas as pd

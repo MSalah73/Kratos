@@ -4,6 +4,8 @@ predict_vgg19.py:
    - Run this file AFTER training of the model is completed. 
      This file will take the 9 chosen images in the chosen.txt 
      file and lay it out on a png with the predictions listed out.
+
+   - DISTRIBUTED UNDER AN MIT LICENSING.
 '''
 
 import tensorflow as tf

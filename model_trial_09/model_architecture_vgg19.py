@@ -6,6 +6,7 @@ model_architecture_vgg19.py:
      model architectures and parameters throughout the epoch training 
      process. File names may be modified by changing certain parameters.
 
+   - DISTRIBUTED UNDER AN MIT LICENSING.
 '''
 
 import tensorflow as tf
