@@ -73,15 +73,15 @@ def initialAPIPage():
 
 @app.route("/predict", methods=['POST'])
 def predict():
-	try:
-		file = request.files['photo']
-		file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
-		prediction = model.predict([prepare('UploadedPhoto.jpg')],steps=1)
-		stringPrediction = standard(prediction)
-		return jsonify(prediction=stringPrediction)
-	except Exception as e:
-		raise e
-	return "Unable to predict..."
+    try:
+        file = request.files['photo']
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
+        prediction = model.predict([prepare('UploadedPhoto.jpg')],steps=1)
+        stringPrediction = standard(prediction)
+        return jsonify(prediction=stringPrediction)
+    except Exception as e:
+        raise e
+    return "Unable to predict..."
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',debug = False, threaded = False)
