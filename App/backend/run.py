@@ -28,6 +28,7 @@ def prepare(file):
             image, 300, 300)
     image = tf.image.per_image_standardization(image)
     image = tf.expand_dims(image, 0)
+    return image
 
 # Types of attributes
 # 1 : texture
