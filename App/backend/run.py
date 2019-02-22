@@ -76,7 +76,7 @@ def predict():
 	try:
 		file = request.files['photo']
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
-		prediction = model.predict([prepare('UploadedPhoto.jpg')])
+		prediction = model.predict([prepare('UploadedPhoto.jpg')],steps=1)
 		stringPrediction = standard(prediction)
 		return jsonify(prediction=stringPrediction)
 	except Exception as e:
