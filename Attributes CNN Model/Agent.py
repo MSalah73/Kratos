@@ -9,7 +9,10 @@ WIMG_SIZE = 300
 image_path = "img/LA_Lakers_Graphic_Tee/img_00000035.jpg"
 
 # Path to load pickle files
-pickle_path = 'attributes/'
+pickle_dir = 'attributes/'
+
+# Path to models
+models_dir = ''
 
 # A list containing five models
 models = []
@@ -22,9 +25,9 @@ names = ['Style', 'Fabric', 'Part', 'Shape', 'Texture']
 
 # Populate the lists with the models and attributes strings
 for name in names:
-    pickle_in = open(pickle_path + name + "Attributes.pickle", "rb")
+    pickle_in = open(pickle_dir + name + "Attributes.pickle", "rb")
     attributes.append(pickle.load(pickle_in))
-    models.append(tf.keras.models.load_model("Kratos" + name + "V1.0.model"))
+    models.append(tf.keras.models.load_model(models_dir+"Kratos" + name + "V1.0.model"))
 
 
 # Resize the image to fit the models specifications

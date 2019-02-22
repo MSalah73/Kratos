@@ -26,9 +26,15 @@ names = ['Style', 'Fabric', 'Part', 'Shape', 'Texture']
 # Holds the data sets for each partition
 data_sets = {}
 
+# Path to load pickle files
+pickle_dir = 'attributes/'
+
+# Path to save models
+models_dir = ''
+
 # Populate the data_sets holder
 for name in names:
-    pickle_in = open("attributes/" + name + "DataSet.pickle", "rb")
+    pickle_in = open(pickle_dir + name + "DataSet.pickle", "rb")
     data_sets[name] = pickle.load(pickle_in)
 
 
@@ -117,7 +123,7 @@ for name in names:
               validation_steps=math.ceil(val_len / BATCH_SIZE))
 
     print(name + "model saved")
-    model.save('Kratos' + name + '.model')
+    model.save(models_dir+'Kratos' + name + '.model')
 
     # Test Model
     loss, acc = model.evaluate(test, steps=math.ceil(test_len / BATCH_SIZE))
