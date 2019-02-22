@@ -1,120 +1,124 @@
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D, LeakyReLU
-from tensorflow.keras.callbacks import TensorBoard
-from tensorflow.data import Dataset as dt
-from tensorflow.keras import backend as K
+from tensorflow.keras.layers import Dense, Activation, Flatten, Conv2D, MaxPooling2D
 import pickle
 import tensorflow as tf
 import numpy as np
-import os
 import random
 import math
 
+# Input size and batch size
 HIMG_SIZE = 300
 WIMG_SIZE = 300
 BATCH_SIZE = 50
 
-trainLen = 0
-valLen = 0
-testLen = 0
-
-dense_layer = 3
+# Settings for the models
+dense_layer = 0
 layer_sizes = [64, 128, 256, 512, 1024, 2048, 4096]
-dense_sizes = [2048, 1024, 512] 
+dense_sizes = [2048, 1024, 512]
 conv_layer = 6
 
-# in progress
-def f1(y_true, y_pred):
-    y_true = tf.cast(y_true, "int32")
-    y_pred = tf.cast(tf.round(y_pred), "int32")
+# The size of all the attributes in each partition
+attributes_sizes = [230, 218, 216, 180, 156]
 
-    y_correct = y_true * y_pred
-    sum_true = tf.reduce_sum(y_true, axis=1)
-    sum_pred = tf.reduce_sum(y_pred, axis=1)
-    sum_correct = tf.reduce_sum(y_correct, axis=1)
-    precision = sum_correct / sum_pred
-    recall = sum_correct / sum_true
-    f1_score = 2 * (precision * recall) / (precision + recall)
-    f1_score = tf.where(tf.is_nan(f1_score), tf.zeros_like(f1_score), f1_score)
-    return tf.reduce_mean(f1_score)
+# The name of each partition
+names = ['Style', 'Fabric', 'Part', 'Shape', 'Texture']
 
-def getShuffledDataSet(partition):
-    pickle_in = open(partition+"ImageNames.pickle","rb")
-    names = pickle.load(pickle_in)
+# Holds the data sets for each partition
+data_sets = {}
 
-    pickle_in = open(partition+"Labels.pickle","rb")
-    labels = pickle.load(pickle_in)
+# Populate the data_sets holder
+for name in names:
+    pickle_in = open("attributes/" + name + "DataSet.pickle", "rb")
+    data_sets[name] = pickle.load(pickle_in)
 
-    names, labels = shuffleData(names, labels)
 
-    return getDataSet(names, labels), len(names)
-
-def shuffleData(imageNames, attributeLabels):
-    data = list(zip(imageNames, attributeLabels))
+# Shuffle the images for better results
+def shuffleData(image_names, attribute_labels):
+    data = list(zip(image_names, attribute_labels))
     random.shuffle(data)
-    names= []
+    names = []
     labels = []
     for name, label in data:
         names.append(name)
         labels.append(label)
     return names, labels
 
+
+# Process the image
 def loadAndPreprocessImage(path, label):
     image = tf.read_file(path)
-    image = tf.image.decode_jpeg(image, channels=3) # h w c
+    image = tf.image.decode_jpeg(image, channels=3)
     image = tf.image.resize_image_with_crop_or_pad(image, HIMG_SIZE, WIMG_SIZE)
     image = tf.image.per_image_standardization(image)
     return image, label
 
-def getDataSet(names, labels):
-    dataSet = tf.data.Dataset.from_tensor_slices((names, np.array(labels)))
-    dataSet = dataSet.map(loadAndPreprocessImage)
-    dataSet = dataSet.batch(BATCH_SIZE) 
-    dataSet = dataSet.repeat()
-    return dataSet
 
-train, trainLen = getShuffledDataSet("Train")
-val, valLen = getShuffledDataSet("Val")
-test, testLen = getShuffledDataSet("Test")
+# Process the dataset
+def getDataSet(unprocessed_dataset):
+    names, labels = shuffleData(unprocessed_dataset['names'], unprocessed_dataset['labels'])
+    data_set = tf.data.Dataset.from_tensor_slices((names, np.array(labels)))
+    data_set = data_set.map(loadAndPreprocessImage)
+    data_set = data_set.batch(BATCH_SIZE)
+    data_set = data_set.repeat()
+    return data_set, len(names)
 
-model = Sequential()
 
-model.add(Conv2D(32, (3, 3), input_shape=train.output_shapes[0][1:]))
-model.add(LeakyReLU(alpha=0.3))
-model.add(MaxPooling2D(pool_size=(2, 2)))
+# Note: Not the most effect way to this
+# You may remove the loop and run each partition separately
 
-for i in range(conv_layer-1):
-    model.add(Conv2D(layer_sizes[i], (3, 3)))
-    model.add(LeakyReLU(alpha=0.3))
+# Train each partition
+for name in names:
+    # Load processed data
+    train, train_len = getDataSet(data_sets[name]["train"])
+    val, val_len = getDataSet(data_sets[name]["val"])
+    test, test_len = getDataSet(data_sets[name]["test"])
+
+    # Note: Model setting start from here
+
+    # Model
+    model = Sequential()
+
+    # Initial conv layer
+    model.add(Conv2D(64, (3, 3), input_shape=train.output_shapes[0][1:]))
+    model.add(Activation('tanh'))
     model.add(MaxPooling2D(pool_size=(2, 2)))
 
-model.add(Flatten())
+    # Run mutiple conv layer
+    for i in range(conv_layer - 1):
+        model.add(Conv2D(64, (3, 3)))
+        model.add(Activation('tanh'))
+        model.add(MaxPooling2D(pool_size=(2, 2)))
 
-for i in range(dense_layer):
-    model.add(Dense(dense_sizes[i]))
-    model.add(LeakyReLU(alpha=0.3))
+    # Flatten
+    model.add(Flatten())
 
-#model.add(Dropout(0.2))
-model.add(Dense(1000))
-model.add(Activation('sigmoid'))
+    # Run multiple dense layer
+    for i in range(dense_layer):
+        model.add(Dense(dense_sizes[i]))
+        model.add(Activation('tanh'))
 
-#tensorboard = TensorBoard(log_dir="logs/{}".format(NAME))
+    # dense layer to the size to attributes
+    model.add(Dense(attributes_sizes[names.index(name)]))
 
-model.compile(loss='binary_crossentropy',
-              optimizer='adam',
-              #metrics=[f1],
-              metrics=['binary_accuracy'],
-              )
+    # sigmoid for multi-label data sets
+    model.add(Activation('sigmoid'))
 
-model.fit(train,
-          epochs=1,
-          steps_per_epoch=math.ceil(trainLen / BATCH_SIZE),
-          validation_data=val,
-          validation_steps=math.ceil(valLen / BATCH_SIZE))
+    # Model settings
+    model.compile(loss='binary_crossentropy',
+                  optimizer='adam',
+                  metrics=['accuracy'],  # f1 score is not supported
+                  )
 
-print("Model Saved")
-model.save('KratosV1.2.model')
+    # Train the model
+    model.fit(train,
+              epochs=1,
+              steps_per_epoch=math.ceil(train_len / BATCH_SIZE),
+              validation_data=val,
+              validation_steps=math.ceil(val_len / BATCH_SIZE))
 
-loss, bin_acc = model.evaluate(test, steps= math.ceil(testLen / BATCH_SIZE))
-print(" - Loss: %3.5f - Binary accuracy: %3.5f" % (loss, bin_acc))
-print("done")
+    print(name + "model saved")
+    model.save('Kratos' + name + '.model')
+
+    # Test Model
+    loss, acc = model.evaluate(test, steps=math.ceil(test_len / BATCH_SIZE))
+    print(" - Loss: %3.5f - Accuracy: %3.5f" % (loss, acc))

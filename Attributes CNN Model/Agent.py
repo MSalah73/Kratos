@@ -1,65 +1,61 @@
-from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense, Dropout, Activation, Flatten, Conv2D, MaxPooling2D
-from tensorflow.keras.callbacks import TensorBoard
-from tensorflow.data import Dataset as dt
 import pickle
 import tensorflow as tf
-import numpy as np
-import os
-import random
-import math
-import re
-import matplotlib.pyplot as plt
 import cv2
 
 HIMG_SIZE = 300
 WIMG_SIZE = 300
-paths = []
-pickle_in = open("AttributesNames.pickle","rb")
-attributes = pickle.load(pickle_in)
 
-file = open("chosen.txt")
-for img in file:
-    paths.append(re.split(r'\n', img)[0])
+# Image path
+image_path = "img/LA_Lakers_Graphic_Tee/img_00000035.jpg"
 
+# Path to load pickle files
+pickle_path = 'attributes/'
+
+# A list containing five models
+models = []
+
+# list of attributes for each model
+attributes = []
+
+# Model names
+names = ['Style', 'Fabric', 'Part', 'Shape', 'Texture']
+
+# Populate the lists with the models and attributes strings
+for name in names:
+    pickle_in = open(pickle_path + name + "Attributes.pickle", "rb")
+    attributes.append(pickle.load(pickle_in))
+    models.append(tf.keras.models.load_model("Kratos" + name + "V1.0.model"))
+
+
+# Resize the image to fit the models specifications
 def loadAndPreprocessImage(path):
     image = tf.read_file(path)
-    image = tf.image.decode_jpeg(image, channels=3) # h w c
-    image = tf.image.resize_images(image, (HIMG_SIZE, WIMG_SIZE))
+    image = tf.image.decode_jpeg(image, channels=3)
+    image = tf.image.resize_image_with_crop_or_pad(image, HIMG_SIZE, WIMG_SIZE)
     image = tf.image.per_image_standardization(image)
     image = tf.expand_dims(image, 0)
     return image
 
-def evaluate_prediction(predictions, allowed_attributes):
+
+# Evaluate and traslate the list of predictions to readable strings
+def evaluate_prediction(predictions, allowed_attributes, type_index):
     attribute_index = 0
     list = []
     for prediction_value in predictions[0]:
-        if prediction_value > allowed_attributes :#and prediction_value < allowed_attributes+0.02:
-            #print(attributes[attribute_index])
-            list.append(attributes[attribute_index])
+        if prediction_value > allowed_attributes:
+            list.append(attributes[type_index][attribute_index])
         attribute_index += 1
     return list
 
-def feed_plt(prediction, path, num):
-    plt.subplot(3,3,num)
-    img = cv2.imread(path, cv2.IMREAD_COLOR)
-    img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-    plt.imshow(img)
-    plt.title(prediction)
-    plt.axis("off")
+
+# Get prediction from an image
+def predict(filename):
+    print ('Prediction:')
+    for name in names:
+        img = loadAndPreprocessImage(filename)
+        prediction_values = models[names.index(name)].predict([img], steps=1)
+        prediction = evaluate_prediction(prediction_values, 0.09, names.index(name))
+        print (name + ': ' + str(prediction))
 
 
-
-model = tf.keras.models.load_model("KratosV1.0.model")
-
-picture_num = 1
-for path in paths:
-    #print(path)
-    img = loadAndPreprocessImage(path)
-    prediction_values = model.predict([img], steps=1)
-    prediction = evaluate_prediction(prediction_values, 0.9)
-    feed_plt(prediction, path, picture_num)
-    picture_num += 1
-    #print("----")
-
-plt.savefig('prediction_result.png')
+predict(image_path)
