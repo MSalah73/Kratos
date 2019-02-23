@@ -3,19 +3,21 @@ site_description: Kratos Clothing Recognition AI
 site_author: Kratos Capstone Team
 
 theme:
-    name: mkdocs
-    palatte:
+    name: material
+    palette:
         primary: 'green'
         accent: 'green'
     #logo: 'images/kratos.png'
     feature:
-        tabs: true
+        tabs: false
+    logo:
+        icon: filter_tilt_shift
 
 nav:
     - Introduction: index.md
     - Dependencies: dependencies.md
-    - UI Use: ui.md
     - Models: models.md
     - Label Expansion: labels.md
+    - UI Use: ui.md
     - Paths Forward: real_use.md
       

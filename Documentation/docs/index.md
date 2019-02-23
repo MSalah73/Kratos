@@ -9,7 +9,7 @@ The Kratos project uses Tensorflow and PyTorch frameworks to render predictions 
 ## Project Participants
 
 * Adam Kowalski
-* Jordan Lee
+* Jordan Le
 * Ray Emory
 * Scot Lambert
 * Yikun Han
@@ -20,7 +20,7 @@ The Kratos project uses Tensorflow and PyTorch frameworks to render predictions 
 ## Licensing
 Kratos is developed and distributed under the MIT open source license.
 
-> MCopyright <2019> <A. Kowalski, J. Lee, R. Emory, S. Lambert, Y. Han, Y. Li, Z. Salah>
+> MCopyright 2019 [A. Kowalski, J. Le, R. Emory, S. Lambert, Y. Han, Y. Li, Z. Salah]
 
 >Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 

@@ -1,6 +1,8 @@
 # Expanding Labels
 
-To expand the labels for which a given model makes predictions will require two steps. First the gathering of relevant labeled images. Second the [retraining of the existing models](models.md).
+To expand the labels for which a given model makes predictions will require two steps.  
+1. Gathering relevant labeled images.  
+2. [Retraining the existing models](models.md#retraining).  
 
 ## Colors
 
@@ -12,7 +14,7 @@ Next modify the number in the first line of the text file. For every added color
 
 For every image add in the [TODO](TODO) directory, add a line to the [TODO](TODO) file. Include the path to the image and a number descriptor of the image. The number descriptor corresponds with the index of the new label (Starts at 1). Ex. If you add one new label to the existing data, new images will have label [TODO](TODO), as there are currenlty [TODO](TODO) labels. Next modify the number on the first line of the text file. For every added image, increment the number by 1.
 
-The color model is now ready for [re-training](model.md)
+The color model is now ready for [re-training](models.md#retraining)
 
 ## Categories
 
@@ -31,7 +33,7 @@ Next modify the number in the first line of the text file. For every added categ
 For every image added in the img/ directory add a line to the *list\_category\_img.txt* file. Include the path to the image and a number descriptor of the image. The number descriptor corresponds with the index of the new label (Starts at 1). Ex. If you add one new label to the existing data, new images will have label 51, as there are currently 50 labels.
 Next modify the number on the first line of the text file. For every added image, increment the number by 1.
 
-The category models are now ready for [re-training](model.md).
+The category models are now ready for [re-training](models.md#retraining).
 
 ## Attributes
 
@@ -52,5 +54,5 @@ Next modify the number in the first line of the text file. For every added attri
 For every image added in the img/ directory add a line to the *list\_attr\_img.txt* file. The line should include the path to the image and *N* elements of -1 or 1 separated by a space. Where *N* is the total number of attribute labels. For every element of *N* on that line, -1 denotes that the image does not have that particular attribute and 1 denotes that that attribute is present. Additionally, every existing image path label will need to be updated to reflect its possession of the new attribute.  
 Lastly modify the number on the first line of the text file. For every added image, increment the number by 1.
 
-The Attribute models are now ready for [re-training](model.md).
+The Attribute models are now ready for [re-training](models.md#retraining).
 
