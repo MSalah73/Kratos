@@ -1,3 +1,4 @@
+# DISTRIBUTED UNDER AN MIT LICENSING.
 import socket
 import pickle
 import numpy
