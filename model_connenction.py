@@ -1,4 +1,5 @@
 #from flask import Flask, jsonify, request, redirect, url_for
+# DISTRIBUTED UNDER AN MIT LICENSING.
 #import os
 #import numpy
 import cv2
