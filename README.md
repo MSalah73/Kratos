@@ -38,7 +38,7 @@ This is a CNN model that can classify the category of clothes.
   2. Dont foget to use you own dataset! Change the `path` in `data_processor.py`
   
   #### Retraining model
-  Retraining model method is in `reload_model.py` file. To retraining a model
+  Retraining model method is in `reload_model.py` file. To retraining a model  
   1.Create a new `.py` file  
   2.Import pakeges  
   ```
