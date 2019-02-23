@@ -1,6 +1,6 @@
 """
 balancing the training dataset and shorten the preprocessing time; the original pipeline was replaced
-
+DISTRIBUTED UNDER AN MIT LICENSING.
 """
 import random
 #about five minutes for random shuffle
