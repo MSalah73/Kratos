@@ -65,7 +65,10 @@ To make a prediction using category prediction model #3, execute the `predict_vg
 Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an.
 
 ### Predict Attribute #2
-Qui novum pertinacia elaboraret ad, et mel movet labores.
+To make a prediction using attributes prediction model #2, execute the `runModel.py` file.  
+Pass the `-i <image_path>` argument to run the model over a specific image.  
+Pass the `-m <model_path>` argument to load specific weights.  
+The `FLAGS.test_list` variable can point to a text file containing image paths (one per line). If the `-i` argument is not used, predictions will be made over images found within this text file.
 
 ## Retraining
 To execute a retraining over the same or a new dataset, the following files will need to be modified and executed.
@@ -100,5 +103,10 @@ If training with [expanded labels](labels.md#categories), the `MODDED.classes` a
 Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an.
 
 ### Retrain Attribute #2
-Qui novum pertinacia elaboraret ad, et mel movet labores.
+The python file [attributes.py](TODO link to GH Master) contains the code for training the attributes predictor #2.  
+To retrain this model, execute the `attributes.py` file.
+
+The path to the main dataset directory will need to be modified, the `FLAGS.data_dir` variable in the `model_setup.py` file.
+
+If training with [expanded labels](labels.md#attributes), the `FLAGS.classes` variable in `model_setup.py` will need to be manually updated with the new number of attributes.  
 
