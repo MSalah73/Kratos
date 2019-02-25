@@ -34,7 +34,7 @@ attr_img = pd.read_csv(
         f'{ms.FLAGS.data_dir}anno/list_attr_img.txt',
         #f'{ms.FLAGS.data_dir}Anno\\list_attr_img.txt',
         sep='\s+', header=None, skiprows=2,
-        names=['image_name'] + list(range(1000)))#, nrows=2000)
+        names=['image_name'] + list(range(ms.FLAGS.classes)))#, nrows=2000)
 
 all_data = eval_partition.merge(attr_img, on='image_name')
 all_data = all_data.replace({-1:0})
