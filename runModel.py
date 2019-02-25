@@ -25,12 +25,12 @@ parser = argparse.ArgumentParser(prog = 'runModel.py',\
         description = "Will run a keras model over an image to determine clothing attributes.")
 parser.add_argument('-i', '--image', dest='image',default = None,\
         help="The image on which to run the model")
-parser.add_argument('-m', '--model', dest='model',default='/u/remory/Capstone/20190131-202538attributes.h5',\
+parser.add_argument('-m', '--model', dest='model',default='/stash/kratos/remory/attributes.h5',\
         help="The model with which to evaluate the image")
 parser.add_argument('-a', '--accuracy', dest='acc', type=float, default=0.5,\
         help="How certain you wish the accuacy of the predictions to be")
 parser.add_argument('-v', '--version', dest='version',default='v3',\
-        help="Specify which version of layers to use, because model.load isn't working right.")
+        help="Specify which version of layers to use, v1 will load the model from model_setup.py.")
 
 args = parser.parse_args()
 
@@ -75,7 +75,7 @@ def predictor(pred):
 def pick_model(ver):
     #There was some difficulty loading the transfer learning model. Recreating and loading weights
     model = None
-    if ver == 'v2':
+    if ver == 'v1':
         model = ms.get_model()
 
     else:
