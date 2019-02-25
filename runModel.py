@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
 """
-Created on Wed Jan 30 19:11:47 2019
+This software is developed and distributed under the MIT open source license.
 
+MCopyright 2019 [A. Kowalski, J. Le, R. Emory, S. Lambert, Y. Han, Y. Li, Z. Salah]
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 @author: Ray
 """
 
@@ -25,7 +29,7 @@ parser.add_argument('-m', '--model', dest='model',default='/u/remory/Capstone/20
         help="The model with which to evaluate the image")
 parser.add_argument('-a', '--accuracy', dest='acc', type=float, default=0.5,\
         help="How certain you wish the accuacy of the predictions to be")
-parser.add_argument('-v', '--version', dest='version',default='v1',\
+parser.add_argument('-v', '--version', dest='version',default='v3',\
         help="Specify which version of layers to use, because model.load isn't working right.")
 
 args = parser.parse_args()
@@ -69,6 +73,7 @@ def predictor(pred):
     return predictions
 
 def pick_model(ver):
+    #There was some difficulty loading the transfer learning model. Recreating and loading weights
     model = None
     if ver == 'v2':
         model = ms.get_model()

@@ -1,10 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on Sun Feb  3 09:31:08 2019
+This software is developed and distributed under the MIT open source license.
 
+MCopyright 2019 [A. Kowalski, J. Le, R. Emory, S. Lambert, Y. Han, Y. Li, Z. Salah]
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 @author: Ray
-
-Using a simpler model for testing runModel.py and displaying at the Nike Demo 2/6
 """
 
 # %% imports
@@ -74,64 +76,11 @@ test_dataset, test_length = dataset('test')
 
 
 # %% model
-"""
-modela = tf.keras.Sequential([
-        tf.keras.layers.Conv2D(filters=4, kernel_size=(3, 3))])
-
-# %% plug it in
-modela(images).shape
-    
-
-# %% f1 scores
-
-all_labels = []
-all_predictions = []
-for images, labels in val_dataset:
-    predictions = modela(images)
-    all_labels.append(labels)
-    all_predictions.append(predictions)
-"""
-
-# %% not ready
-
-
-class Metrics(tf.keras.callbacks.Callback):
-    #Implementation of an F1 score for keras.
-    #https://medium.com/@thongonary/how-to-compute-f1-score-for-each-epoch-in-keras-a1acd17715a2
-    
-    def on_train_begin(self, logs={}):
-        self.val_f1s = []
-        self.val_recalls = []
-        self.val_precision = []
-    
-    def on_epoch_end(self, epoch, logs={}):
-#        val_predict = self.model.predict(self.validation_data[0],steps=math.ceil(val_length/ms.FLAGS.batch_size)).round()
-        val_predict = (np.asarray(self.model.predict(self.validation_data[0],steps=math.ceil(val_length/ms.FLAGS.batch_size)))).round()
-#        val_predict = (np.asarray(self.model.predict(self.model.validation_data[0]))).round()
-        val_targ = self.validation_data[1].eval()
-        """
-        _val_f1 = f1_score(val_targ, val_predict)
-        _val_recall = recall_score(val_targ, val_predict)
-        _val_precision = precision_score(val_targ, val_predict)
-        """
-        _val_precision, _val_recall, _val_f1, _val_sum = precision_recall_fscore_support(val_targ, val_predict)
-        self.val_f1s.append(_val_f1)
-        self.val_recalls.append(_val_recall)
-        self.val_precision.append(_val_precision)
-        print (" — val_f1: %f — val_precision: %f — val_recall %f" % (_val_f1, _val_precision, _val_recall))
-        return
-
-metrics = Metrics()
-
-# %%
-
-
-
-# %%
 
 model = ms.get_model()
 
-model.summary()
+#model.summary()
+
 #%%
 model.fit(train_dataset, epochs=3,
           steps_per_epoch=math.ceil(train_length/ms.FLAGS.batch_size),
