@@ -29,6 +29,8 @@ The initial training images and labels are from the DeepFashion dataset [Categor
 
 Attributes refers to descriptions of five separate types; the texture, fabric, shape, part, or style of an article of clothing. The attribute predictions may return multiple instances of an attribute type with each prediction.
 
+We found in our development that the large selection of attribute options was detrimental to the machine learning. [Attributes model #1](models.md#predict-attribute-1) separates each of the 5 categories into a separate machine learning task. This was able to vastly improve the capabilities of accurate predictions when compared with Attributes model #2.
+
 ## Run a predictor
 Please see the UI page for operation of the Kratos models through the UI interface.
 
@@ -69,10 +71,10 @@ The category model #2 will return the top 5 predictions for the image.
 
 
 ### Predict Category #3 - Jordan
-To make a prediction using category prediction model #3, execute the `predict_vgg19.py` file. Modificationsto the script will need to be made for the `filenames` variable. Create a list with the paths of each image for which you wish to make a prediction.
+To make a prediction using category prediction model #3, execute the `predict_vgg19.py` file. Modifications to the script will need to be made for the `filenames` variable. Create a list with the paths of each image for which you wish to make a prediction.
 
 ### Predict Attribute #1
-Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an.
+To make a prediction using attribute prediction model #1, execute the `Agent.py` file. Modifications to the script will need to be made for the `image_path` and `dir_models` variables; for the paths to the image on which to predict and the path to the model respectively.  
 
 ### Predict Attribute #2
 To make a prediction using attributes prediction model #2, execute the `runModel.py` file.  
@@ -110,7 +112,10 @@ The path to the main dataset directory will need to be modified, the `MODDED.dat
 If training with [expanded labels](labels.md#categories), the `MODDED.classes` and `MODDED.CATEGORIES` list in `model_architecture_vgg19.py` will need to be manually updated with the new number of categories and new category names.
 
 ### Retrain Attribute #1
-Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an.
+The python file [KratosAttributesTrainingModel.py](TODO Link ot GH Master) contains the code for training the attributes predictor model #1.  
+To retrain this model, new pickle format data files will need to be created. To do this, execute the `DeepFashionDataPreprocessing.py` script. This expects the `list_attr_cloth.txt` & `list_eval_partition` files from the Category and Attribute Prediction Benchmark directory to be in the same directory as `DeepFashionDataPreprocessing.py`. This wil create two files, `DataSet.pickle` & `Attributes.pickle`.  
+Once the `.pickle` files have been created, `KratosAttributesTraininModel.py` can be run. This model has split the 5 sub-categories of attributes into separate learning tasks and will run for each of them sequentially.
+
 
 ### Retrain Attribute #2
 The python file [attributes.py](TODO link to GH Master) contains the code for training the attributes predictor #2.  
