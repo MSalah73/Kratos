@@ -31,9 +31,12 @@ parser.add_argument('-a', '--accuracy', dest='acc', type=float, default=0.5,\
         help="How certain you wish the accuacy of the predictions to be")
 parser.add_argument('-v', '--version', dest='version',default='v3',\
         help="Specify which version of layers to use, v1 will load the model from model_setup.py.")
+parser.add_argument('-p', '--plot', dest='plot', action='store_true',\
+        help="Plot predictions to a matrix in a .png showing the predicted images")
 
 args = parser.parse_args()
 
+#Configurable settings
 class FLAGS:
     classes = 1000
     height = 300
@@ -41,15 +44,18 @@ class FLAGS:
     data_dir ='/stash/kratos/deep-fashion/category-attribute/'
     test_list = 'chosen.txt'
 
+#load the names of attributes
 attr_cloth = pd.read_csv(f'{FLAGS.data_dir}anno/list_attr_cloth.txt',delim_whitespace=False,sep='\s{2,}',
         engine='python',names=['attribute_name','attribute_type'],skiprows=2,header=None)
 
+# Load a list of images
 test_imgs = pd.read_csv(f'{FLAGS.test_list}',header=None)
 test_imgs[0] = test_imgs[0].apply(lambda x: f'{FLAGS.data_dir}{x}')
 
 attributes = attr_cloth['attribute_name']
 
 def parse_image(filename, single=False):
+    #If only applying a prediction to a single image, set single to true
     image = tf.io.read_file(filename)
     image = tf.image.decode_jpeg(image, channels=3)
     image = tf.image.resize_image_with_crop_or_pad(
@@ -144,6 +150,7 @@ if not args.image:
     test_imgs[1] = predicted
     test_imgs[2] = test_imgs[1].str.len()
     predicted = test_imgs
-    plot_predictions(predicted)
+    if(args.plot):
+        plot_predictions(predicted)
 
 print(predicted)

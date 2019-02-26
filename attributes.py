@@ -13,7 +13,6 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
 import tensorflow as tf
 import pandas as pd
 import numpy as np
-from sklearn.metrics import confusion_matrix, f1_score, precision_score, recall_score, precision_recall_fscore_support
 import model_setup as ms
 import math
 import multiprocessing
@@ -25,23 +24,25 @@ import time
 
 
 # %% data frame
+#Read the dataset partitions
 eval_partition = pd.read_csv(
-        #f'{ms.FLAGS.data_dir}Eval\\list_eval_partition.txt',
         f'{ms.FLAGS.data_dir}eval/list_eval_partition.txt',
-        delim_whitespace=True, header=1)#, nrows=2000)
+        delim_whitespace=True, header=1)
 
+#Read the dataset labels
 attr_img = pd.read_csv(
         f'{ms.FLAGS.data_dir}anno/list_attr_img.txt',
-        #f'{ms.FLAGS.data_dir}Anno\\list_attr_img.txt',
         sep='\s+', header=None, skiprows=2,
-        names=['image_name'] + list(range(ms.FLAGS.classes)))#, nrows=2000)
+        names=['image_name'] + list(range(ms.FLAGS.classes)))
 
+#Merge partitions and labels into one
 all_data = eval_partition.merge(attr_img, on='image_name')
 all_data = all_data.replace({-1:0})
 
 
 # %% parse image
 def parse_image(filename, label):
+    #Prepare the images for tensorflow
     image = tf.io.read_file(ms.FLAGS.data_dir + filename)
     image = tf.image.decode_jpeg(image)
     image = tf.image.resize_image_with_crop_or_pad(
@@ -52,6 +53,7 @@ def parse_image(filename, label):
 
 # %% dataset
 def dataset(partition):
+    #Partition the dataset, for train, val, test
     data = all_data[all_data['evaluation_status'] == partition]
     images = data['image_name'].values
     labels = data.iloc[:, 2:].values
@@ -70,13 +72,9 @@ train_dataset, train_length = dataset('train')
 val_dataset, val_length = dataset('val')
 test_dataset, test_length = dataset('test')
 
-
-# %% experiment
-#images, labels = next(iter(train_dataset))
-
-
 # %% model
 
+#import the model from model_setup
 model = ms.get_model()
 
 #model.summary()
@@ -87,7 +85,6 @@ model.fit(train_dataset, epochs=3,
           validation_data=val_dataset,
           validation_steps=math.ceil(val_length/ms.FLAGS.batch_size),
           callbacks=[tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
-          #callbacks=[metrics]#, tf.keras.callbacks.ModelCheckpoint('checkpoints/model-{epoch:02d}-{val_loss:.2f}.hdf5', verbose=1)]
           )
 
 myFile = time.strftime("%Y%m%d-%H%M%S") + "attributes.h5"
