@@ -65,7 +65,7 @@ def get_model():
             ])
 
     model.compile(
-            optimizer=tf.keras.optimizers.Adam(lr=0.0001),
+            optimizer=tf.keras.optimizers.Adamax(),
             #optimizer=tf.keras.optimizers.RMSprop(),
             loss=tf.keras.losses.binary_crossentropy)
             #metrics=['accuracy'])
