@@ -1,0 +1,506 @@
+
+
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      
+        <meta name="description" content="Kratos Clothing Recognition AI">
+      
+      
+      
+        <meta name="author" content="Kratos Capstone Team">
+      
+      
+        <meta name="lang:clipboard.copy" content="Copy to clipboard">
+      
+        <meta name="lang:clipboard.copied" content="Copied to clipboard">
+      
+        <meta name="lang:search.language" content="en">
+      
+        <meta name="lang:search.pipeline.stopwords" content="True">
+      
+        <meta name="lang:search.pipeline.trimmer" content="True">
+      
+        <meta name="lang:search.result.none" content="No matching documents">
+      
+        <meta name="lang:search.result.one" content="1 matching document">
+      
+        <meta name="lang:search.result.other" content="# matching documents">
+      
+        <meta name="lang:search.tokenizer" content="[\s\-]+">
+      
+      <link rel="shortcut icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.0.4, mkdocs-material-4.0.1">
+    
+    
+      
+        <title>Label Expansion - Kratos Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/application.982221ab.css">
+      
+        <link rel="stylesheet" href="../assets/stylesheets/application-palette.224b79ff.css">
+      
+      
+        
+        
+        <meta name="theme-color" content="#4caf50">
+      
+    
+    
+      <script src="../assets/javascripts/modernizr.1f0bcf2b.js"></script>
+    
+    
+      
+        <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700|Roboto+Mono">
+        <style>body,input{font-family:"Roboto","Helvetica Neue",Helvetica,Arial,sans-serif}code,kbd,pre{font-family:"Roboto Mono","Courier New",Courier,monospace}</style>
+      
+    
+    <link rel="stylesheet" href="../assets/fonts/material-icons.css">
+    
+    
+    
+      
+    
+    
+  </head>
+  
+    
+    
+    <body dir="ltr" data-md-color-primary="green" data-md-color-accent="green">
+  
+    <svg class="md-svg">
+      <defs>
+        
+        
+      </defs>
+    </svg>
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
+    
+      <a href="#expanding-labels" tabindex="1" class="md-skip">
+        Skip to content
+      </a>
+    
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header-nav md-grid">
+    <div class="md-flex">
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <a href=".." title="Kratos Documentation" class="md-header-nav__button md-logo">
+          
+            <i class="md-icon">filter_tilt_shift</i>
+          
+        </a>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        <label class="md-icon md-icon--menu md-header-nav__button" for="__drawer"></label>
+      </div>
+      <div class="md-flex__cell md-flex__cell--stretch">
+        <div class="md-flex__ellipsis md-header-nav__title" data-md-component="title">
+          
+            <span class="md-header-nav__topic">
+              Kratos Documentation
+            </span>
+            <span class="md-header-nav__topic">
+              Label Expansion
+            </span>
+          
+        </div>
+      </div>
+      <div class="md-flex__cell md-flex__cell--shrink">
+        
+          <label class="md-icon md-icon--search md-header-nav__button" for="__search"></label>
+          
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="query" data-md-state="active">
+      <label class="md-icon md-search__icon" for="__search"></label>
+      <button type="reset" class="md-icon md-search__icon" data-md-component="reset" tabindex="-1">
+        &#xE5CD;
+      </button>
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="result">
+          <div class="md-search-result__meta">
+            Type to start searching
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+        
+      </div>
+      
+    </div>
+  </nav>
+</header>
+    
+    <div class="md-container">
+      
+        
+      
+      
+      <main class="md-main">
+        <div class="md-main__inner md-grid" data-md-component="container">
+          
+            
+              <div class="md-sidebar md-sidebar--primary" data-md-component="navigation">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    <nav class="md-nav md-nav--primary" data-md-level="0">
+  <label class="md-nav__title md-nav__title--site" for="__drawer">
+    <a href=".." title="Kratos Documentation" class="md-nav__button md-logo">
+      
+        <i class="md-icon">filter_tilt_shift</i>
+      
+    </a>
+    Kratos Documentation
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href=".." title="Introduction" class="md-nav__link">
+      Introduction
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../dependencies/" title="Dependencies" class="md-nav__link">
+      Dependencies
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../models/" title="Models" class="md-nav__link">
+      Models
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+  
+
+
+  <li class="md-nav__item md-nav__item--active">
+    
+    <input class="md-toggle md-nav__toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+    
+      
+    
+    
+      <label class="md-nav__link md-nav__link--active" for="__toc">
+        Label Expansion
+      </label>
+    
+    <a href="./" title="Label Expansion" class="md-nav__link md-nav__link--active">
+      Label Expansion
+    </a>
+    
+      
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#colors" title="Colors" class="md-nav__link">
+    Colors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categories" title="Categories" class="md-nav__link">
+    Categories
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attributes" title="Attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+    
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../ui/" title="UI Use" class="md-nav__link">
+      UI Use
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../real_use/" title="Paths Forward" class="md-nav__link">
+      Paths Forward
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../contact/" title="Contact" class="md-nav__link">
+      Contact
+    </a>
+  </li>
+
+    
+      
+      
+      
+
+
+  <li class="md-nav__item">
+    <a href="../license/" title="License" class="md-nav__link">
+      License
+    </a>
+  </li>
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="toc">
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">Table of contents</label>
+    <ul class="md-nav__list" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#colors" title="Colors" class="md-nav__link">
+    Colors
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#categories" title="Categories" class="md-nav__link">
+    Categories
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#attributes" title="Attributes" class="md-nav__link">
+    Attributes
+  </a>
+  
+</li>
+      
+      
+      
+      
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="expanding-labels">Expanding Labels</h1>
+<p>To expand the labels for which a given model makes predictions will require two steps.<br />
+1. Gathering relevant labeled images.<br />
+2. <a href="../models/#retraining">Retraining the existing models</a>.  </p>
+<h2 id="colors">Colors</h2>
+<p>To add additional colors to the model, images will need to be added to the <code>In-shop Clothes Retrieval Benchmark/Img</code> directory. Images should be added within a uniquely named sub-directory.<br />
+Image and label data will need to be added to the <code>list_color_cloth.txt</code> file within the <code>In-shop Clothes Retrieval Benchmark/Anno</code> directory.<br />
+For every image added in the <code>Img/</code> directory, add a line to the <code>list_color_cloth.txt</code> file. Include the path to the image and a text descriptor of the color of the clothes in that image.<br />
+Next modify the number in the first line of the text file. For every added image, increment the number by 1.</p>
+<p>Next modify the <code>list_eval_partition.txt</code> file in the <code>In-shop Clothes Retrieval Benchmark/Eval</code> directory.<br />
+For every image added in the <code>Img/</code> directory, add a line to the <code>list_eval_partition.txt</code> file. Include the path to the image and either "train" or "test" to determine if the image will be used in training data or testing data. The current ratio for Train:Test is approximately 3:1.</p>
+<p>The color model is now ready for <a href="../models/#retraining">re-training</a></p>
+<h2 id="categories">Categories</h2>
+<p>To add additional categories to the model, images will need to be added to the <code>Category and Attribute Prediction Benchmark/Img/</code> directory. Images should be added within a uniquely named sub-directory.<br />
+Label data will need to be added to two of the text files within <code>Category and Attribute Prediction Benchmark/Anno/</code></p>
+<ul>
+<li><code>list_category_cloth.txt</code>  </li>
+<li><code>list_category_img.txt</code></li>
+</ul>
+<p>Add the new label name to the end of <code>list_category_cloth.txt</code> and a descriptor 1-3 on the same line.<br />
+1. Upper Body category<br />
+2. Lower Body category<br />
+3. Full Body category<br />
+Next modify the number in the first line of the text file. For every added category, increment the number by 1.</p>
+<p>For every image added in the <code>Img/</code> directory add a line to the <code>list_category_img.txt</code> file. Include the path to the image and a number descriptor of the image. The number descriptor corresponds with the index of the new label (Starts at 1). Ex. If you add one new label to the existing data, new images will have label 51, as there are currently 50 labels.
+Next modify the number on the first line of the text file. For every added image, increment the number by 1.</p>
+<p>Next modify the <code>list_eval_partition.txt</code> file in the <code>Category and Attribute Prediction Benchmark/Eval/</code> directory.<br />
+For every image added in the <code>Img/</code> directory, add a line to the <code>list_eval_partition.txt</code> file. Include the path to the image and either "train" or "test" to determine if the image will be used in training data or testing data. The current ratio for Train:Test is approximately 4:1.</p>
+<p>The category models are now ready for <a href="../models/#retraining">re-training</a>.</p>
+<h2 id="attributes">Attributes</h2>
+<p>To add additional attributes to the model, images will need to be added to the <code>Category and Attribute Prediction Benchmark/Img/</code> directory. Images should be added within a uniquely named sub-directory.<br />
+Label data will need to be added to two of the text files within <code>Category and Attribute Prediction Benchmark/Anno/</code></p>
+<ul>
+<li><code>list_attr_cloth.txt</code>  </li>
+<li><code>list_attr_img.txt</code></li>
+</ul>
+<p>Add the new label name to the end of <code>list_attr_cloth.txt</code> and a descriptor 1-5 on the same line.<br />
+1. Texture attributes<br />
+2. Fabric attributes<br />
+3. Shape attributes<br />
+4. Part attributes<br />
+5. Style attributes<br />
+Next modify the number in the first line of the text file. For every added attribute, increment the number by 1.</p>
+<p>For every image added in the <code>Img/</code> directory add a line to the <code>list_attr_img.txt</code> file. The line should include the path to the image and <em>N</em> elements of -1 or 1 separated by a space. Where <em>N</em> is the total number of attribute labels. For every element of <em>N</em> on that line, -1 denotes that the image does not have that particular attribute and 1 denotes that that attribute is present. Additionally, every existing image path label will need to be updated to reflect its possession of the new attribute.<br />
+Lastly modify the number on the first line of the text file. For every added image, increment the number by 1.</p>
+<p>Next modify the <code>list_eval_partition.txt</code> file in the <code>Category and Attribute Prediction Benchmark/Eval/</code> directory.<br />
+For every image added in the <code>Img/</code> directory, add a line to the <code>list_eval_partition.txt</code> file. Include the path to the image and either "train" or "test" to determine if the image will be used in training data or testing data. The current ratio for Train:Test is approximately 4:1.</p>
+<p>The Attribute models are now ready for <a href="../models/#retraining">re-training</a>.</p>
+                
+                  
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <div class="md-footer-nav">
+      <nav class="md-footer-nav__inner md-grid">
+        
+          <a href="../models/" title="Models" class="md-flex md-footer-nav__link md-footer-nav__link--prev" rel="prev">
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-back md-footer-nav__button"></i>
+            </div>
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Previous
+                </span>
+                Models
+              </span>
+            </div>
+          </a>
+        
+        
+          <a href="../ui/" title="UI Use" class="md-flex md-footer-nav__link md-footer-nav__link--next" rel="next">
+            <div class="md-flex__cell md-flex__cell--stretch md-footer-nav__title">
+              <span class="md-flex__ellipsis">
+                <span class="md-footer-nav__direction">
+                  Next
+                </span>
+                UI Use
+              </span>
+            </div>
+            <div class="md-flex__cell md-flex__cell--shrink">
+              <i class="md-icon md-icon--arrow-forward md-footer-nav__button"></i>
+            </div>
+          </a>
+        
+      </nav>
+    </div>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        powered by
+        <a href="https://www.mkdocs.org">MkDocs</a>
+        and
+        <a href="https://squidfunk.github.io/mkdocs-material/">
+          Material for MkDocs</a>
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    
+      <script src="../assets/javascripts/application.b806dc00.js"></script>
+      
+      <script>app.initialize({version:"1.0.4",url:{base:".."}})</script>
+      
+    
+  </body>
+</html>
