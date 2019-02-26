@@ -27,7 +27,7 @@ This is a CNN model that can classify the category of clothes.
 #### Process the data
  In `data_precessor.py`, using tensorflow pipeline to process the images, convert it to 3-D array and scale it.
  
-### Training model
+### How to train model
  Can training a new model by 
  ```
     python train_test.py
@@ -38,7 +38,7 @@ This is a CNN model that can classify the category of clothes.
   1. you need to update the category list in `data_precessor.py`
   2. Dont foget to use you own dataset! Change the `path` in `data_processor.py`
   
-  #### Retraining model
+  #### How to retrain model
   Retraining model method is in `reload_model.py` file. To retraining a model  
   1.Create a new `.py` file  
   2.Import pakeges  
