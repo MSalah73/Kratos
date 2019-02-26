@@ -100,7 +100,7 @@ The path to the main dataset file will need to be modified, the `PROPERTY.path` 
 If training with [expanded labels](labels.md#categories), the `PROPERTY.CATEGORIES` list in `data_processor.py` will need to be manually updated with the new category names.
 
 ### Retrain Category #2
-Pri alterum prodesset in, ex est rebum graeco, et qui sale labore patrioque.
+The python file [model.py](https://github.com/ZackSalah/Kratos/blob/Adam/model.py) contains the code necessary to train the model. You can modify the architecture of the network, or tweak other hyperparameters there. Additionally by either changing the file paths, or appending to the list_eval_partition.txt file you can choose which images you want to train on as well as which should be in your validation, and test sets.
 
 ### Retrain Category #3
 The python file [load\_and\_train\_vgg19.py](TODO Link to GH Master) contains the code for training the category predictor model #3.  
