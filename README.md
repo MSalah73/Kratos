@@ -86,7 +86,7 @@ This is a CNN model that can classify the category of clothes.
   ```
   And you will get top 5 predicted category(from high to low)
   
-  *Example
+  * Example
   ```
   import tensorflow as tf
   from tensorflow import keras
