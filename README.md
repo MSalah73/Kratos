@@ -66,7 +66,7 @@ This is a CNN model that can classify the category of clothes.
 
   ```
   
-  #### Make predictions
+  #### How to make predictions
   The image file can be `.jpg .jpeg .png`   
   or a list of images with the directory and file name in `.txt`  
   To predict images:  
