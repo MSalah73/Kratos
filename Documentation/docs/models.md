@@ -58,11 +58,11 @@ The category model #1 will return the top 5 predictions for each image.
 ### Predict Category #2 - Adam
 To make a prediction using category prediction model #2, a new .py file will have to be created.
 
-		from inference import predict
+    from inference import predict
 
-		# <file> is the path to an image
-		predictions = predict(<file>)
-		print(predictions)
+    # <file> is the path to an image
+    predictions = predict(<file>)
+    print(predictions)
 
 
 The category model #2 will return the top 5 predictions for the image.
