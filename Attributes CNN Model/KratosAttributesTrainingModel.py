@@ -1,3 +1,4 @@
+# DISTRIBUTED UNDER AN MIT LICENSING.
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Activation, Flatten, Conv2D, MaxPooling2D
 import pickle

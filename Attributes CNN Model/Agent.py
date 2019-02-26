@@ -1,6 +1,6 @@
+# DISTRIBUTED UNDER AN MIT LICENSING.
 import pickle
 import tensorflow as tf
-import cv2
 
 HIMG_SIZE = 300
 WIMG_SIZE = 300
