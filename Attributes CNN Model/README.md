@@ -4,7 +4,7 @@
 
 * **Language**: *Python*
 * **Python distribution**: *Anaconda*
-* **Parallel Computing architecture**: *CUDA*
+* **Parallel computing architecture**: *CUDA*
 * **Libraries**: *Tensorflow*
 
 # Introduction
