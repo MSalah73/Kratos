@@ -1,6 +1,7 @@
 # Kratos   Model -- Category Classifier --
 
-#### Environment Requirements
+## Environment Requirements
+#### Please install conda for the environment setup
  1. Python 3.6.7 or up
  2. Tensorflow-gpu 1.12.0
  3. opencv
