@@ -10,8 +10,8 @@ theme:
     #logo: 'images/kratos.png'
     feature:
         tabs: false
-    logo:
-        icon: filter_tilt_shift
+    #logo:
+        #icon: filter_tilt_shift
 
 nav:
     - Introduction: index.md
