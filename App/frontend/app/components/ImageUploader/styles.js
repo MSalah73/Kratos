@@ -9,6 +9,7 @@ export default EStyleSheet.create({
 		alignItems: 'center',
 		justifyContent: 'center',
 		flexDirection: 'row',
+		paddingLeft: 9,
 	},
 	containerIcon: {
 		padding: 8,
@@ -25,6 +26,7 @@ export default EStyleSheet.create({
 		fontSize: 18,
 		letterSpacing: 0.5,
 		marginTop: 0,
-		//color: '$white', 
+		textAlign: 'center',
+		//color: '$white',
 	},
 });
