@@ -19,7 +19,7 @@ This Kratos branch is one of two attempt to make model and an agent to predict s
 * Download the DeepFashion data set http://mmlab.ie.cuhk.edu.hk/projects/DeepFashion/AttributePrediction.html
 
 ## Weights
-* GOOGLE_DRIVE_LINK
+* Zack\\Attributes CNN Model\\models
 
 ## Conda and CUDA
 * Conda 4.6.4
@@ -34,10 +34,11 @@ This Kratos branch is one of two attempt to make model and an agent to predict s
 # Installation
 * git clone origin Zack
 ## Environment installation
-..* Note: If you want the tensorflow-gpu, simply modify the environment.yml to add tensorflow-gpu instead of the CPU version
-..* Note: If you want to make the environment in a specific path, simply add -p path\environment_name at the end of the command
-* conda env create -f environment.yml
-
+	* Note: If you want the tensorflow-gpu, simply modify the environment.yml to add tensorflow-gpu instead of the CPU version
+	* Note: If you want to make the environment in a specific path, simply add -p path\environment_name at the end of the command
+```
+	conda env create -f environment.yml
+```
 # Usage
 ## Train the model
 * Open the file DeepFashionDataPreprocessing.py and change the dir variables appropriately
@@ -46,13 +47,13 @@ This Kratos branch is one of two attempt to make model and an agent to predict s
 ```
 * Once the pickle files are created
 * Open KratosAttributesTrainingModel.py and change the dir variables appropriately
-..* Note: This file train each attribute category continuously. If you want to hasten the operation time, simply remove the loop and manually enter the name of each attribute category and run them separately.
+	* Note: This file train each attribute category continuously. If you want to hasten the operation time, simply remove the loop and manually enter the name of each attribute category and run them separately.
 ```
 	python KratosAttributesTrainingModel.py
 ```
 
 ## Predict via trained model
-* Note: you may download the weights from GOOGLE_DRIVE_LINK and simply use it
+* Note: you may download the weights from Zack\\Attributes CNN Model\\models and simply use it
 * Open Agent.py and change the dir_models and image_path variables appropriately
 ```
 	python Agent.py
@@ -61,10 +62,10 @@ This Kratos branch is one of two attempt to make model and an agent to predict s
 # Tweaking The Model
 * Open KratosAttributesTrainingModel.py.
 * From Line 10 to 19, I set up an easy settings access to tweak the model. These Includes:
-..* The width and heights
-..* The batch size
-..* The number of convolution and dense layers
-..* The filter size of each layer.
+	* The width and heights
+	* The batch size
+	* The number of convolution and dense layers
+	* The filter size of each layer.
 * If you want to further tweak the model, look for loadAndPreprocessImage method and look line 85 and below for model specifics
 
 # Using Different Dataset
