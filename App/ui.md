@@ -32,6 +32,11 @@
 #### Anaconda
 * Install Anaconda https://www.anaconda.com/distribution/
 
+#### DeepFashion txt files
+* download the category and attributes folders:
+  * anno
+  * eval
+
 ## Environment installation
 * In the frontend folder you will notice environment.yml file. Make an environment with the .yml file.
 	* Note: If you want to make the environment in a specific path, simply add -p path\environment_name at the end of the command
