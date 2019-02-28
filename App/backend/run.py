@@ -1,26 +1,22 @@
 from flask import Flask, jsonify, request, redirect, url_for
 import os
-import numpy
-import cv2
-import tensorflow as tf
+import sys
 
-UPLOAD_FLODER = ""
-ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, dir+'/predictors')
+# Models that uses eager excution must be at top
+import inference as Adam
+import model_connenction as Yikun
+import ZackAttributes as Zack
+import run_backend as Jordan
+import run as Ray
+import runModel as Yu
+
+UPLOAD_FOLDER = ''
 
 app = Flask(__name__)
 
-app.config['UPLOAD_FOLDER'] = UPLOAD_FLODER
-CATEGORIES = ["Dog", "Cat"]
-
-model = tf.keras.models.load_model("CNN_Dogs_Cats_Agent.model")
-
-def prepare(file):
-	# img_array = cv2.imdecode(numpy.fromfile(file, numpy.uint8), cv2.IMREAD_COLOR) not working for somereason
-	IMG_SIZE = 100
-	img_array = cv2.imread(file, cv2.IMREAD_COLOR)
-	img_array = cv2.cvtColor(img_array, cv2.COLOR_BGR2RGB)
-	new_array = cv2.resize(img_array, (IMG_SIZE, IMG_SIZE))
-	return new_array.reshape(-1, IMG_SIZE, IMG_SIZE, 3)
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def initialAPIPage():
@@ -31,12 +27,16 @@ def predict():
 	try:
 		file = request.files['photo']
 		file.save(os.path.join(app.config['UPLOAD_FOLDER'], "UploadedPhoto.jpg"))
-		prediction = model.predict([prepare('UploadedPhoto.jpg')])
-		stringPrediction = CATEGORIES[int(prediction[0][0])]
-		return jsonify(prediction=stringPrediction)
+		toSend = []
+		toSend.append(Yikun.predict('UploadedPhoto.jpg'))
+		toSend.append(Yu.predict('UploadedPhoto.jpg'))
+		toSend.append(Jordan.predict('UploadedPhoto.jpg'))
+		toSend.append(Adam.predict('UploadedPhoto.jpg'))
+		toSend.append(Zack.predict('UploadedPhoto.jpg'))
+		#toSend.append(Ray.predict('UploadedPhoto.jpg')) #prediction are all zeroes
+		return jsonify(prediction=toSend)
 	except Exception as e:
-		raise e
-	return "Unable to predict..."
+		return jsonify(prediction=[{'type':'error', 'message':'Unable to predict...'}])
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0',debug = False, threaded = False)
+	app.run(host='0.0.0.0',port=5000, debug = False, threaded = False)

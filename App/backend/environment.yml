@@ -1,0 +1,15 @@
+name: BackendEnv
+channels:
+  - pytorch
+  - defaults
+dependencies:
+  - python=3.7.2
+  - pytorch
+  - torchvision
+  - pip:
+    - flask
+    - numpy==1.16.1
+    - opencv-python
+    - pandas
+    - tf-nightly
+    - matplotlib
