@@ -74,6 +74,7 @@ The backend expects a formdata with a image url embedded in it. The Key value is
 
 # UI output
 The output will be a the image taken via camera or from picture library. Then the predictions in text format. The output should be as follows:
+<pre>
     |           Image           |  
     |        Predictions        |  
     |                           |  
@@ -90,6 +91,7 @@ The output will be a the image taken via camera or from picture library. Then th
     |        Shape: x,x....     |  
     |         Part: x,x....     |  
     |        Style: x,x....     |  
+</pre>
 
 
 # interpreting data
