@@ -35,7 +35,7 @@ Technologies
 * From the [Deep Fashion Dataset Category and Attribute Prediction Benchmark partition](https://drive.google.com/drive/folders/0B7EVK8r0v71pWGplNFhjc01NbzQ) download the following folders:
   * anno
   * eval
-* Add them to the backend\\deep-fashion folder
+* Add them to the `backend\deep-fashion` folder
 
 ## Environment installation
 * In the frontend folder you will notice `environment.yml` file. [Create an environment](dependencies.md#setting-up-a-conda-environment) with this `.yml` file.  
@@ -70,26 +70,26 @@ Technologies
 * Once a tab open on the browser, click on run on android device/emulator
 
 # Expected format
-The backend expects a formdata with a image url embedded in it. The Key value is photo.
+The backend expects a formdata with a image url embedded in it. The Key value is the photo.
 
 # UI output
 The output will be a the image taken via camera or from picture library. Then the predictions in text format. The output should be as follows:
-|           Image           |
-|        Predictions        |
-|                           |
-|        Color: xxxx        |
-|                           |
-|    Top Five categories:   |
-|    1st Model: x,x,x,x,x   |
-|    2nd Model: x,x,x,x,x   |
-|    3rd Model: x,x,x,x,x   |
-|                           |
-|         Attributes        |
-|      Texture: x,x....     |
-|       Fabric: x,x....     |
-|        Shape: x,x....     |
-|         Part: x,x....     |
-|        Style: x,x....     |
+    |           Image           |  
+    |        Predictions        |  
+    |                           |  
+    |        Color: xxxx        |  
+    |                           |  
+    |    Top Five categories:   |  
+    |    1st Model: x,x,x,x,x   |  
+    |    2nd Model: x,x,x,x,x   |  
+    |    3rd Model: x,x,x,x,x   |  
+    |                           |  
+    |         Attributes        |  
+    |      Texture: x,x....     |  
+    |       Fabric: x,x....     |  
+    |        Shape: x,x....     |  
+    |         Part: x,x....     |  
+    |        Style: x,x....     |  
 
 
 # interpreting data
