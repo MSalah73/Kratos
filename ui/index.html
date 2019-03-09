@@ -87,7 +87,7 @@
     <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
     <label class="md-overlay" data-md-component="overlay" for="__drawer"></label>
     
-      <a href="#using-the-ui" tabindex="1" class="md-skip">
+      <a href="#kratos-ui-" tabindex="1" class="md-skip">
         Skip to content
       </a>
     
@@ -236,52 +236,9 @@
       
     
     
-      <label class="md-nav__link md-nav__link--active" for="__toc">
-        UI Use
-      </label>
-    
     <a href="./" title="UI Use" class="md-nav__link md-nav__link--active">
       UI Use
     </a>
-    
-      
-<nav class="md-nav md-nav--secondary">
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#expected-data-format" title="Expected data format" class="md-nav__link">
-    Expected data format
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ui-output" title="UI output" class="md-nav__link">
-    UI output
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#interpreting-data" title="Interpreting Data" class="md-nav__link">
-    Interpreting Data
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
-</nav>
     
   </li>
 
@@ -339,36 +296,6 @@
     
   
   
-    <label class="md-nav__title" for="__toc">Table of contents</label>
-    <ul class="md-nav__list" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#expected-data-format" title="Expected data format" class="md-nav__link">
-    Expected data format
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#ui-output" title="UI output" class="md-nav__link">
-    UI output
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#interpreting-data" title="Interpreting Data" class="md-nav__link">
-    Interpreting Data
-  </a>
-  
-</li>
-      
-      
-      
-      
-      
-    </ul>
-  
 </nav>
                   </div>
                 </div>
@@ -380,14 +307,93 @@
               
                 
                 
-                <h1 id="using-the-ui">Using the UI</h1>
-<p>Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an. Qui novum pertinacia elaboraret ad, et mel movet labores. Pri alterum prodesset in, ex est rebum graeco, et qui sale labore patrioque. Voluptua forensibus nec ad, graeco commodo pro at.</p>
-<h2 id="expected-data-format">Expected data format</h2>
-<p>Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an. Qui novum pertinacia elaboraret ad, et mel movet labores. Pri alterum prodesset in, ex est rebum graeco, et qui sale labore patrioque. Voluptua forensibus nec ad, graeco commodo pro at.</p>
-<h2 id="ui-output">UI output</h2>
-<p>Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an. Qui novum pertinacia elaboraret ad, et mel movet labores. Pri alterum prodesset in, ex est rebum graeco, et qui sale labore patrioque. Voluptua forensibus nec ad, graeco commodo pro at.</p>
-<h2 id="interpreting-data">Interpreting Data</h2>
-<p>Lorem ipsum dolor sit amet, pri an numquam nusquam, illum porro assueverit per an. Qui novum pertinacia elaboraret ad, et mel movet labores. Pri alterum prodesset in, ex est rebum graeco, et qui sale labore patrioque. Voluptua forensibus nec ad, graeco commodo pro at.</p>
+                <h1 id="kratos-ui-">Kratos -- UI --</h1>
+<p>By Zack Salah<br />
+backend\predictors by A. Kowalski, J. Le, R. Emory, Y. Han, Y. Li, Z. Salah and modified by Zack Salah<br />
+backend\models by A. Kowalski, J. Le, R. Emory, Y. Han, Y. Li, Z. Salah<br />
+Technologies  </p>
+<ul>
+<li><strong>Language</strong>: <code>Python, JavaScript</code></li>
+<li><strong>JavaScript framework</strong>: <code>React Native</code></li>
+<li><strong>React native toolchain</strong>: <code>Expo</code></li>
+<li><strong>Python distribution</strong>: <code>Anaconda</code></li>
+<li><strong>Parallel computing architecture</strong>: <code>CUDA</code></li>
+<li><strong>Libraries</strong>: <code>Tensorflow, Flask, OpenCV, Pytorch, Matplotlib, Pandas</code></li>
+</ul>
+<h1 id="using-the-ui">Using The UI</h1>
+<h2 id="dependencies">Dependencies:</h2>
+<h3 id="frontend">Frontend</h3>
+<h4 id="nodejs-and-expo">nodeJS and Expo</h4>
+<ul>
+<li><a href="https://nodejs.org/en/download/">Download and install node</a></li>
+<li>Download expo-cli</li>
+</ul>
+<pre><code>  npm install expo-cli --global
+</code></pre>
+
+<h4 id="emulator-specific">Emulator specific</h4>
+<ul>
+<li>Download and install <a href="https://developer.android.com/studio">Android Studio</a></li>
+<li>Download and instal <a href="https://facebook.github.io/watchman/docs/install.html">Watchman</a></li>
+</ul>
+<h3 id="backend">Backend</h3>
+<h4 id="anaconda">Anaconda</h4>
+<ul>
+<li><a href="../dependencies/#installing-conda">Install Anaconda</a></li>
+</ul>
+<h4 id="deepfashion-txt-files">DeepFashion txt files</h4>
+<ul>
+<li>From the <a href="https://drive.google.com/drive/folders/0B7EVK8r0v71pWGplNFhjc01NbzQ">Deep Fashion Dataset Category and Attribute Prediction Benchmark partition</a> download the following folders:</li>
+<li>anno</li>
+<li>eval</li>
+<li>Add them to the <code>backend\deep-fashion</code> folder</li>
+</ul>
+<h2 id="environment-installation">Environment installation</h2>
+<ul>
+<li>In the frontend folder you will notice <code>environment.yml</code> file. <a href="../dependencies/#setting-up-a-conda-environment">Create an environment</a> with this <code>.yml</code> file.  <ul>
+<li>Note: If you want to make the environment in a specific path, simply add <code>-p path\environment_name</code> at the end of the command</li>
+</ul>
+</li>
+</ul>
+<pre><code>    conda env create -f environment.yml
+</code></pre>
+
+<h2 id="lunching-backend">Lunching backend</h2>
+<pre><code>  source activate installed_environment
+  python run.py
+</code></pre>
+
+<h2 id="lunching-frontend">Lunching frontend</h2>
+<ul>
+<li>Go to <code>App\frontend\app\component\ImageUploader\ImageUploader.js</code> and modify the <code>apiUrl</code> variable at line 71 to the backends' url. This will be your machine's local IPv4 address.</li>
+<li>Go back frontend directory and run the frontend</li>
+</ul>
+<pre><code>  expo start
+</code></pre>
+
+<h2 id="connecting-your-device-to-the-ui">Connecting your device to the UI</h2>
+<ul>
+<li>Connecting your device to the machine.</li>
+<li>Activate USB tethering on you mobile device</li>
+<li>Locate the IP address</li>
+<li>Go to <code>App\frontend\app\component\ImageUploader\ImageUploader.js</code> and modify the <code>apiUrl</code> variable at line 71 to mobile device IP</li>
+</ul>
+<h2 id="connecting-an-emulator-to-the-ui-pixel-2-preferred">Connecting an emulator to the UI - pixel 2 preferred</h2>
+<ul>
+<li>From within Android Studio, launch an <a href="https://developer.android.com/studio/run/managing-avds">Android emulator</a>.</li>
+<li>Make sure you have your frontend running.</li>
+<li>Go to the cmd where you ran your frontend and press d.</li>
+<li>Once a tab opens on your web-browser, click on run on android device/emulator button on the left.</li>
+</ul>
+<h1 id="expected-format">Expected format</h1>
+<p>The backend expects a formdata with a image url embedded in it. The Key value is the photo.</p>
+<h1 id="ui-output">UI output</h1>
+<p>The output will be a the image taken via camera or from picture library. Then the predictions in text format. The output should be as follows:
+<a href="../img/UI_Example.JPG"><img alt="UI Output" src="../img/UI_Example.JPG" /></a></p>
+<h1 id="interpreting-data">interpreting data</h1>
+<p>The Models for this project is not 100% accurate. The color and category models are about 50% while the attributes are about 10% accurate.
+The Category models gives a list of five highest categories. The left most category being the highest and right most is the lowest. Top 5 prediction accuracy is about 90%
+The Attributes predictions gives a list of the highest attributes that surpassed a certain threshold.</p>
                 
                   
                 
