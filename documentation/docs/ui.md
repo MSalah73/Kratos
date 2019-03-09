@@ -26,6 +26,7 @@ Technologies
 
 #### Emulator specific
 * Download and install [Android Studio](https://developer.android.com/studio)
+* Download and instal [Watchman](https://facebook.github.io/watchman/docs/install.html)
 
 ### Backend
 #### Anaconda
@@ -51,7 +52,7 @@ Technologies
 ```
 
 ## Lunching frontend
-* Go to `App\frontend\app\component\ImageUploader\ImageUploader.js` and modify the `apiUrl` variable at line 71 to the backends' url
+* Go to `App\frontend\app\component\ImageUploader\ImageUploader.js` and modify the `apiUrl` variable at line 71 to the backends' url. This will be your machine's local IPv4 address.
 * Go back frontend directory and run the frontend
 ```
   expo start
@@ -64,10 +65,10 @@ Technologies
 * Go to `App\frontend\app\component\ImageUploader\ImageUploader.js` and modify the `apiUrl` variable at line 71 to mobile device IP
 
 ## Connecting an emulator to the UI - pixel 2 preferred
-* Lunch the emulator.
+* From within Android Studio, launch an [Android emulator](https://developer.android.com/studio/run/managing-avds).
   * Make sure you have your frontend running.
 * Go to the cmd where you ran your frontend and press d.
-* Once a tab open on the browser, click on run on android device/emulator
+* Once a tab opens on your web-browser, click on run on android device/emulator button on the left.
 
 # Expected format
 The backend expects a formdata with a image url embedded in it. The Key value is the photo.
