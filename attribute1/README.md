@@ -1,5 +1,5 @@
 # Kratos -- CNN model on fashion attributes --
-## By Zack Salah
+## By Mohammed Salah
 ## Technologies
 
 * **Language**: *Python*
