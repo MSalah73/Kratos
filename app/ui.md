@@ -1,7 +1,7 @@
 
 # Kratos -- UI --
-## By Zack Salah
-## backend\\predictors by A. Kowalski, J. Le, R. Emory, Y. Han, Y. Li, Z. Salah and modified by Zack Salah
+## By Mohammed Salah
+## backend\\predictors by A. Kowalski, J. Le, R. Emory, Y. Han, Y. Li, Z. Salah and modified by Mohammed Salah
 ## backend\\models by A. Kowalski, J. Le, R. Emory, Y. Han, Y. Li, Z. Salah
 ## Technologies
 
